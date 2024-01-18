@@ -1,4 +1,4 @@
-package task_gamification;
+/* package task_gamification;
 
 import java.awt.EventQueue;
 
@@ -34,9 +34,6 @@ public class frame_gui extends JFrame {
 	private JTextField textField;
 	private JTable table_highscoreBoard;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -50,9 +47,7 @@ public class frame_gui extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
 	public frame_gui() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,7 +75,7 @@ public class frame_gui extends JFrame {
 		tabbedPane_taskOverview.addTab("TO-DO", null, panel_todo, null);
 		panel_todo.setLayout(new MigLayout("", "[grow][]", "[grow][]"));
 		
-		// test table
+
 		String[] columnTasks = {"Done", "Task Description", "XP", " "};
 		String[][] dataTasks = {{"a", "b", "c", "d"}};
 		JTable table_taskTodo = new JTable(dataTasks, columnTasks);
@@ -128,7 +123,7 @@ public class frame_gui extends JFrame {
 		characterProgress.setBackground(new Color(253, 253, 253));
 		characterProgress.setValue(0);
 		characterProgress.setStringPainted(true);
-		// test progressbar 
+
 		characterProgress.setValue(40);
 		panel_characterProgress.add(characterProgress, "cell 0 1");
 		
@@ -163,3 +158,4 @@ public class frame_gui extends JFrame {
 		panel_highscore.add(scrollBar_highscoreBoard, "cell 0 1");
 	}
 }
+*/
