@@ -8,6 +8,9 @@ public class MainFrame extends JFrame {
     public static final String FRAME_NAME = "Task_Manager";
     public static final int W_FRAME = 1080;
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
+    private JMenuBar mainMenuBar;
+    private JMenu taskMenu, characterMenu, highscoreMenu, settingsMenu;
+    private JMenuItem toDoItem, doneItem, generalSettings, userManual, credits;
 
     private JPanel contentPanel;
     private String loggedInUser;
@@ -35,18 +38,34 @@ public class MainFrame extends JFrame {
     }
 
     private void createMenus() {
-        JMenuBar mainMenuBar = new JMenuBar();
+        // create menubar
+        mainMenuBar = new JMenuBar();
 
-        JMenu taskMenu = new JMenu("Task Overview");
-        JMenuItem toDoItem = new JMenuItem("To-Do");
-        JMenuItem doneItem = new JMenuItem("Done");
+        // create menu
+        taskMenu = new JMenu("Task Overview");
+        settingsMenu = new JMenu("Settings");
+        highscoreMenu = new JMenu("Highscore");
+        settingsMenu = new JMenu("Settings");
 
+        // create menu items
+        toDoItem = new JMenuItem("To-Do");
+        doneItem = new JMenuItem("Done");
+        generalSettings = new JMenuItem("General Settings");
+        userManual = new JMenuItem("User Manual");
+        credits = new JMenuItem("Credits");
+
+        // add menu items to menu
         taskMenu.add(toDoItem);
         taskMenu.add(doneItem);
+        settingsMenu.add(generalSettings);
+        settingsMenu.add(userManual);
+        settingsMenu.add(credits);
 
         mainMenuBar.add(taskMenu);
-        mainMenuBar.add(new JMenu("Character"));
-        mainMenuBar.add(new JMenu("Highscore"));
+        mainMenuBar.add(characterMenu);
+        mainMenuBar.add(highscoreMenu);
+        mainMenuBar.add(Box.createHorizontalGlue());
+        mainMenuBar.add(settingsMenu);
 
         setJMenuBar(mainMenuBar);
 
