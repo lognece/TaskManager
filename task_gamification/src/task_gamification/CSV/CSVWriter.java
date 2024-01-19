@@ -12,21 +12,14 @@ public class CSVWriter {
     }
 
     public static void writeCSV(String filePath, List<List<String>> contentCSV) throws IOException {
-
         File csvFile = new File(filePath);
         FileWriter fileWriter = new FileWriter(csvFile);
 
-        //write header line here if you need.
-
-
         for (List<String> userEntry : contentCSV) {
-            System.out.println(userEntry);
             StringBuilder line = new StringBuilder();
             for (int i = 0; i < userEntry.size(); i++) {
-                // line.append("\"");
-                 line.append(userEntry.get(i)); //.replaceAll("\"","\"\""));
-                // line.append("\"");
-                if (i != userEntry.size() - 1) {
+                line.append(userEntry.get(i));
+                if (i < userEntry.size() - 1) {
                     line.append(';');
                 }
             }
@@ -35,9 +28,7 @@ public class CSVWriter {
         }
         fileWriter.close();
     }
-
 }
-
 
 
 

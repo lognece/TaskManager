@@ -75,8 +75,19 @@ public class User {
         return userContent;
     }
 
-    public boolean addTask(){
-        return true;
+    public boolean addTask(List<String> newTask, String filePath){
+    	CSVReader csvReader = new CSVReader();
+        List<List<String>> existingTasks = csvReader.readCSV(filePath);
+        existingTasks.add(newTask);
+
+        CSVWriter csvWriter = new CSVWriter();
+        try {
+            csvWriter.writeCSV(filePath, existingTasks);
+            return true;
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    	
     }
 
     public boolean editTask(int taskID){

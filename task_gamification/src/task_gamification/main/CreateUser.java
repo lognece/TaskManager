@@ -45,6 +45,8 @@ public class CreateUser extends JFrame{
         setResizable(false);
 
         insets = this.getInsets();
+        
+
 
         GUI();
 
@@ -103,27 +105,34 @@ public class CreateUser extends JFrame{
         button_create.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if(textField_username.getText().equals("")) {
-
                     label_errorText.setText("Please enter a username");
-
                 } else {
-
                     label_errorText.setText("");
                     User newUser = new User();
                     boolean containsUsername = newUser.authenticate(textField_username.getText(),"src/users.csv");
 
-                    if ( containsUsername ) {
+                    if (containsUsername) {
                         label_errorText.setText("User already exists");
-
                     } else {
-
-                        List<String> newUserContent = new ArrayList<String>(3); // length defines no of columns in csv
+                        List<String> newUserContent = new ArrayList<>();
 
                         newUserContent.add(textField_username.getText());
-                        newUserContent.add(String.valueOf(score));
                         newUserContent.add(String.valueOf(characterNum));
+                        newUserContent.add(String.valueOf(score));
+                        // Add empty strings for string fields
+                        newUserContent.add(""); // Placeholder for taskID (assuming it's a string)
+                        newUserContent.add(""); // Placeholder for taskTitle
+                        newUserContent.add(""); // Placeholder for taskDescription
+                        newUserContent.add(""); // Placeholder for taskPriority
+
+                        // Add default integers for integer fields
+                        newUserContent.add("0"); // Placeholder for taskXP (assuming it's an integer)
+
+                        // Add an empty string or a default value for the completion status
+                        newUserContent.add(""); // Placeholder for completeStatus
+                        
+                        System.out.println("New User Content: " + newUserContent); //Debugging
 
                         newUser.createNewUser("src/users.csv", newUserContent);
 
@@ -131,18 +140,14 @@ public class CreateUser extends JFrame{
                             @Override
                             public void run() {
                                 CreateUser.this.dispose();
-                                new MainFrame();
+                                new MainFrame(textField_username.getText());
                             }
                         });
-
                     }
-
-
-                    }
-
                 }
+            }
+        });
 
-            });
         userPane.add(button_create);
 
         JButton button_toLogin = new JButton("Login");
@@ -176,5 +181,6 @@ public class CreateUser extends JFrame{
         userPane.add(label_errorText);
 
         setContentPane(userPane);
+
     }
 }

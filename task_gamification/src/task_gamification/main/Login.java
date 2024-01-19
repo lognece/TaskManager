@@ -37,7 +37,8 @@ public class Login extends JFrame{
         setVisible(true);
 
         insets = this.getInsets();
-
+        
+        
         GUI();
 
     }
@@ -82,7 +83,7 @@ public class Login extends JFrame{
                             @Override
                             public void run() {
                                 Login.this.dispose();
-                                new MainFrame();
+                                new MainFrame(textField_username.getText());
                             }
                         });
 
@@ -97,6 +98,8 @@ public class Login extends JFrame{
         loginPane.add(button_login);
 
         setContentPane(loginPane);
+        
+             
     }
 
 }

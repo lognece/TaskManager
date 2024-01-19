@@ -110,7 +110,10 @@ public class frame_gui extends JFrame {
 		panel_done.add(button_edit_taskoverview_done, "cell 0 1");
 		
 		JButton button_delete_taskoverview_done = new JButton("delete task");
-		panel_done.add(button_delete_taskoverview_done, "cell 0 1");
+		pathis.taskTitle = taskTitle;
+    	this.taskDescription = taskDescription;
+		this.taskPriority = taskPriority;
+		this.taskXP = taskXP;nel_done.add(button_delete_taskoverview_done, "cell 0 1");
 		
 		JPanel panel_characterProgress = new JPanel();
 		tabbedPane.addTab("Character", null, panel_characterProgress, null);
