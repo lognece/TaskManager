@@ -120,20 +120,7 @@ public class CreateUser extends JFrame{
                         newUserContent.add(textField_username.getText());
                         newUserContent.add(String.valueOf(characterNum));
                         newUserContent.add(String.valueOf(score));
-                        // Add empty strings for string fields
-                        newUserContent.add(""); // Placeholder for taskID (assuming it's a string)
-                        newUserContent.add(""); // Placeholder for taskTitle
-                        newUserContent.add(""); // Placeholder for taskDescription
-                        newUserContent.add(""); // Placeholder for taskPriority
-
-                        // Add default integers for integer fields
-                        newUserContent.add("0"); // Placeholder for taskXP (assuming it's an integer)
-
-                        // Add an empty string or a default value for the completion status
-                        newUserContent.add(""); // Placeholder for completeStatus
                         
-                        System.out.println("New User Content: " + newUserContent); //Debugging
-
                         newUser.createNewUser("src/users.csv", newUserContent);
 
                         EventQueue.invokeLater(new Runnable() {

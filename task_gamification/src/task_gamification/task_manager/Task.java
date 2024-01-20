@@ -3,6 +3,7 @@ package task_gamification.task_manager;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,12 +26,12 @@ public class Task extends JDialog {
     private JComboBox<String> priorityBox;
     private JSpinner taskXPField;
     private JButton addButton, cancelButton;
-    private String filePath;
+    private String taskFilePath;
     private String loggedInUser;
     private JTable table;
 
     public Task(String filePath, String loggedInUser, JTable table, Runnable onTaskAddedCallback) {
-        this.filePath = filePath;
+        this.taskFilePath = filePath;
         this.loggedInUser = loggedInUser;
         this.table = table;
         this.onTaskAddedCallback = onTaskAddedCallback;
@@ -83,14 +84,12 @@ public class Task extends JDialog {
         }
 
         try {
-            List<List<String>> taskData = CSVReader.readCSV(filePath);
+            List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
 
             List<String> newTask = new ArrayList<>();
-            // Assuming the columns as [username, character, score, taskID, title, description, priority, taskXP, status]
+            // Assuming the columns as [username, taskID, title, description, priority, taskXP, status]
             newTask.add(loggedInUser);
-            newTask.add(""); // character is not relevant here
-            newTask.add("0"); // score is initially 0
-            newTask.add(""); // taskID placeholder
+            newTask.add(UUID.randomUUID().toString()); 
             newTask.add(titleField.getText());
             newTask.add(descriptionField.getText());
             newTask.add((String) priorityBox.getSelectedItem());
@@ -98,7 +97,7 @@ public class Task extends JDialog {
             newTask.add("incomplete");
 
             taskData.add(newTask);
-            CSVWriter.writeCSV(filePath, taskData);
+            CSVWriter.writeCSV(taskFilePath, taskData);
 
             // Update ToDoPanel
             if (onTaskAddedCallback != null) {

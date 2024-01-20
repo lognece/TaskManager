@@ -43,7 +43,7 @@ public class MainFrame extends JFrame {
 
         // create menu
         taskMenu = new JMenu("Task Overview");
-        settingsMenu = new JMenu("Settings");
+        characterMenu = new JMenu("Character");
         highscoreMenu = new JMenu("Highscore");
         settingsMenu = new JMenu("Settings");
 
@@ -73,7 +73,7 @@ public class MainFrame extends JFrame {
     }
 
     private void showToDoPanel() {
-        ToDoPanel toDoPanel = new ToDoPanel("src/users.csv", loggedInUser); 
+        ToDoPanel toDoPanel = new ToDoPanel("src/tasks.csv", loggedInUser); 
         contentPanel.removeAll();
         contentPanel.add(toDoPanel, "ToDo");
         CardLayout cl = (CardLayout)(contentPanel.getLayout());
