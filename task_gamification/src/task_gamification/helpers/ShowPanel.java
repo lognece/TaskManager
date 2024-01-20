@@ -1,11 +1,8 @@
-package helpers;
+package task_gamification.helpers;
 
 import java.awt.CardLayout;
-import java.awt.Container;
 
 import javax.swing.JPanel;
-
-import task_gamification.views.DonePanel;
 
 /*
  * Helper method to add new JPanels to the MainFrame

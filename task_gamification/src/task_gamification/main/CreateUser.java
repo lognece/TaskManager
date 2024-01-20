@@ -1,6 +1,8 @@
 package task_gamification.main;
 
 import task_gamification.entity.User;
+import task_gamification.helpers.getFilePath;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,6 +38,11 @@ public class CreateUser extends JFrame{
 
     private int characterNum; // 0 = Tiefling, 1 = Dragonborn
     private int score = 0;
+
+    // path to csv files
+    private getFilePath FilePaths;
+    private String userFilePath = FilePaths.USER_FILE_PATH;
+
 
 
     public CreateUser() {
@@ -117,7 +124,7 @@ public class CreateUser extends JFrame{
                 } else {
                     label_errorText.setText("");
                     User newUser = new User();
-                    boolean containsUsername = newUser.authenticate(textField_username.getText(),"src/users.csv");
+                    boolean containsUsername = newUser.authenticate(textField_username.getText(),userFilePath);
 
                     if (containsUsername) {
                         label_errorText.setText("Sorry, the user '" + textField_username.getText() + "' already exists");
@@ -129,7 +136,7 @@ public class CreateUser extends JFrame{
                         newUserContent.add(String.valueOf(characterNum));
                         newUserContent.add(String.valueOf(score));
                         
-                        newUser.createNewUser("src/users.csv", newUserContent);
+                        newUser.createNewUser(userFilePath, newUserContent);
 
                         EventQueue.invokeLater(new Runnable() {
                             @Override

@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
+import task_gamification.helpers.getFilePath;
 
 /**
  * Represents a dialog for managing tasks (add, edit, delete).
@@ -26,9 +27,14 @@ public class Task extends JDialog {
     private JComboBox<String> priorityBox;
     private JSpinner taskXPField;
     private JButton addButton, cancelButton, editButton, deleteButton;
-    private String taskFilePath, taskId, loggedInUser;
+    private String taskId, loggedInUser;
     private TaskMode mode;
-    
+
+    // path to csv files
+    private getFilePath FilePaths;
+    private String taskFilePath = FilePaths.TASK_FILE_PATH;
+
+
     /**
      * Constructor for the Task dialog.
      *

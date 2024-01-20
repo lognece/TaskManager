@@ -1,8 +1,9 @@
 package task_gamification.main;
 
 import task_gamification.views.DonePanel;
-import helpers.ShowPanel;
+import task_gamification.helpers.ShowPanel;
 import task_gamification.views.ToDoPanel;
+import task_gamification.helpers.getFilePath;
 import javax.swing.*;
 import java.awt.*;
 
@@ -20,6 +21,10 @@ public class MainFrame extends JFrame {
     private ShowPanel showPanel; // Panel for showing different views
     private JPanel contentPanel; // Panel to hold the main content
     private String loggedInUser; // Stores the currently logged-in user's username
+
+    // path to csv files
+    private getFilePath FilePaths;
+    private String taskFilePath = FilePaths.TASK_FILE_PATH;
 
     // Constructor for MainFrame, initializes the frame and GUI components
     public MainFrame(String loggedInUser) {
@@ -87,13 +92,13 @@ public class MainFrame extends JFrame {
 
     // Shows the To-Do panel
     private void showToDoPanel() {
-        ToDoPanel toDoPanel = new ToDoPanel("src/tasks.csv", loggedInUser); 
+        ToDoPanel toDoPanel = new ToDoPanel(taskFilePath, loggedInUser);
         showPanel.getShowPanel(toDoPanel, "ToDo");
     }
     
     // Shows the Done panel
     private void showDonePanel() {
-        DonePanel donePanel = new DonePanel("src/tasks.csv", loggedInUser); 
+        DonePanel donePanel = new DonePanel(taskFilePath, loggedInUser);
         showPanel.getShowPanel(donePanel, "Done");
     }
 

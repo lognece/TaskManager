@@ -1,6 +1,7 @@
 package task_gamification.main;
 
 import task_gamification.entity.User;
+import task_gamification.helpers.getFilePath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +29,12 @@ public class Login extends JFrame{
     private JTextField textField_username;
 
     private Insets insets;
-    
+
+    // path to csv files
+    private getFilePath FilePaths;
+    private String userFilePath = FilePaths.USER_FILE_PATH;
+
+
 
     public Login() {
 
@@ -82,7 +88,7 @@ public class Login extends JFrame{
 
                     //label_errorText.setText("");
                     User userLogin = new User();
-                    boolean containsUsername = userLogin.authenticate(textField_username.getText(),"src/users.csv");
+                    boolean containsUsername = userLogin.authenticate(textField_username.getText(),userFilePath);
 
                     if ( containsUsername ) {
                         EventQueue.invokeLater(new Runnable() {

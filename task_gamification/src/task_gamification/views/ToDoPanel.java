@@ -1,5 +1,6 @@
 package task_gamification.views;
 
+import task_gamification.helpers.getFilePath;
 import task_gamification.task_manager.Task;
 import task_gamification.task_manager.TaskMode;
 import task_gamification.CSV.CSVReader;
@@ -24,11 +25,14 @@ import java.util.List;
 public class ToDoPanel extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
-    private String taskFilePath; //  The file path where tasks are stored
     private String loggedInUser; //  The user currently logged in
     private String taskId;
     private boolean isEditMode = false;
     private TaskMode mode;
+    // path to csv files
+    private getFilePath FilePaths;
+    private String taskFilePath = FilePaths.TASK_FILE_PATH;
+
 
     public ToDoPanel(String taskFilePath, String loggedInUser) {
         this.taskFilePath = taskFilePath;
