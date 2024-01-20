@@ -1,92 +1,101 @@
 package task_gamification.main;
 
-import task_gamification.views.CharacterPanel;
 import task_gamification.views.DonePanel;
-import task_gamification.views.HighscorePanel;
+import helpers.ShowPanel;
 import task_gamification.views.ToDoPanel;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
-public class MainFrame extends JFrame{
-
+public class MainFrame extends JFrame {
+	// Constants for frame name and dimensions
     public static final String FRAME_NAME = "Task_Manager";
     public static final int W_FRAME = 1080;
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
-    public static Insets INSETS;
-    private byte activePage = 0;
-    private JMenuBar menuBar;
-    private JMenu taskMenu, characterMenu, highscoreMenu;
-    private JMenuItem toDoItem, doneItem;
+    
+    // Menu bar components
+    private JMenuBar mainMenuBar;
+    private JMenu taskMenu, characterMenu, highscoreMenu, settingsMenu;
+    private JMenuItem toDoItem, doneItem, generalSettings, userManual, credits;
+    
+    private ShowPanel showPanel; // Panel for showing different views
+    private JPanel contentPanel; // Panel to hold the main content
+    private String loggedInUser; // Stores the currently logged-in user's username
 
-
-
-    public MainFrame() {
-        this(0);
+    // Constructor for MainFrame, initializes the frame and GUI components
+    public MainFrame(String loggedInUser) {
+    	this.loggedInUser = loggedInUser;
+        initializeFrame();
+        initializeGUI();
+        showPanel = new ShowPanel(contentPanel);
+        setVisible(true);
     }
 
-    public MainFrame(int component) {
-
-        super(FRAME_NAME);
-        super.setName("MainFrame");
-        setLayout(null);
+    // Initializes the frame's properties
+    private void initializeFrame() {
+        setTitle(FRAME_NAME);
+        setLayout(new BorderLayout());
         setSize(W_FRAME, H_FRAME);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setVisible(true);
-
-        activePage = (byte) component;
-
-        INSETS = getInsets();
-
-        GUI();
-
     }
-
-    private void GUI(){
+    
+    // Initializes the GUI components of the frame
+    private void initializeGUI() {
         createMenus();
-        createComponents();
+        contentPanel = new JPanel(new CardLayout());
+        add(contentPanel, BorderLayout.CENTER);
     }
 
+    // Creates the menu bar and its components
     private void createMenus() {
-
         // create menubar
-        JMenuBar mainMenuBar = new JMenuBar();
+        mainMenuBar = new JMenuBar();
 
         // create menu
         taskMenu = new JMenu("Task Overview");
         characterMenu = new JMenu("Character");
         highscoreMenu = new JMenu("Highscore");
+        settingsMenu = new JMenu("Settings");
 
         // create menu items
         toDoItem = new JMenuItem("To-Do");
         doneItem = new JMenuItem("Done");
+        generalSettings = new JMenuItem("General Settings");
+        userManual = new JMenuItem("User Manual");
+        credits = new JMenuItem("Credits");
 
         // add menu items to menu
         taskMenu.add(toDoItem);
         taskMenu.add(doneItem);
+        settingsMenu.add(generalSettings);
+        settingsMenu.add(userManual);
+        settingsMenu.add(credits);
 
-        // add menu to menubar
         mainMenuBar.add(taskMenu);
         mainMenuBar.add(characterMenu);
         mainMenuBar.add(highscoreMenu);
+        mainMenuBar.add(Box.createHorizontalGlue());
+        mainMenuBar.add(settingsMenu);
 
-        this.setJMenuBar(mainMenuBar);
+        setJMenuBar(mainMenuBar);
 
+        // Adding action listeners to menu items
+        toDoItem.addActionListener(e -> showToDoPanel());
+        doneItem.addActionListener(e -> showDonePanel());
     }
 
-    private void createComponents() {
-
-        ToDoPanel toDoPanel = new ToDoPanel();
-        DonePanel donePanel = new DonePanel();
-        CharacterPanel characterPanel = new CharacterPanel();
-        HighscorePanel highscorePanel = new HighscorePanel();
-
+    // Shows the To-Do panel
+    private void showToDoPanel() {
+        ToDoPanel toDoPanel = new ToDoPanel("src/tasks.csv", loggedInUser); 
+        showPanel.getShowPanel(toDoPanel, "ToDo");
+    }
+    
+    // Shows the Done panel
+    private void showDonePanel() {
+        DonePanel donePanel = new DonePanel("src/tasks.csv", loggedInUser); 
+        showPanel.getShowPanel(donePanel, "Done");
     }
 
 }
+
