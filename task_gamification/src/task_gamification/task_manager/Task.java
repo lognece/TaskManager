@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
+import task_gamification.helpers.ButtonHelper;
 import task_gamification.helpers.getFilePath;
 
 /**
@@ -91,25 +92,25 @@ public class Task extends JDialog {
         
         // Button setup based on the task mode
         if (mode == TaskMode.ADD) {
-        	addButton = new JButton("Add Task");
-            addButton.addActionListener(e -> addTask());
-            add(addButton);            
+            addButton = ButtonHelper.newButton("Add Task", "add", e -> addTask(),
+                    0, 0, 0, 0);
+            add(addButton);
         }
         
         else if (mode == TaskMode.EDIT) {
-            editButton = new JButton("Edit Task");
-            editButton.addActionListener(e -> editTask());
+            editButton = ButtonHelper.newButton("Edit Task", "edit", e -> editTask(),
+                    0, 0, 0, 0);
             add(editButton);
         }
         
         else if (mode == TaskMode.DELETE) {
-        	deleteButton = new JButton("Delete Task");
-            deleteButton.addActionListener(e -> deleteTask());
+            deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> deleteTask(),
+                    0, 0, 0, 0);
             add(deleteButton);
         }
-        
-        cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> dispose());
+
+        cancelButton = ButtonHelper.newButton("Cancel", "cancel", e -> dispose(),
+                0, 0, 0, 0);
         add(cancelButton);
 
     }

@@ -1,5 +1,6 @@
 package task_gamification.views;
 
+import task_gamification.helpers.ButtonHelper;
 import task_gamification.helpers.getFilePath;
 import task_gamification.task_manager.Task;
 import task_gamification.task_manager.TaskMode;
@@ -29,6 +30,7 @@ public class ToDoPanel extends JPanel {
     private String taskId;
     private boolean isEditMode = false;
     private TaskMode mode;
+    private JButton addButton, editButton, deleteButton;
     // path to csv files
     private getFilePath FilePaths;
     private String taskFilePath = FilePaths.TASK_FILE_PATH;
@@ -51,30 +53,31 @@ public class ToDoPanel extends JPanel {
         JPanel addTaskPanel = new JPanel();
         add(addTaskPanel, BorderLayout.SOUTH);
         
-        // Create and setup buttons for task operations
-        // Add
-        JButton addButton = new JButton("Add Task");
-        setupButton(addButton, e -> openTaskDialog());
-        
+                // Create addButton using ButtonHelper
+        addButton = ButtonHelper.newButton("Add Task", "add", e -> openTaskDialog(), 0, 0, 0, 0); // Placeholder values for x, y, width, height
+
+        // Further setup for addButton
+        setupButton(addButton);
+
+
         // Edit
-        JButton editButton = new JButton("Edit");
-        setupButton(editButton, e -> {
-        	isEditMode = true;
-        	// Provide instructions for the user in edit mode
-        	if (isEditMode) {
-        		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        		table.clearSelection();
-        		JOptionPane.showMessageDialog(this,
+        editButton = ButtonHelper.newButton("Edit Task", "edit", e -> {
+            isEditMode = true;
+            // Provide instructions for the user in edit mode
+            if (isEditMode) {
+                table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                table.clearSelection();
+                JOptionPane.showMessageDialog(this,
                         "Please click on the row you want to edit.",
                         "Select Row to Edit",
                         JOptionPane.INFORMATION_MESSAGE);
-        	}
-        });
+            }
+        }, 0, 0, 0, 0); // Placeholder values for x, y, width, height
+        setupButton(editButton);
         
         // Delete
-        JButton deleteButton = new JButton("Delete");
-        setupButton(deleteButton, e -> {
-        	// Delete operation with confirmation dialog
+        deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> {
+            // Delete operation with confirmation dialog
             if (table.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(this,
                         "Please click on the row you want to delete.",
@@ -94,7 +97,9 @@ public class ToDoPanel extends JPanel {
                     taskDialog.deleteTask();
                 }
             }
-        });
+        }, 0, 0, 0, 0); // Placeholder values for x, y, width, height
+        setupButton(deleteButton);
+
         
         addTaskPanel.add(addButton);
         addTaskPanel.add(editButton);
@@ -102,10 +107,9 @@ public class ToDoPanel extends JPanel {
     }
 
     // Sets up a button with a specified size and action listener
-	private void setupButton(JButton button, ActionListener actionListener) {
+	private void setupButton(JButton button) {
         button.setMinimumSize(new Dimension(100, 25));
         button.setMaximumSize(new Dimension(100, 25));
-        button.addActionListener(actionListener);
     }
 
 	// Sets up the table model and adds listeners for user interactions
