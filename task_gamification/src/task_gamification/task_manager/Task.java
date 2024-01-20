@@ -16,6 +16,10 @@ import javax.swing.SpinnerNumberModel;
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
 
+/**
+ * Represents a dialog for managing tasks (add, edit, delete).
+ * It provides a graphical interface for task operations.
+ */
 public class Task extends JDialog {
     private Runnable onTaskAddedCallback;
     private JTextField titleField, descriptionField;
@@ -25,6 +29,14 @@ public class Task extends JDialog {
     private String taskFilePath, taskId, loggedInUser;
     private TaskMode mode;
     
+    /**
+     * Constructor for the Task dialog.
+     *
+     * @param filePath The path to the task data file.
+     * @param loggedInUser The username of the currently logged-in user.
+     * @param onTaskAddedCallback A callback to execute when a task operation is completed.
+     * @param mode The mode of operation (add, edit, delete).
+     */
     public Task(String filePath, String loggedInUser, Runnable onTaskAddedCallback, TaskMode mode) {
         this.taskFilePath = filePath;
         this.loggedInUser = loggedInUser;
@@ -34,6 +46,10 @@ public class Task extends JDialog {
         pack();
     }
 
+    /**
+     * Initializes the components of the dialog.
+     * Sets up the layout and components based on the specified task mode.
+     */
     private void initializeComponents() {
         setLayout(new GridLayout(0, 2));
 
@@ -42,13 +58,18 @@ public class Task extends JDialog {
         priorityBox = new JComboBox<>(new String[]{"", "Low", "Medium", "High"});
         taskXPField = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 1));
 
+        // Sets task XP based on the selected priority
         priorityBox.addActionListener(e -> {
             String selectedPriority = (String) priorityBox.getSelectedItem();
             if ("Low".equals(selectedPriority)) {
                 taskXPField.setValue(10);
-            } else if ("Medium".equals(selectedPriority)) {
+            } 
+            
+            else if ("Medium".equals(selectedPriority)) {
                 taskXPField.setValue(20);
-            } else {
+            } 
+            
+            else {
                 taskXPField.setValue(30);
             }
         });
@@ -62,6 +83,7 @@ public class Task extends JDialog {
         add(new JLabel("Task XP:"));
         add(taskXPField);
         
+        // Button setup based on the task mode
         if (mode == TaskMode.ADD) {
         	addButton = new JButton("Add Task");
             addButton.addActionListener(e -> addTask());
@@ -86,6 +108,9 @@ public class Task extends JDialog {
 
     }
     
+    /**
+     * Sets the initial data for the task fields when in edit mode.
+     */
 	public void setTaskData(String taskId, String title, String description, String priority, int taskXP) {
         this.taskId = taskId;
         this.titleField.setText(title);
@@ -94,6 +119,9 @@ public class Task extends JDialog {
         this.taskXPField.setValue(taskXP);
     }
 
+	/**
+     * Adds a new task to the task data file.
+     */
     private void addTask() {
         // Validate input
         if (titleField.getText().trim().isEmpty() || descriptionField.getText().trim().isEmpty()) {
@@ -128,6 +156,9 @@ public class Task extends JDialog {
         }
     }
     
+    /**
+     * Edits an existing task in the task data file.
+     */
     private void editTask() {
         // Validate input
         if (titleField.getText().trim().isEmpty() || descriptionField.getText().trim().isEmpty()) {
@@ -161,7 +192,9 @@ public class Task extends JDialog {
         }
     }
             
-    
+    /**
+     * Deletes the specified task from the task data file.
+     */
     public void deleteTask() {
     	try {
             List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
@@ -178,7 +211,8 @@ public class Task extends JDialog {
             JOptionPane.showMessageDialog(this, "Error deleting task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    // Create helper methods like createButton, validateInput, createTaskRow, updateTaskRow, executeCallbackAndDispose, displayError, etc.
 
-    // Implement the deleteTask method to remove a selected task from the CSV.
 }
 

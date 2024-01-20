@@ -7,16 +7,21 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
+	// Constants for frame name and dimensions
     public static final String FRAME_NAME = "Task_Manager";
     public static final int W_FRAME = 1080;
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
+    
+    // Menu bar components
     private JMenuBar mainMenuBar;
     private JMenu taskMenu, characterMenu, highscoreMenu, settingsMenu;
     private JMenuItem toDoItem, doneItem, generalSettings, userManual, credits;
-    private ShowPanel showPanel;
-    private JPanel contentPanel;
-    private String loggedInUser;
+    
+    private ShowPanel showPanel; // Panel for showing different views
+    private JPanel contentPanel; // Panel to hold the main content
+    private String loggedInUser; // Stores the currently logged-in user's username
 
+    // Constructor for MainFrame, initializes the frame and GUI components
     public MainFrame(String loggedInUser) {
     	this.loggedInUser = loggedInUser;
         initializeFrame();
@@ -25,6 +30,7 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
+    // Initializes the frame's properties
     private void initializeFrame() {
         setTitle(FRAME_NAME);
         setLayout(new BorderLayout());
@@ -33,13 +39,15 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
-
+    
+    // Initializes the GUI components of the frame
     private void initializeGUI() {
         createMenus();
         contentPanel = new JPanel(new CardLayout());
         add(contentPanel, BorderLayout.CENTER);
     }
 
+    // Creates the menu bar and its components
     private void createMenus() {
         // create menubar
         mainMenuBar = new JMenuBar();
@@ -72,15 +80,18 @@ public class MainFrame extends JFrame {
 
         setJMenuBar(mainMenuBar);
 
+        // Adding action listeners to menu items
         toDoItem.addActionListener(e -> showToDoPanel());
         doneItem.addActionListener(e -> showDonePanel());
     }
 
+    // Shows the To-Do panel
     private void showToDoPanel() {
         ToDoPanel toDoPanel = new ToDoPanel("src/tasks.csv", loggedInUser); 
         showPanel.getShowPanel(toDoPanel, "ToDo");
     }
     
+    // Shows the Done panel
     private void showDonePanel() {
         DonePanel donePanel = new DonePanel("src/tasks.csv", loggedInUser); 
         showPanel.getShowPanel(donePanel, "Done");

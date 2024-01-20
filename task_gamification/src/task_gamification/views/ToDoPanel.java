@@ -16,11 +16,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * Class representing the To-Do panel in the app.
+ * It allows users to manage their tasks (add, edit, delete) and view them in a table format.
+ */
+
 public class ToDoPanel extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
-    private String taskFilePath;
-    private String loggedInUser;
+    private String taskFilePath; //  The file path where tasks are stored
+    private String loggedInUser; //  The user currently logged in
     private String taskId;
     private boolean isEditMode = false;
     private TaskMode mode;
@@ -31,7 +36,8 @@ public class ToDoPanel extends JPanel {
         initializeGUI();
         refreshTableData();
     }
-
+    
+    // Initializes the graphical user interface of the panel
     private void initializeGUI() {
         setLayout(new BorderLayout());
         setupTable();
@@ -41,12 +47,16 @@ public class ToDoPanel extends JPanel {
         JPanel addTaskPanel = new JPanel();
         add(addTaskPanel, BorderLayout.SOUTH);
         
+        // Create and setup buttons for task operations
+        // Add
         JButton addButton = new JButton("Add Task");
         setupButton(addButton, e -> openTaskDialog());
         
+        // Edit
         JButton editButton = new JButton("Edit");
         setupButton(editButton, e -> {
         	isEditMode = true;
+        	// Provide instructions for the user in edit mode
         	if (isEditMode) {
         		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         		table.clearSelection();
@@ -57,8 +67,10 @@ public class ToDoPanel extends JPanel {
         	}
         });
         
+        // Delete
         JButton deleteButton = new JButton("Delete");
         setupButton(deleteButton, e -> {
+        	// Delete operation with confirmation dialog
             if (table.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(this,
                         "Please click on the row you want to delete.",
@@ -85,12 +97,14 @@ public class ToDoPanel extends JPanel {
         addTaskPanel.add(deleteButton);
     }
 
+    // Sets up a button with a specified size and action listener
 	private void setupButton(JButton button, ActionListener actionListener) {
         button.setMinimumSize(new Dimension(100, 25));
         button.setMaximumSize(new Dimension(100, 25));
         button.addActionListener(actionListener);
     }
 
+	// Sets up the table model and adds listeners for user interactions
     private void setupTable() {
         tableModel = new DefaultTableModel(new String[]{"Task ID", "Title", "Description", "Priority", "Task XP", "Status"}, 0) {
             @Override
@@ -104,8 +118,10 @@ public class ToDoPanel extends JPanel {
             }
         };
                 
+        // Setup table and add listeners for interactions
         table = new JTable(tableModel);
         table.getModel().addTableModelListener(e -> {
+        	// Listener for changes in the "Status" column
             if (e.getType() == TableModelEvent.UPDATE && e.getColumn() == 5) {
                 int row = e.getFirstRow();
                 if (row >= 0 && row < tableModel.getRowCount()) {
@@ -126,8 +142,8 @@ public class ToDoPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (isEditMode && table.getSelectedRow() != -1) {
+                	// Open edit dialog on mouse click if in edit mode
                     int rowToEdit = table.getSelectedRow();
-                    // Convert view index to model index in case table is sorted
                     rowToEdit = table.convertRowIndexToModel(rowToEdit);
                     openEditTaskDialog(rowToEdit);
                     isEditMode = false; // Reset the edit mode
@@ -135,19 +151,23 @@ public class ToDoPanel extends JPanel {
             }
         });
 
+        // Configure and hide the "Task ID" column
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.removeColumn(columnModel.getColumn(0));
         
         table.setAutoCreateRowSorter(true);
     }
     
+    // Shows a confirmation dialog and returns the user's choice
     private boolean showConfirmationDialog(String message, String title) {
         int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION);
         return choice == JOptionPane.YES_OPTION;
     }
 
 
+    // Refreshes the table data from the CSV file
     public void refreshTableData() {
+    	// Read data from CSV and update the table model
         try {
             tableModel.setRowCount(0);
             List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
@@ -166,6 +186,7 @@ public class ToDoPanel extends JPanel {
     }
 
 
+    // Updates a task's status in the CSV file
     private void updateTaskInCSV(String taskId, boolean isComplete) {
         try {
             List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
@@ -184,13 +205,15 @@ public class ToDoPanel extends JPanel {
         }
     }
 
+    // Opens the dialog for adding a new task
     private void openTaskDialog() {
         Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.ADD);
         taskDialog.setVisible(true);
     }
     
 
-   private void openEditTaskDialog(int rowToEdit) {
+    // Opens the dialog for editing a task
+    private void openEditTaskDialog(int rowToEdit) {
 	   // Convert view index to model index in case table is sorted
 	   int modelRow = table.convertRowIndexToModel(rowToEdit);
 	   
