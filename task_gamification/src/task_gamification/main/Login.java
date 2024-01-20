@@ -10,17 +10,25 @@ import java.awt.event.ActionListener;
 
 public class Login extends JFrame{
 
-    public static final int H_FRAME = 400;
-    public static final int W_FRAME = 600;
+	public static final int H_FRAME = 400;
+	public static final int W_FRAME = 600;
+	private static final int buttonWidth = 150;
+	private static final int buttonHeight = 22;
+	private static final int labelWidth = 100;
+	private static final int textFieldWidth = 180;
+	private static final int centerX = W_FRAME / 2;
+	private static final int centerY = H_FRAME / 2;
+	
     private JPanel contentPane;
 
-    private JButton button_login;
+    private JButton button_login, button_toCreateUser;
 
     private JLabel label_username, label_icon, label_errorText;
 
     private JTextField textField_username;
 
     private Insets insets;
+
 
     String errorText = "ErrorText";
 
@@ -50,17 +58,20 @@ public class Login extends JFrame{
         loginPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
 
+               
+        // Adjust label_username to be centered horizontally
         label_username = new JLabel("Username");
-        label_username.setBounds(140, 160, 70, 20);
+        label_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2, centerY - 50, labelWidth, 20);
         loginPane.add(label_username);
 
+        // Adjust textField_username to be centered horizontally on the same row
         textField_username = new JTextField();
-        textField_username.setBounds(label_username.getX() + label_username.getWidth() + 30,
-                label_username.getY(), 180, label_username.getHeight());
+        textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, centerY - 50 , textFieldWidth, 20);
         loginPane.add(textField_username);
-
-        button_login = new JButton("Login");
-        button_login.setBounds(textField_username.getX() + 20, label_username.getY() + 60, 80, 22);
+        
+        // Adjust button_login to be centered horizontally
+        JButton button_login = new JButton("Login");
+        button_login.setBounds(centerX + 10, label_username.getY() + 100, buttonWidth, buttonHeight);
         button_login.setFocusPainted(false);
 
         button_login.addActionListener(new ActionListener() {
@@ -95,7 +106,22 @@ public class Login extends JFrame{
             }
 
         });
+        
+
+        // Adjust button_create to be centered horizontally on the same line as the label and text field
+        JButton button_toCreateUser = new JButton("Back");
+        button_toCreateUser.setBounds(centerX - buttonWidth - 10, label_username.getY() + 100, buttonWidth, buttonHeight);
+        button_toCreateUser.setFocusPainted(false);
+        button_toCreateUser.addActionListener(new ActionListener() {
+        	 @Override
+             public void actionPerformed(ActionEvent e) {
+                 Login.this.dispose(); // Dispose current Login frame
+                 new CreateUser(); // Open CreateUser frame
+             }
+        });
+        
         loginPane.add(button_login);
+        loginPane.add(button_toCreateUser);
 
         setContentPane(loginPane);
         

@@ -1,15 +1,10 @@
 package task_gamification.main;
 
-import task_gamification.CSV.CSVReader;
-import task_gamification.CSV.CSVWriter;
 import task_gamification.entity.User;
-import task_gamification.task_manager.Task;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +12,17 @@ import java.util.List;
 public class CreateUser extends JFrame{
     public static final int H_FRAME = 400;
     public static final int W_FRAME = 600;
+    
+    // size and position
+    private static final int centerX = W_FRAME / 2;
+    private static final int labelWidth = 100;
+    private static final int textFieldWidth = 180;
+    private static final int charWidth = 100;
+    private static final int charHeight = 120;
+    private static final int buttonWidth = 150;
+    private static final int buttonHeight = 22;
+    private static final int labelCharacterWidth = 170;
+    
     private JPanel contentPane;
 
     private JButton button_login;
@@ -58,14 +64,15 @@ public class CreateUser extends JFrame{
         userPane.setLayout(null);
         userPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
-
+               
+        // Adjust label_username to be centered horizontally
         label_username = new JLabel("Username");
-        label_username.setBounds(150, 240, 70, 20);
+        label_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2, 240, labelWidth, 20);
         userPane.add(label_username);
 
+        // Adjust textField_username to be centered horizontally on the same row
         textField_username = new JTextField();
-        textField_username.setBounds(label_username.getX() + label_username.getWidth() + 30,
-                label_username.getY(), 180, label_username.getHeight());
+        textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, 240, textFieldWidth, 20);
         userPane.add(textField_username);
 
         ImageIcon iconTiefling = new ImageIcon("src/icon/tiefling.png"); // replace with tiefling_portrait.png
@@ -79,7 +86,8 @@ public class CreateUser extends JFrame{
                 characterNum = 0;
             }
         });
-        button_char1.setBounds(textField_username.getX() - 60, label_username.getY() - 145, 100, 120);
+
+        button_char1.setBounds(centerX - charWidth - 10, label_username.getY() - 145, charWidth, charHeight);
         button_char1.setFocusPainted(false);
         userPane.add(button_char1);
 
@@ -94,12 +102,13 @@ public class CreateUser extends JFrame{
                 characterNum = 1;
             }
         });
-        button_char2.setBounds(textField_username.getX() + 80, label_username.getY() - 145, 100, 120);
+        button_char2.setBounds(centerX + 10, label_username.getY() - 145, charWidth, charHeight);
         button_char2.setFocusPainted(false);
         userPane.add(button_char2);
 
+        // Adjust button_create to be centered horizontally on the same line as the label and text field
         JButton button_create = new JButton("Create User");
-        button_create.setBounds(textField_username.getX() - 40, label_username.getY() + 45, 80, 22);
+        button_create.setBounds(centerX - buttonWidth - 10, label_username.getY() + 45, buttonWidth, buttonHeight);
         button_create.setFocusPainted(false);
 
         button_create.addActionListener(new ActionListener() {
@@ -137,8 +146,9 @@ public class CreateUser extends JFrame{
 
         userPane.add(button_create);
 
+        // Adjust button_toLogin to be centered horizontally on the same line as the label and text field
         JButton button_toLogin = new JButton("Login");
-        button_toLogin.setBounds(textField_username.getX() + 80, label_username.getY() + 45, 80, 22);
+        button_toLogin.setBounds(centerX + 10, label_username.getY() + 45, buttonWidth, buttonHeight);
         button_toLogin.setFocusPainted(false);
         button_toLogin.addActionListener(new ActionListener() {
             @Override
@@ -157,9 +167,9 @@ public class CreateUser extends JFrame{
         userPane.add(button_toLogin);
 
         label_character = new JLabel("Select your character");
-        label_character.setBounds(textField_username.getX() - 10, textField_username.getY() - 200,
-                170, 30);
+        label_character.setBounds(centerX - labelCharacterWidth / 2, textField_username.getY() - 200, labelCharacterWidth, 30);
         userPane.add(label_character);
+        
 
         label_errorText = new JLabel();
         label_errorText.setForeground(Color.RED);
