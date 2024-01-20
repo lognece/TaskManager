@@ -21,9 +21,10 @@ public class Task extends JDialog {
     private JTextField titleField, descriptionField;
     private JComboBox<String> priorityBox;
     private JSpinner taskXPField;
-    private JButton addButton, cancelButton, editButton;
+    private JButton addButton, cancelButton, editButton, deleteButton;
     private String taskFilePath, taskId, loggedInUser;
     private TaskMode mode;
+    
     public Task(String filePath, String loggedInUser, Runnable onTaskAddedCallback, TaskMode mode) {
         this.taskFilePath = filePath;
         this.loggedInUser = loggedInUser;
@@ -71,6 +72,12 @@ public class Task extends JDialog {
             editButton = new JButton("Edit Task");
             editButton.addActionListener(e -> editTask());
             add(editButton);
+        }
+        
+        else if (mode == TaskMode.DELETE) {
+        	deleteButton = new JButton("Delete Task");
+            deleteButton.addActionListener(e -> deleteTask());
+            add(deleteButton);
         }
         
         cancelButton = new JButton("Cancel");
@@ -154,6 +161,23 @@ public class Task extends JDialog {
         }
     }
             
+    
+    public void deleteTask() {
+    	try {
+            List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
+            taskData.removeIf(task -> task.get(1).equals(this.taskId)); // Remove the task with matching taskId
+
+            CSVWriter.writeCSV(taskFilePath, taskData);
+
+            if (onTaskAddedCallback != null) {
+                onTaskAddedCallback.run();
+            }
+
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error deleting task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     // Implement the deleteTask method to remove a selected task from the CSV.
 }

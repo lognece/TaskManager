@@ -23,6 +23,7 @@ public class ToDoPanel extends JPanel {
     private String loggedInUser;
     private String taskId;
     private boolean isEditMode = false;
+    private TaskMode mode;
 
     public ToDoPanel(String taskFilePath, String loggedInUser) {
         this.taskFilePath = taskFilePath;
@@ -56,12 +57,32 @@ public class ToDoPanel extends JPanel {
         	}
         });
         
-        JButton btnDelete = new JButton("Delete");
-        //setupButton(btnDelete, e -> deleteTask(table.getSelectedRow()));
+        JButton deleteButton = new JButton("Delete");
+        setupButton(deleteButton, e -> {
+            if (table.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this,
+                        "Please click on the row you want to delete.",
+                        "Select Row to Delete",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                int selectedRow = table.getSelectedRow();
+                String taskId = (String) tableModel.getValueAt(selectedRow, 0);
+                int confirm = JOptionPane.showConfirmDialog(this,
+                        "Are you sure you want to delete this task?",
+                        "Confirm Deletion",
+                        JOptionPane.YES_NO_OPTION);
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.DELETE);
+                    taskDialog.setTaskData(taskId, null, null, null, 0);
+                    taskDialog.deleteTask();
+                }
+            }
+        });
         
         addTaskPanel.add(addButton);
         addTaskPanel.add(editButton);
-        addTaskPanel.add(btnDelete);
+        addTaskPanel.add(deleteButton);
     }
 
 	private void setupButton(JButton button, ActionListener actionListener) {
@@ -119,6 +140,12 @@ public class ToDoPanel extends JPanel {
         
         table.setAutoCreateRowSorter(true);
     }
+    
+    private boolean showConfirmationDialog(String message, String title) {
+        int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION);
+        return choice == JOptionPane.YES_OPTION;
+    }
+
 
     public void refreshTableData() {
         try {
@@ -177,8 +204,13 @@ public class ToDoPanel extends JPanel {
 	   taskDialog.setVisible(true);
 	}
     
-    //add delete
-    // when the task is checked as done the score should be updated (score + taskXP)
-    
+
+   // TODO: Add confirmations for adding, editing, and deleting tasks
+   // TODO: Refactor shared parts of adding and editing into a common method
+   // TODO: Separate UI and controller logic
+   // TODO: Break down into smaller methods or classes for better modularity
+   // TODO: Implement an interface for task operations
+   // TODO: Update user score when a task is marked as done
 }
+
 
