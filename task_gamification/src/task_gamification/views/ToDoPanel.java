@@ -215,6 +215,7 @@ public class ToDoPanel extends JPanel {
     // Opens the dialog for adding a new task
     private void openTaskDialog() {
         Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.ADD);
+        taskDialog.setLocationRelativeTo(this); // Center the dialog
         taskDialog.setVisible(true);
     }
     
@@ -231,7 +232,8 @@ public class ToDoPanel extends JPanel {
 	   int taskXP = Integer.parseInt((String) tableModel.getValueAt(modelRow, 4));
 	   Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.EDIT);
 	   taskDialog.setTaskData(taskId, title, description, priority, taskXP);
-	   taskDialog.setVisible(true);
+       taskDialog.setLocationRelativeTo(this); // Center the dialog
+       taskDialog.setVisible(true);
 	}
     
 
