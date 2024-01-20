@@ -150,6 +150,8 @@ public class Task extends JDialog {
                 onTaskAddedCallback.run();
             }
 
+            JOptionPane.showMessageDialog(this, "Task added successfully.", "Task Added", JOptionPane.INFORMATION_MESSAGE);
+
             dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error adding task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -186,6 +188,8 @@ public class Task extends JDialog {
                 onTaskAddedCallback.run();
             }
 
+            JOptionPane.showMessageDialog(this, "Task edited successfully.", "Task Edited", JOptionPane.INFORMATION_MESSAGE);
+
             dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error editing task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -205,6 +209,8 @@ public class Task extends JDialog {
             if (onTaskAddedCallback != null) {
                 onTaskAddedCallback.run();
             }
+
+            JOptionPane.showMessageDialog(this, "Task deleted successfully.", "Task Deleted", JOptionPane.INFORMATION_MESSAGE);
 
             dispose();
         } catch (Exception e) {
