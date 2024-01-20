@@ -2,12 +2,10 @@ package task_gamification.main;
 
 import task_gamification.entity.User;
 import task_gamification.helpers.ButtonHelper;
-import task_gamification.helpers.getFilePath;
+import task_gamification.helpers.GetFilePath;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Login extends JFrame{
 
@@ -32,7 +30,7 @@ public class Login extends JFrame{
     private Insets insets;
 
     // path to csv files
-    private getFilePath FilePaths;
+    private GetFilePath FilePaths;
     private String userFilePath = FilePaths.USER_FILE_PATH;
 
 

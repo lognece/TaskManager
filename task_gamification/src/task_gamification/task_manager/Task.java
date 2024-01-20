@@ -16,7 +16,7 @@ import javax.swing.SpinnerNumberModel;
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
 import task_gamification.helpers.ButtonHelper;
-import task_gamification.helpers.getFilePath;
+import task_gamification.helpers.GetFilePath;
 
 /**
  * Represents a dialog for managing tasks (add, edit, delete).
@@ -32,7 +32,7 @@ public class Task extends JDialog {
     private TaskMode mode;
 
     // path to csv files
-    private getFilePath FilePaths;
+    private GetFilePath FilePaths;
     private String taskFilePath = FilePaths.TASK_FILE_PATH;
 
 
@@ -224,8 +224,5 @@ public class Task extends JDialog {
             JOptionPane.showMessageDialog(this, "Error deleting task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // Create helper methods like createButton, validateInput, createTaskRow, updateTaskRow, executeCallbackAndDispose, displayError, etc.
-
 }
 

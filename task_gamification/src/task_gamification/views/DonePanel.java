@@ -1,7 +1,7 @@
 package task_gamification.views;
 
 import task_gamification.CSV.CSVReader;
-import task_gamification.helpers.getFilePath;
+import task_gamification.helpers.GetFilePath;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +21,7 @@ public class DonePanel extends JPanel {
     private String loggedInUser;
     private JScrollPane scrollPane;
     // path to csv files
-    private getFilePath FilePaths;
+    private GetFilePath FilePaths;
     private String taskFilePath = FilePaths.TASK_FILE_PATH;
 
 

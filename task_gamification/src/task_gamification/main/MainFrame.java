@@ -3,7 +3,7 @@ package task_gamification.main;
 import task_gamification.views.DonePanel;
 import task_gamification.helpers.ShowPanel;
 import task_gamification.views.ToDoPanel;
-import task_gamification.helpers.getFilePath;
+import task_gamification.helpers.GetFilePath;
 import javax.swing.*;
 import java.awt.*;
 
@@ -23,7 +23,7 @@ public class MainFrame extends JFrame {
     private String loggedInUser; // Stores the currently logged-in user's username
 
     // path to csv files
-    private getFilePath FilePaths;
+    private GetFilePath FilePaths;
     private String taskFilePath = FilePaths.TASK_FILE_PATH;
 
     // Constructor for MainFrame, initializes the frame and GUI components

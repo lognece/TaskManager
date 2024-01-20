@@ -1,13 +1,11 @@
 package task_gamification.main;
 
 import task_gamification.entity.User;
-import task_gamification.helpers.getFilePath;
+import task_gamification.helpers.GetFilePath;
 import task_gamification.helpers.ButtonHelper;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +39,7 @@ public class CreateUser extends JFrame{
     private int score = 0;
 
     // path to csv files
-    private getFilePath FilePaths;
+    private GetFilePath FilePaths;
     private String userFilePath = FilePaths.USER_FILE_PATH;
     private String charImgPath_1 = FilePaths.CHAR_1_FILE_PATH;
     private String charImgPath_2 = FilePaths.CHAR_2_FILE_PATH;

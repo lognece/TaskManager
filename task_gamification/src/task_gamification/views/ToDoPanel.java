@@ -1,7 +1,7 @@
 package task_gamification.views;
 
 import task_gamification.helpers.ButtonHelper;
-import task_gamification.helpers.getFilePath;
+import task_gamification.helpers.GetFilePath;
 import task_gamification.task_manager.Task;
 import task_gamification.task_manager.TaskMode;
 import task_gamification.CSV.CSVReader;
@@ -13,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -32,7 +31,7 @@ public class ToDoPanel extends JPanel {
     private TaskMode mode;
     private JButton addButton, editButton, deleteButton;
     // path to csv files
-    private getFilePath FilePaths;
+    private GetFilePath FilePaths;
     private String taskFilePath = FilePaths.TASK_FILE_PATH;
 
 
