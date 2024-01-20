@@ -17,6 +17,7 @@ public class Login extends JFrame{
 	private static final int textFieldWidth = 180;
 	private static final int centerX = W_FRAME / 2;
 	private static final int centerY = H_FRAME / 2;
+    private static final int labelErrorWidth = 260;
 	
     private JPanel loginPane;
 
@@ -32,18 +33,16 @@ public class Login extends JFrame{
     public Login() {
 
         super("Login");
-        //setIconImage(Toolkit.getDefaultToolkit().getImage("src/icon/fingerprint.png"));
-        //setResizable(false);
         setLayout(null);
         setSize(W_FRAME, H_FRAME);
         setLocationRelativeTo(null);
         setLocation(getX() - 80, getY() - 80);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        setResizable(false);
 
         insets = this.getInsets();
-        
-        
+
         GUI();
 
     }
@@ -58,25 +57,25 @@ public class Login extends JFrame{
                
         // Adjust label_username to be centered horizontally
         label_username = new JLabel("Username");
-        label_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2, centerY - 50, labelWidth, 20);
+        label_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2, centerY - 40, labelWidth, 20);
         loginPane.add(label_username);
 
         // Adjust textField_username to be centered horizontally on the same row
         textField_username = new JTextField();
-        textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, centerY - 50 , textFieldWidth, 20);
+        textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, centerY - 40 , textFieldWidth, 20);
         loginPane.add(textField_username);
         
         // Adjust button_login to be centered horizontally
         button_login = new JButton("Login");
-        button_login.setBounds(centerX + 10, label_username.getY() + 100, buttonWidth, buttonHeight);
+        button_login.setBounds(centerX + 10, label_username.getY() + 60, buttonWidth, buttonHeight);
         button_login.setFocusPainted(false);
+        loginPane.add(button_login);
 
         button_login.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 if(textField_username.getText().equals("")) {
-
                     label_errorText.setText("Please enter a username");
 
                 } else {
@@ -86,7 +85,6 @@ public class Login extends JFrame{
                     boolean containsUsername = userLogin.authenticate(textField_username.getText(),"src/users.csv");
 
                     if ( containsUsername ) {
-
                         EventQueue.invokeLater(new Runnable() {
                             @Override
                             public void run() {
@@ -95,6 +93,8 @@ public class Login extends JFrame{
                             }
                         });
 
+                    } else {
+                        label_errorText.setText("Sorry, the user: '" + textField_username.getText() + "' does not exist!");
                     }
 
 
@@ -107,7 +107,7 @@ public class Login extends JFrame{
 
         // Adjust button_create to be centered horizontally on the same line as the label and text field
         button_toCreateUser = new JButton("Back");
-        button_toCreateUser.setBounds(centerX - buttonWidth - 10, label_username.getY() + 100, buttonWidth, buttonHeight);
+        button_toCreateUser.setBounds(centerX - buttonWidth - 10, label_username.getY() + 60, buttonWidth, buttonHeight);
         button_toCreateUser.setFocusPainted(false);
         button_toCreateUser.addActionListener(new ActionListener() {
         	 @Override
@@ -116,9 +116,16 @@ public class Login extends JFrame{
                  new CreateUser(); // Open CreateUser frame
              }
         });
-        
-        loginPane.add(button_login);
         loginPane.add(button_toCreateUser);
+
+
+        // Adjust label_username to be centered horizontally
+        label_errorText = new JLabel();
+        label_errorText.setHorizontalAlignment(SwingConstants.CENTER);
+        label_errorText.setVerticalAlignment(SwingConstants.CENTER);
+        label_errorText.setForeground(Color.RED);
+        label_errorText.setBounds(centerX - labelErrorWidth / 2, textField_username.getY() + 95, labelErrorWidth, 30);
+        loginPane.add(label_errorText);
 
         setContentPane(loginPane);
         

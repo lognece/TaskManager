@@ -22,6 +22,7 @@ public class CreateUser extends JFrame{
     private static final int buttonWidth = 150;
     private static final int buttonHeight = 22;
     private static final int labelCharacterWidth = 170;
+    private static final int labelErrorWidth = 260;
     
     private JPanel userPane;
 
@@ -40,7 +41,6 @@ public class CreateUser extends JFrame{
     public CreateUser() {
 
         super("Create User");
-        //setResizable(false);
         setLayout(null);
         setSize(W_FRAME, H_FRAME);
         setLocationRelativeTo(null);
@@ -50,8 +50,6 @@ public class CreateUser extends JFrame{
         setResizable(false);
 
         insets = this.getInsets();
-        
-
 
         GUI();
 
@@ -115,13 +113,15 @@ public class CreateUser extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 if(textField_username.getText().equals("")) {
                     label_errorText.setText("Please enter a username");
+
                 } else {
                     label_errorText.setText("");
                     User newUser = new User();
                     boolean containsUsername = newUser.authenticate(textField_username.getText(),"src/users.csv");
 
                     if (containsUsername) {
-                        label_errorText.setText("User already exists");
+                        label_errorText.setText("Sorry, the user '" + textField_username.getText() + "' already exists");
+
                     } else {
                         List<String> newUserContent = new ArrayList<>();
 
@@ -142,7 +142,6 @@ public class CreateUser extends JFrame{
                 }
             }
         });
-
         userPane.add(button_create);
 
         // Adjust button_toLogin to be centered horizontally on the same line as the label and text field
@@ -165,15 +164,17 @@ public class CreateUser extends JFrame{
         });
         userPane.add(button_toLogin);
 
-        label_character = new JLabel("Select your character");
+        // Adjust label_username to be centered horizontally
+        label_character = new JLabel("Select your character", SwingConstants.CENTER);
         label_character.setBounds(centerX - labelCharacterWidth / 2, textField_username.getY() - 200, labelCharacterWidth, 30);
         userPane.add(label_character);
-        
 
+        // Adjust label_username to be centered horizontally
         label_errorText = new JLabel();
+        label_errorText.setHorizontalAlignment(SwingConstants.CENTER);
+        label_errorText.setVerticalAlignment(SwingConstants.CENTER);
         label_errorText.setForeground(Color.RED);
-        label_errorText.setBounds(textField_username.getX() - 5, textField_username.getY() + 75,
-                170, 30);
+        label_errorText.setBounds(centerX - labelErrorWidth / 2, textField_username.getY() + 75, labelErrorWidth, 30);
         userPane.add(label_errorText);
 
         setContentPane(userPane);
