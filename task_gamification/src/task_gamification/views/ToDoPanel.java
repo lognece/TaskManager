@@ -1,6 +1,7 @@
 package task_gamification.views;
 
 import task_gamification.task_manager.Task;
+import task_gamification.task_manager.TaskMode;
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
 
@@ -11,7 +12,8 @@ import javax.swing.table.TableColumnModel;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ToDoPanel extends JPanel {
@@ -20,6 +22,7 @@ public class ToDoPanel extends JPanel {
     private String taskFilePath;
     private String loggedInUser;
     private String taskId;
+    private boolean isEditMode = false;
 
     public ToDoPanel(String taskFilePath, String loggedInUser) {
         this.taskFilePath = taskFilePath;
@@ -40,15 +43,24 @@ public class ToDoPanel extends JPanel {
         JButton addButton = new JButton("Add Task");
         setupButton(addButton, e -> openTaskDialog());
         
-        JButton btnEdit = new JButton("Edit");
-        // create action listeners for edit abd delete
-        //setupButton(btnEdit, e -> openEditTaskDialog(table.getSelectedRow()));
+        JButton editButton = new JButton("Edit");
+        setupButton(editButton, e -> {
+        	isEditMode = true;
+        	if (isEditMode) {
+        		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        		table.clearSelection();
+        		JOptionPane.showMessageDialog(this,
+                        "Please click on the row you want to edit.",
+                        "Select Row to Edit",
+                        JOptionPane.INFORMATION_MESSAGE);
+        	}
+        });
         
         JButton btnDelete = new JButton("Delete");
         //setupButton(btnDelete, e -> deleteTask(table.getSelectedRow()));
         
         addTaskPanel.add(addButton);
-        addTaskPanel.add(btnEdit);
+        addTaskPanel.add(editButton);
         addTaskPanel.add(btnDelete);
     }
 
@@ -85,6 +97,19 @@ public class ToDoPanel extends JPanel {
                             refreshTableData(); // Refresh the data on the Event Dispatch Thread
                         });
                     }
+                }
+            }
+        });
+        
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (isEditMode && table.getSelectedRow() != -1) {
+                    int rowToEdit = table.getSelectedRow();
+                    // Convert view index to model index in case table is sorted
+                    rowToEdit = table.convertRowIndexToModel(rowToEdit);
+                    openEditTaskDialog(rowToEdit);
+                    isEditMode = false; // Reset the edit mode
                 }
             }
         });
@@ -133,18 +158,26 @@ public class ToDoPanel extends JPanel {
     }
 
     private void openTaskDialog() {
-        Task taskDialog = new Task(taskFilePath, loggedInUser, table, this::refreshTableData);
+        Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.ADD);
         taskDialog.setVisible(true);
     }
     
 
-   /* private Object openEditTaskDialog(int selectedRow) {
-    	Task taskDialog = new Task(taskFilePath, loggedInUser, table, this::refreshTableData);
-        taskDialog.setVisible(true);
-		return taskDialog;
-	}*/
+   private void openEditTaskDialog(int rowToEdit) {
+	   // Convert view index to model index in case table is sorted
+	   int modelRow = table.convertRowIndexToModel(rowToEdit);
+	   
+	   String taskId = (String) tableModel.getValueAt(rowToEdit, 0);
+	   String title = (String) tableModel.getValueAt(modelRow, 1);
+	   String description = (String) tableModel.getValueAt(modelRow, 2);
+	   String priority = (String) tableModel.getValueAt(modelRow, 3);
+	   int taskXP = Integer.parseInt((String) tableModel.getValueAt(modelRow, 4));
+	   Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.EDIT);
+	   taskDialog.setTaskData(taskId, title, description, priority, taskXP);
+	   taskDialog.setVisible(true);
+	}
     
-    //add dialog for editing and update refresh table/updatetaskincsv to work with edit and delete
+    //add delete
     // when the task is checked as done the score should be updated (score + taskXP)
     
 }

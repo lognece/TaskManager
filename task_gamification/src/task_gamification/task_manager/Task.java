@@ -11,30 +11,24 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
-
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
-import task_gamification.views.ToDoPanel;
 
 public class Task extends JDialog {
     private Runnable onTaskAddedCallback;
     private JTextField titleField, descriptionField;
     private JComboBox<String> priorityBox;
     private JSpinner taskXPField;
-    private JButton addButton, cancelButton;
-    private String taskFilePath;
-    private String loggedInUser;
-    private JTable table;
-
-    public Task(String filePath, String loggedInUser, JTable table, Runnable onTaskAddedCallback) {
+    private JButton addButton, cancelButton, editButton;
+    private String taskFilePath, taskId, loggedInUser;
+    private TaskMode mode;
+    public Task(String filePath, String loggedInUser, Runnable onTaskAddedCallback, TaskMode mode) {
         this.taskFilePath = filePath;
         this.loggedInUser = loggedInUser;
-        this.table = table;
         this.onTaskAddedCallback = onTaskAddedCallback;
+        this.mode = mode;
         initializeComponents();
         pack();
     }
@@ -66,14 +60,31 @@ public class Task extends JDialog {
         add(priorityBox);
         add(new JLabel("Task XP:"));
         add(taskXPField);
-
-        addButton = new JButton("Add Task");
-        addButton.addActionListener(e -> addTask());
-        add(addButton);
-
+        
+        if (mode == TaskMode.ADD) {
+        	addButton = new JButton("Add Task");
+            addButton.addActionListener(e -> addTask());
+            add(addButton);            
+        }
+        
+        else if (mode == TaskMode.EDIT) {
+            editButton = new JButton("Edit Task");
+            editButton.addActionListener(e -> editTask());
+            add(editButton);
+        }
+        
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> dispose());
         add(cancelButton);
+
+    }
+    
+	public void setTaskData(String taskId, String title, String description, String priority, int taskXP) {
+        this.taskId = taskId;
+        this.titleField.setText(title);
+        this.descriptionField.setText(description);
+        this.priorityBox.setSelectedItem(priority);
+        this.taskXPField.setValue(taskXP);
     }
 
     private void addTask() {
@@ -109,8 +120,41 @@ public class Task extends JDialog {
             JOptionPane.showMessageDialog(this, "Error adding task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    private void editTask() {
+        // Validate input
+        if (titleField.getText().trim().isEmpty() || descriptionField.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Fields cannot be empty", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-    // Implement the editTask method similar to addTask, but updating existing task details.
+        try {
+            List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
+            
+            // Find and update the task in taskData
+            for (List<String> task : taskData) {
+                if (task.get(1).equals(this.taskId)) { // taskID is at index 1
+                    task.set(2, titleField.getText()); // Title
+                    task.set(3, descriptionField.getText()); // Description
+                    task.set(4, (String) priorityBox.getSelectedItem()); // Priority
+                    task.set(5, taskXPField.getValue().toString()); // Task XP
+                    break;
+                }
+            }
+
+            CSVWriter.writeCSV(taskFilePath, taskData);
+
+            if (onTaskAddedCallback != null) {
+                onTaskAddedCallback.run();
+            }
+
+            dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error editing task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+            
+
     // Implement the deleteTask method to remove a selected task from the CSV.
 }
 
