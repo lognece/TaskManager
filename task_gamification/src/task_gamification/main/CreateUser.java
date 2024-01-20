@@ -33,7 +33,6 @@ public class CreateUser extends JFrame{
 
     private Insets insets;
 
-    String errorText = "ErrorText";
     private int characterNum; // 0 = Tiefling, 1 = Dragonborn
     private int score = 0;
 

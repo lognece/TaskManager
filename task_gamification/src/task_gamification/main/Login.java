@@ -27,9 +27,7 @@ public class Login extends JFrame{
     private JTextField textField_username;
 
     private Insets insets;
-
-
-    String errorText = "ErrorText";
+    
 
     public Login() {
 
