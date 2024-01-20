@@ -1,5 +1,6 @@
 package task_gamification.main;
 
+import task_gamification.views.DonePanel;
 import task_gamification.views.ToDoPanel;
 import javax.swing.*;
 import java.awt.*;
@@ -70,6 +71,7 @@ public class MainFrame extends JFrame {
         setJMenuBar(mainMenuBar);
 
         toDoItem.addActionListener(e -> showToDoPanel());
+        doneItem.addActionListener(e -> showDonePanel());
     }
 
     private void showToDoPanel() {
@@ -78,6 +80,16 @@ public class MainFrame extends JFrame {
         contentPanel.add(toDoPanel, "ToDo");
         CardLayout cl = (CardLayout)(contentPanel.getLayout());
         cl.show(contentPanel, "ToDo");
+        revalidate();
+        repaint();
+    }
+    
+    private void showDonePanel() {
+        DonePanel DonePanel = new DonePanel("src/tasks.csv", loggedInUser); 
+        contentPanel.removeAll();
+        contentPanel.add(DonePanel, "Done");
+        CardLayout cl = (CardLayout)(contentPanel.getLayout());
+        cl.show(contentPanel, "Done");
         revalidate();
         repaint();
     }
