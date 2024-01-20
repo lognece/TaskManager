@@ -13,6 +13,7 @@ public class DonePanel extends JPanel {
     private DefaultTableModel tableModel;
     private String taskFilePath;
     private String loggedInUser;
+    private JScrollPane scrollPane;
     
     public DonePanel(String taskFilePath, String loggedInUser) {
         this.taskFilePath = taskFilePath;
@@ -23,7 +24,7 @@ public class DonePanel extends JPanel {
     private void initializeGUI() {
         setLayout(new BorderLayout());
         setupTable();
-        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);  
         refreshTableData();
     }

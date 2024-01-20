@@ -1,6 +1,5 @@
 package task_gamification.main;
 
-import task_gamification.CSV.CSVReader;
 import task_gamification.entity.User;
 
 import javax.swing.*;
@@ -19,11 +18,11 @@ public class Login extends JFrame{
 	private static final int centerX = W_FRAME / 2;
 	private static final int centerY = H_FRAME / 2;
 	
-    private JPanel contentPane;
+    private JPanel loginPane;
 
     private JButton button_login, button_toCreateUser;
 
-    private JLabel label_username, label_icon, label_errorText;
+    private JLabel label_username, label_errorText;
 
     private JTextField textField_username;
 
@@ -53,7 +52,7 @@ public class Login extends JFrame{
 
     private void GUI() {
 
-        JPanel loginPane = new JPanel();
+        loginPane = new JPanel();
         loginPane.setLayout(null);
         loginPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
@@ -70,7 +69,7 @@ public class Login extends JFrame{
         loginPane.add(textField_username);
         
         // Adjust button_login to be centered horizontally
-        JButton button_login = new JButton("Login");
+        button_login = new JButton("Login");
         button_login.setBounds(centerX + 10, label_username.getY() + 100, buttonWidth, buttonHeight);
         button_login.setFocusPainted(false);
 
@@ -109,7 +108,7 @@ public class Login extends JFrame{
         
 
         // Adjust button_create to be centered horizontally on the same line as the label and text field
-        JButton button_toCreateUser = new JButton("Back");
+        button_toCreateUser = new JButton("Back");
         button_toCreateUser.setBounds(centerX - buttonWidth - 10, label_username.getY() + 100, buttonWidth, buttonHeight);
         button_toCreateUser.setFocusPainted(false);
         button_toCreateUser.addActionListener(new ActionListener() {

@@ -23,11 +23,11 @@ public class CreateUser extends JFrame{
     private static final int buttonHeight = 22;
     private static final int labelCharacterWidth = 170;
     
-    private JPanel contentPane;
+    private JPanel userPane;
 
-    private JButton button_login;
+    private JButton button_char1, button_char2, button_create, button_toLogin;
 
-    private JLabel label_username, label_icon, label_errorText, label_character;
+    private JLabel label_username, label_errorText, label_character;
 
     private JTextField textField_username;
 
@@ -60,7 +60,7 @@ public class CreateUser extends JFrame{
 
     private void GUI() {
 
-        JPanel userPane = new JPanel();
+        userPane = new JPanel();
         userPane.setLayout(null);
         userPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
@@ -79,7 +79,7 @@ public class CreateUser extends JFrame{
         Image imageTiefling = iconTiefling.getImage();
         Image newImageTiefling = imageTiefling.getScaledInstance(100, 120, Image.SCALE_DEFAULT);
         iconTiefling = new ImageIcon(newImageTiefling);
-        JButton button_char1 = new JButton(iconTiefling);
+        button_char1 = new JButton(iconTiefling);
         button_char1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,7 +95,7 @@ public class CreateUser extends JFrame{
         Image imageDragonborn = iconDragonborn.getImage();
         Image newImageDragonborn = imageDragonborn.getScaledInstance(100, 120, Image.SCALE_DEFAULT);
         iconDragonborn = new ImageIcon(newImageDragonborn);
-        JButton button_char2 = new JButton(iconDragonborn);
+        button_char2 = new JButton(iconDragonborn);
         button_char2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -107,7 +107,7 @@ public class CreateUser extends JFrame{
         userPane.add(button_char2);
 
         // Adjust button_create to be centered horizontally on the same line as the label and text field
-        JButton button_create = new JButton("Create User");
+        button_create = new JButton("Create User");
         button_create.setBounds(centerX - buttonWidth - 10, label_username.getY() + 45, buttonWidth, buttonHeight);
         button_create.setFocusPainted(false);
 
@@ -147,7 +147,7 @@ public class CreateUser extends JFrame{
         userPane.add(button_create);
 
         // Adjust button_toLogin to be centered horizontally on the same line as the label and text field
-        JButton button_toLogin = new JButton("Login");
+        button_toLogin = new JButton("Login");
         button_toLogin.setBounds(centerX + 10, label_username.getY() + 45, buttonWidth, buttonHeight);
         button_toLogin.setFocusPainted(false);
         button_toLogin.addActionListener(new ActionListener() {
