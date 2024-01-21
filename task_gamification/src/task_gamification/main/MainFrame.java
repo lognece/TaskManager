@@ -1,7 +1,9 @@
 package task_gamification.main;
 
+import task_gamification.views.CharacterPanel;
 import task_gamification.views.DonePanel;
 import helpers.ShowPanel;
+import task_gamification.views.HighscorePanel;
 import task_gamification.views.ToDoPanel;
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +17,7 @@ public class MainFrame extends JFrame {
     // Menu bar components
     private JMenuBar mainMenuBar;
     private JMenu taskMenu, characterMenu, highscoreMenu, settingsMenu;
-    private JMenuItem toDoItem, doneItem, generalSettings, userManual, credits;
+    private JMenuItem toDoItem, doneItem, generalSettings, userManual, credits, characterOverview, highscoreOverview;
     
     private ShowPanel showPanel; // Panel for showing different views
     private JPanel contentPanel; // Panel to hold the main content
@@ -64,6 +66,8 @@ public class MainFrame extends JFrame {
         generalSettings = new JMenuItem("General Settings");
         userManual = new JMenuItem("User Manual");
         credits = new JMenuItem("Credits");
+        characterOverview = new JMenuItem("Character Overview");
+        highscoreOverview = new JMenuItem("Highscore Overview");
 
         // add menu items to menu
         taskMenu.add(toDoItem);
@@ -71,6 +75,8 @@ public class MainFrame extends JFrame {
         settingsMenu.add(generalSettings);
         settingsMenu.add(userManual);
         settingsMenu.add(credits);
+        characterMenu.add(characterOverview);
+        highscoreMenu.add(highscoreOverview);
 
         mainMenuBar.add(taskMenu);
         mainMenuBar.add(characterMenu);
@@ -83,6 +89,14 @@ public class MainFrame extends JFrame {
         // Adding action listeners to menu items
         toDoItem.addActionListener(e -> showToDoPanel());
         doneItem.addActionListener(e -> showDonePanel());
+        characterOverview.addActionListener(e -> {
+            try {
+                showCharacterPanel();
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        highscoreOverview.addActionListener(e -> showHighscorePanel());
     }
 
     // Shows the To-Do panel
@@ -95,6 +109,18 @@ public class MainFrame extends JFrame {
     private void showDonePanel() {
         DonePanel donePanel = new DonePanel("src/tasks.csv", loggedInUser); 
         showPanel.getShowPanel(donePanel, "Done");
+    }
+
+    // Shows the Character panel
+    private void showCharacterPanel() throws InterruptedException {
+        CharacterPanel characterPanel = new CharacterPanel(loggedInUser);
+        showPanel.getShowPanel(characterPanel, "Character Overview");
+    }
+
+    // Shows the Character panel
+    private void showHighscorePanel() {
+        HighscorePanel highscorePanel = new HighscorePanel(loggedInUser);
+        showPanel.getShowPanel(highscorePanel, "Highscore Overview");
     }
 
 }
