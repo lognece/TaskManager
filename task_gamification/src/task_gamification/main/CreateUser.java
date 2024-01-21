@@ -1,10 +1,11 @@
 package task_gamification.main;
 
 import task_gamification.entity.User;
+import task_gamification.helpers.GetFilePath;
+import task_gamification.helpers.ButtonHelper;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,13 @@ public class CreateUser extends JFrame{
 
     private int characterNum; // 0 = Tiefling, 1 = Dragonborn
     private int score = 0;
+
+    // path to csv files
+    private GetFilePath FilePaths;
+    private String userFilePath = FilePaths.USER_FILE_PATH;
+    private String charImgPath_1 = FilePaths.CHAR_1_FILE_PATH;
+    private String charImgPath_2 = FilePaths.CHAR_2_FILE_PATH;
+
 
 
     public CreateUser() {
@@ -72,96 +80,94 @@ public class CreateUser extends JFrame{
         textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, 240, textFieldWidth, 20);
         userPane.add(textField_username);
 
-        ImageIcon iconTiefling = new ImageIcon("src/icon/tiefling.png"); // replace with tiefling_portrait.png
-        Image imageTiefling = iconTiefling.getImage();
-        Image newImageTiefling = imageTiefling.getScaledInstance(100, 120, Image.SCALE_DEFAULT);
-        iconTiefling = new ImageIcon(newImageTiefling);
-        button_char1 = new JButton(iconTiefling);
-        button_char1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                characterNum = 0;
-            }
-        });
+        // Create button_char1 using ButtonHelper
+        button_char1 = ButtonHelper.newButton("", "", e -> characterNum = 0,
+                centerX - charWidth - 10, label_username.getY() - 145,
+                charWidth, charHeight);
 
-        button_char1.setBounds(centerX - charWidth - 10, label_username.getY() - 145, charWidth, charHeight);
+        // Set the icon for the button
+        ImageIcon iconTiefling = new ImageIcon(charImgPath_1);
+        Image newImageTiefling = iconTiefling.getImage().getScaledInstance(100, 120, Image.SCALE_DEFAULT);
+        button_char1.setIcon(new ImageIcon(newImageTiefling));
+
+        // Set additional properties
         button_char1.setFocusPainted(false);
+
+        // Add the button to the panel
         userPane.add(button_char1);
 
-        ImageIcon iconDragonborn = new ImageIcon("src/icon/dragonborn.png"); // replace with dragonborn_portrait.png
-        Image imageDragonborn = iconDragonborn.getImage();
-        Image newImageDragonborn = imageDragonborn.getScaledInstance(100, 120, Image.SCALE_DEFAULT);
-        iconDragonborn = new ImageIcon(newImageDragonborn);
-        button_char2 = new JButton(iconDragonborn);
-        button_char2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                characterNum = 1;
-            }
-        });
-        button_char2.setBounds(centerX + 10, label_username.getY() - 145, charWidth, charHeight);
+        // Create button_char2 using ButtonHelper
+        button_char2 = ButtonHelper.newButton("", "", e -> characterNum = 1,
+                centerX + 10, label_username.getY() - 145,
+                charWidth, charHeight);
+
+        // Set the icon for the button
+        ImageIcon iconDragonborn = new ImageIcon(charImgPath_2);
+        Image newImageDragonborn = iconDragonborn.getImage().getScaledInstance(100, 120, Image.SCALE_DEFAULT);
+        button_char2.setIcon(new ImageIcon(newImageDragonborn));
+
+        // Set additional properties
         button_char2.setFocusPainted(false);
+
+        // Add the button to the panel
         userPane.add(button_char2);
 
-        // Adjust button_create to be centered horizontally on the same line as the label and text field
-        button_create = new JButton("Create User");
-        button_create.setBounds(centerX - buttonWidth - 10, label_username.getY() + 45, buttonWidth, buttonHeight);
-        button_create.setFocusPainted(false);
+        // Create button_create using ButtonHelper
+        button_create = ButtonHelper.newButton("Create User", "create", e -> {
 
-        button_create.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(textField_username.getText().equals("")) {
-                    label_errorText.setText("Please enter a username");
+            if(textField_username.getText().equals("")) {
+                label_errorText.setText("Please enter a username");
+
+            } else {
+                label_errorText.setText("");
+                User newUser = new User();
+                boolean containsUsername = newUser.authenticate(textField_username.getText(),userFilePath);
+
+                if (containsUsername) {
+                    label_errorText.setText("Sorry, the user '" + textField_username.getText() + "' already exists");
 
                 } else {
-                    label_errorText.setText("");
-                    User newUser = new User();
-                    boolean containsUsername = newUser.authenticate(textField_username.getText(),"src/users.csv");
+                    List<String> newUserContent = new ArrayList<>();
 
-                    if (containsUsername) {
-                        label_errorText.setText("Sorry, the user '" + textField_username.getText() + "' already exists");
+                    newUserContent.add(textField_username.getText());
+                    newUserContent.add(String.valueOf(characterNum));
+                    newUserContent.add(String.valueOf(score));
 
-                    } else {
-                        List<String> newUserContent = new ArrayList<>();
+                    newUser.createNewUser(userFilePath, newUserContent);
 
-                        newUserContent.add(textField_username.getText());
-                        newUserContent.add(String.valueOf(characterNum));
-                        newUserContent.add(String.valueOf(score));
-                        
-                        newUser.createNewUser("src/users.csv", newUserContent);
-
-                        EventQueue.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                CreateUser.this.dispose();
-                                new MainFrame(textField_username.getText());
-                            }
-                        });
-                    }
+                    EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            CreateUser.this.dispose();
+                            new MainFrame(textField_username.getText());
+                        }
+                    });
                 }
             }
-        });
+        }, centerX - buttonWidth - 10, label_username.getY() + 45,
+                buttonWidth, buttonHeight);
+
+        // Set additional properties
+        button_create.setFocusPainted(false);
+
+        // Add the button to the panel
         userPane.add(button_create);
 
-        // Adjust button_toLogin to be centered horizontally on the same line as the label and text field
-        button_toLogin = new JButton("Login");
-        button_toLogin.setBounds(centerX + 10, label_username.getY() + 45, buttonWidth, buttonHeight);
+        // Create button_create using ButtonHelper
+        button_toLogin = ButtonHelper.newButton("Login", "login", e -> {
+                    EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            CreateUser.this.dispose();
+                            new Login();
+                        }
+                    });
+                }, centerX + 10, label_username.getY() + 45, buttonWidth, buttonHeight);
+
+        // Set additional properties
         button_toLogin.setFocusPainted(false);
-        button_toLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        CreateUser.this.dispose();
-                        new Login();
-                    }
-                });
-
-            }
-        });
+        // Add the button to the panel
         userPane.add(button_toLogin);
 
         // Adjust label_username to be centered horizontally

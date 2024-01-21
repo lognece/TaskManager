@@ -1,6 +1,8 @@
 package task_gamification.views;
 
 import task_gamification.CSV.CSVReader;
+import task_gamification.helpers.GetFilePath;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -16,10 +18,13 @@ import java.util.List;
 public class DonePanel extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
-    private String taskFilePath;
     private String loggedInUser;
     private JScrollPane scrollPane;
-    
+    // path to csv files
+    private GetFilePath FilePaths;
+    private String taskFilePath = FilePaths.TASK_FILE_PATH;
+
+
     /**
      * Constructor for DonePanel.
      * Initializes the panel with the file path of the task data and the currently logged-in user.

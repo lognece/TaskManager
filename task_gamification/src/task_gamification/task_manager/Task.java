@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
+import task_gamification.helpers.ButtonHelper;
+import task_gamification.helpers.GetFilePath;
 
 /**
  * Represents a dialog for managing tasks (add, edit, delete).
@@ -26,9 +28,14 @@ public class Task extends JDialog {
     private JComboBox<String> priorityBox;
     private JSpinner taskXPField;
     private JButton addButton, cancelButton, editButton, deleteButton;
-    private String taskFilePath, taskId, loggedInUser;
+    private String taskId, loggedInUser;
     private TaskMode mode;
-    
+
+    // path to csv files
+    private GetFilePath FilePaths;
+    private String taskFilePath = FilePaths.TASK_FILE_PATH;
+
+
     /**
      * Constructor for the Task dialog.
      *
@@ -85,25 +92,25 @@ public class Task extends JDialog {
         
         // Button setup based on the task mode
         if (mode == TaskMode.ADD) {
-        	addButton = new JButton("Add Task");
-            addButton.addActionListener(e -> addTask());
-            add(addButton);            
+            addButton = ButtonHelper.newButton("Add Task", "add", e -> addTask(),
+                    0, 0, 0, 0);
+            add(addButton);
         }
         
         else if (mode == TaskMode.EDIT) {
-            editButton = new JButton("Edit Task");
-            editButton.addActionListener(e -> editTask());
+            editButton = ButtonHelper.newButton("Edit Task", "edit", e -> editTask(),
+                    0, 0, 0, 0);
             add(editButton);
         }
         
         else if (mode == TaskMode.DELETE) {
-        	deleteButton = new JButton("Delete Task");
-            deleteButton.addActionListener(e -> deleteTask());
+            deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> deleteTask(),
+                    0, 0, 0, 0);
             add(deleteButton);
         }
-        
-        cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e -> dispose());
+
+        cancelButton = ButtonHelper.newButton("Cancel", "cancel", e -> dispose(),
+                0, 0, 0, 0);
         add(cancelButton);
 
     }
@@ -150,6 +157,8 @@ public class Task extends JDialog {
                 onTaskAddedCallback.run();
             }
 
+            JOptionPane.showMessageDialog(this, "Task added successfully.", "Task Added", JOptionPane.INFORMATION_MESSAGE);
+
             dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error adding task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -186,6 +195,8 @@ public class Task extends JDialog {
                 onTaskAddedCallback.run();
             }
 
+            JOptionPane.showMessageDialog(this, "Task edited successfully.", "Task Edited", JOptionPane.INFORMATION_MESSAGE);
+
             dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error editing task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -206,13 +217,12 @@ public class Task extends JDialog {
                 onTaskAddedCallback.run();
             }
 
+            JOptionPane.showMessageDialog(this, "Task deleted successfully.", "Task Deleted", JOptionPane.INFORMATION_MESSAGE);
+
             dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error deleting task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    // Create helper methods like createButton, validateInput, createTaskRow, updateTaskRow, executeCallbackAndDispose, displayError, etc.
-
 }
 
