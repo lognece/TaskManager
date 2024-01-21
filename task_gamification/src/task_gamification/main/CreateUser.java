@@ -138,23 +138,6 @@ public class CreateUser extends JFrame{
 
                     newUser.createNewUser(userFilePath, newUserContent);
 
-                    newUserContent.add(textField_username.getText());
-                    newUserContent.add(String.valueOf(characterNum));
-                    newUserContent.add(String.valueOf(score));
-
-                    CSVReader csvReader = new CSVReader();
-                    User user = new User();
-
-                    characterIndex = user.getIndex(String.valueOf(characterNum), "src/characters.csv");
-                    List<List<String>> charactersContent = csvReader.readCSV("src/characters.csv");
-                    characterName = charactersContent.get(characterIndex).get(2);
-
-
-                    List<List<String>> storyContent = user.userContent(characterName, "src/story.csv");
-                    newUserContent.add(storyContent.get(0).get(2));
-
-                    newUser.createNewUser("src/users.csv", newUserContent);
-
                     EventQueue.invokeLater(new Runnable() {
                         @Override
                         public void run() {

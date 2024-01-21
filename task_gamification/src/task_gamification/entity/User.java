@@ -111,12 +111,16 @@ public class User {
 
     public String getStory(String loggedInUser) {
 
-        userIndex = getIndex(loggedInUser, "src/users.csv");
+        characterName = getCharacter(loggedInUser);
+        characterLevel = getLevel(loggedInUser);
 
         CSVReader csvReader = new CSVReader();
-        List<List<String>> usersContent = csvReader.readCSV("src/users.csv");
-        characterStory = usersContent.get(userIndex).get(3);
+        List<List<String>> characterContent = userContent(characterName, "src/story.csv");
 
+        characterStory = characterContent.get(0).get(2);
+        for (int i = 1; i < Integer.parseInt(characterLevel); i++) {
+            characterStory = characterStory + "\n\n" + characterContent.get(i).get(2);
+        }
         return characterStory;
     }
 
