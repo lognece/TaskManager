@@ -1,5 +1,6 @@
 package task_gamification.main;
 
+import task_gamification.CSV.CSVReader;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.helpers.ButtonHelper;
@@ -36,7 +37,9 @@ public class CreateUser extends JFrame{
     private Insets insets;
 
     private int characterNum; // 0 = Tiefling, 1 = Dragonborn
-    private int score = 0;
+    private int score = 0, characterIndex;
+
+    private String characterName;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -135,6 +138,23 @@ public class CreateUser extends JFrame{
 
                     newUser.createNewUser(userFilePath, newUserContent);
 
+                    newUserContent.add(textField_username.getText());
+                    newUserContent.add(String.valueOf(characterNum));
+                    newUserContent.add(String.valueOf(score));
+
+                    CSVReader csvReader = new CSVReader();
+                    User user = new User();
+
+                    characterIndex = user.getIndex(String.valueOf(characterNum), "src/characters.csv");
+                    List<List<String>> charactersContent = csvReader.readCSV("src/characters.csv");
+                    characterName = charactersContent.get(characterIndex).get(2);
+
+
+                    List<List<String>> storyContent = user.userContent(characterName, "src/story.csv");
+                    newUserContent.add(storyContent.get(0).get(2));
+
+                    newUser.createNewUser("src/users.csv", newUserContent);
+
                     EventQueue.invokeLater(new Runnable() {
                         @Override
                         public void run() {
@@ -171,7 +191,7 @@ public class CreateUser extends JFrame{
         userPane.add(button_toLogin);
 
         // Adjust label_username to be centered horizontally
-        label_character = new JLabel("Select your character", SwingConstants.CENTER);
+        label_character = new JLabel("Select your character");
         label_character.setBounds(centerX - labelCharacterWidth / 2, textField_username.getY() - 200, labelCharacterWidth, 30);
         userPane.add(label_character);
 
