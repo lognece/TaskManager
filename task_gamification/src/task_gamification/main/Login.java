@@ -1,11 +1,11 @@
 package task_gamification.main;
 
 import task_gamification.entity.User;
+import task_gamification.helpers.ButtonHelper;
+import task_gamification.helpers.GetFilePath;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Login extends JFrame{
 
@@ -28,7 +28,12 @@ public class Login extends JFrame{
     private JTextField textField_username;
 
     private Insets insets;
-    
+
+    // path to csv files
+    private GetFilePath FilePaths;
+    private String userFilePath = FilePaths.USER_FILE_PATH;
+
+
 
     public Login() {
 
@@ -64,58 +69,52 @@ public class Login extends JFrame{
         textField_username = new JTextField();
         textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, centerY - 40 , textFieldWidth, 20);
         loginPane.add(textField_username);
-        
-        // Adjust button_login to be centered horizontally
-        button_login = new JButton("Login");
-        button_login.setBounds(centerX + 10, label_username.getY() + 60, buttonWidth, buttonHeight);
-        button_login.setFocusPainted(false);
-        loginPane.add(button_login);
 
-        button_login.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        // Create button_login using ButtonHelper
+        button_login = ButtonHelper.newButton("Login", "login", e -> {
+            if(textField_username.getText().equals("")) {
+                label_errorText.setText("Please enter a username");
 
-                if(textField_username.getText().equals("")) {
-                    label_errorText.setText("Please enter a username");
+            } else {
+
+                //label_errorText.setText("");
+                User userLogin = new User();
+                boolean containsUsername = userLogin.authenticate(textField_username.getText(),userFilePath);
+
+                if ( containsUsername ) {
+                    EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            Login.this.dispose();
+                            new MainFrame(textField_username.getText());
+                        }
+                    });
 
                 } else {
-
-                    //label_errorText.setText("");
-                    User userLogin = new User();
-                    boolean containsUsername = userLogin.authenticate(textField_username.getText(),"src/users.csv");
-
-                    if ( containsUsername ) {
-                        EventQueue.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                Login.this.dispose();
-                                new MainFrame(textField_username.getText());
-                            }
-                        });
-
-                    } else {
-                        label_errorText.setText("Sorry, the user: '" + textField_username.getText() + "' does not exist!");
-                    }
-
-
+                    label_errorText.setText("Sorry, the user: '" + textField_username.getText() + "' does not exist!");
                 }
 
+
             }
+        }, centerX + 10, label_username.getY() + 60, buttonWidth, buttonHeight);
 
-        });
-        
+        // Set additional properties
+        button_login.setFocusPainted(false);
 
-        // Adjust button_create to be centered horizontally on the same line as the label and text field
-        button_toCreateUser = new JButton("Back");
-        button_toCreateUser.setBounds(centerX - buttonWidth - 10, label_username.getY() + 60, buttonWidth, buttonHeight);
+        // Add the button to the panel
+        loginPane.add(button_login);
+
+
+        // Create button_create using ButtonHelper
+        button_toCreateUser = ButtonHelper.newButton("Back", "back", e -> {
+            Login.this.dispose(); // Dispose current Login frame
+            new CreateUser(); // Open CreateUser frame
+        }, centerX - buttonWidth - 10, label_username.getY() + 60, buttonWidth, buttonHeight);
+
+        // Set additional properties
         button_toCreateUser.setFocusPainted(false);
-        button_toCreateUser.addActionListener(new ActionListener() {
-        	 @Override
-             public void actionPerformed(ActionEvent e) {
-                 Login.this.dispose(); // Dispose current Login frame
-                 new CreateUser(); // Open CreateUser frame
-             }
-        });
+
+        // Add the button to the panel
         loginPane.add(button_toCreateUser);
 
 

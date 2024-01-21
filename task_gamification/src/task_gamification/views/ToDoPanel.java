@@ -1,5 +1,7 @@
 package task_gamification.views;
 
+import task_gamification.helpers.ButtonHelper;
+import task_gamification.helpers.GetFilePath;
 import task_gamification.task_manager.Task;
 import task_gamification.task_manager.TaskMode;
 import task_gamification.CSV.CSVReader;
@@ -11,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -24,11 +25,15 @@ import java.util.List;
 public class ToDoPanel extends JPanel {
     private JTable table;
     private DefaultTableModel tableModel;
-    private String taskFilePath; //  The file path where tasks are stored
     private String loggedInUser; //  The user currently logged in
     private String taskId;
     private boolean isEditMode = false;
     private TaskMode mode;
+    private JButton addButton, editButton, deleteButton;
+    // path to csv files
+    private GetFilePath FilePaths;
+    private String taskFilePath = FilePaths.TASK_FILE_PATH;
+
 
     public ToDoPanel(String taskFilePath, String loggedInUser) {
         this.taskFilePath = taskFilePath;
@@ -47,30 +52,31 @@ public class ToDoPanel extends JPanel {
         JPanel addTaskPanel = new JPanel();
         add(addTaskPanel, BorderLayout.SOUTH);
         
-        // Create and setup buttons for task operations
-        // Add
-        JButton addButton = new JButton("Add Task");
-        setupButton(addButton, e -> openTaskDialog());
-        
+                // Create addButton using ButtonHelper
+        addButton = ButtonHelper.newButton("Add Task", "add", e -> openTaskDialog(), 0, 0, 0, 0); // Placeholder values for x, y, width, height
+
+        // Further setup for addButton
+        setupButton(addButton);
+
+
         // Edit
-        JButton editButton = new JButton("Edit");
-        setupButton(editButton, e -> {
-        	isEditMode = true;
-        	// Provide instructions for the user in edit mode
-        	if (isEditMode) {
-        		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        		table.clearSelection();
-        		JOptionPane.showMessageDialog(this,
+        editButton = ButtonHelper.newButton("Edit Task", "edit", e -> {
+            isEditMode = true;
+            // Provide instructions for the user in edit mode
+            if (isEditMode) {
+                table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                table.clearSelection();
+                JOptionPane.showMessageDialog(this,
                         "Please click on the row you want to edit.",
                         "Select Row to Edit",
                         JOptionPane.INFORMATION_MESSAGE);
-        	}
-        });
+            }
+        }, 0, 0, 0, 0); // Placeholder values for x, y, width, height
+        setupButton(editButton);
         
         // Delete
-        JButton deleteButton = new JButton("Delete");
-        setupButton(deleteButton, e -> {
-        	// Delete operation with confirmation dialog
+        deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> {
+            // Delete operation with confirmation dialog
             if (table.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(this,
                         "Please click on the row you want to delete.",
@@ -90,7 +96,9 @@ public class ToDoPanel extends JPanel {
                     taskDialog.deleteTask();
                 }
             }
-        });
+        }, 0, 0, 0, 0); // Placeholder values for x, y, width, height
+        setupButton(deleteButton);
+
         
         addTaskPanel.add(addButton);
         addTaskPanel.add(editButton);
@@ -98,10 +106,9 @@ public class ToDoPanel extends JPanel {
     }
 
     // Sets up a button with a specified size and action listener
-	private void setupButton(JButton button, ActionListener actionListener) {
+	private void setupButton(JButton button) {
         button.setMinimumSize(new Dimension(100, 25));
         button.setMaximumSize(new Dimension(100, 25));
-        button.addActionListener(actionListener);
     }
 
 	// Sets up the table model and adds listeners for user interactions
@@ -208,6 +215,7 @@ public class ToDoPanel extends JPanel {
     // Opens the dialog for adding a new task
     private void openTaskDialog() {
         Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.ADD);
+        taskDialog.setLocationRelativeTo(this); // Center the dialog
         taskDialog.setVisible(true);
     }
     
@@ -224,7 +232,8 @@ public class ToDoPanel extends JPanel {
 	   int taskXP = Integer.parseInt((String) tableModel.getValueAt(modelRow, 4));
 	   Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.EDIT);
 	   taskDialog.setTaskData(taskId, title, description, priority, taskXP);
-	   taskDialog.setVisible(true);
+       taskDialog.setLocationRelativeTo(this); // Center the dialog
+       taskDialog.setVisible(true);
 	}
     
 
