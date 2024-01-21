@@ -2,6 +2,7 @@ package task_gamification.views;
 
 import helpers.GetLevelXP;
 import task_gamification.entity.User;
+import task_gamification.helpers.GetFilePath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +29,6 @@ public class CharacterPanel extends JPanel {
     private JProgressBar levelProgress;
     private JTextArea storyText;
     private JScrollPane storyScrollPane;
-
 
 
     public CharacterPanel(String loggedInUser) throws InterruptedException {
