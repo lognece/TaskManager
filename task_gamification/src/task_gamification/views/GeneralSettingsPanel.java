@@ -50,30 +50,26 @@ public class GeneralSettingsPanel extends JPanel{
 
         // Add Label and output for username
         creationLabel = new JLabel("Created at:", SwingConstants.LEFT);
-        creationLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, 20);
+        creationLabel.setBounds(centerX - (W_FRAME/2)+ 30, 60, labelWidth, 20);
         add(creationLabel);
 
         User user = new User();
         creationDateLabel = new JLabel(user.getCreationDate(loggedInUser), SwingConstants.LEFT);
-        creationDateLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 30, labelWidth, 20);
+        creationDateLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 60, labelWidth, 20);
         add(creationDateLabel);
 
         // Add logout button
         logoutButton = ButtonHelper.newButton("Logout", "logout", e -> {
             // go back to user creation
             MainFrame mainFrame = new MainFrame(loggedInUser);
-            mainFrame.closeMainFrame();
+            mainFrame.dispose();
             new CreateUser();
 
-        }, centerX - (W_FRAME/2) + 130, H_FRAME - 30, 0, 0);
-        setupButton(logoutButton);
-        add(logoutButton);
-    }
+            //TODO prorerly close mainframe when clicked
 
-    // Sets up a button with a specified size and action listener
-    private void setupButton(JButton button) {
-        button.setMinimumSize(new Dimension(100, 25));
-        button.setMaximumSize(new Dimension(100, 25));
+        }, centerX - (W_FRAME/2) + 20, 100, 100, 25);
+        add(logoutButton);
+
     }
 
 }

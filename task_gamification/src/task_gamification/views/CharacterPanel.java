@@ -100,17 +100,6 @@ public class CharacterPanel extends JPanel {
         add(storyScrollPane);
         // to be tested: if user levels, does the story automatically update?
 
-
-
-
-
-
-
-
     }
-
-
-
-
 
 }

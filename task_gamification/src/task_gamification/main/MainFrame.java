@@ -99,6 +99,7 @@ public class MainFrame extends JFrame {
             }
         });
         highscoreOverview.addActionListener(e -> showHighscorePanel());
+        generalSettings.addActionListener(e -> showGeneralSettingsPanel());
     }
 
     // close mainFrame

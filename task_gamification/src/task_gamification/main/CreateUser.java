@@ -135,7 +135,7 @@ public class CreateUser extends JFrame{
                     newUserContent.add(textField_username.getText()); // col 1 = username
                     newUserContent.add(String.valueOf(characterNum)); // col 2 = chosen character represented by number
                     newUserContent.add(String.valueOf(score)); // col 3 = score
-                    // newUserContent.add(String.valueOf(LocalDate.now())); // col 4 = date of user creation
+                    newUserContent.add(String.valueOf(LocalDate.now())); // col 4 = date of user creation
 
                     newUser.createNewUser(userFilePath, newUserContent);
 
