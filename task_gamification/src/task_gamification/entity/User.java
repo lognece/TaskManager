@@ -9,8 +9,7 @@ import java.util.List;
 
 public class User {
 
-    private String userName, usercharacter, characterNum, characterName, characterXP, characterLevel, characterStory;
-
+    private String userName, usercharacter, characterNum, characterName, characterXP, characterLevel, characterStory, creationDate;
     private int index, userXP, userIndex, characterIndex;
     private List<List<String>> charactersContent, levelContent, levelIndex;
 
@@ -86,6 +85,17 @@ public class User {
         characterName = charactersContent.get(characterIndex).get(2);
 
         return characterName;
+    }
+
+    public String getCreationDate(String userName) {
+
+        userIndex = getIndex(userName, "src/users.csv");
+
+        CSVReader csvReader = new CSVReader();
+        List<List<String>> usersContent = csvReader.readCSV("src/users.csv");
+        creationDate = usersContent.get(userIndex).get(3);
+
+        return creationDate;
     }
 
     public String getLevel(String loggedInUser) {

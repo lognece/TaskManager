@@ -1,10 +1,7 @@
 package task_gamification.main;
 
-import task_gamification.views.CharacterPanel;
-import task_gamification.views.DonePanel;
-import task_gamification.views.HighscorePanel;
+import task_gamification.views.*;
 import task_gamification.helpers.ShowPanel;
-import task_gamification.views.ToDoPanel;
 import task_gamification.helpers.GetFilePath;
 import javax.swing.*;
 import java.awt.*;
@@ -102,6 +99,12 @@ public class MainFrame extends JFrame {
             }
         });
         highscoreOverview.addActionListener(e -> showHighscorePanel());
+        generalSettings.addActionListener(e -> showGeneralSettingsPanel());
+    }
+
+    // close mainFrame
+    public void closeMainFrame() {
+        MainFrame.this.dispose();
     }
 
     // Shows the To-Do panel
@@ -122,11 +125,19 @@ public class MainFrame extends JFrame {
         showPanel.getShowPanel(characterPanel, "Character Overview");
     }
 
-    // Shows the Character panel
+    // Shows the Highscore panel
     private void showHighscorePanel() {
         HighscorePanel highscorePanel = new HighscorePanel(loggedInUser);
         showPanel.getShowPanel(highscorePanel, "Highscore Overview");
     }
+
+    // Shows the General Settings panel
+    private void showGeneralSettingsPanel() {
+        GeneralSettingsPanel generalSettingsPanel = new GeneralSettingsPanel(loggedInUser);
+        showPanel.getShowPanel(generalSettingsPanel, "General Settings");
+    }
+
+
 
 }
 

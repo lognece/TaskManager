@@ -52,7 +52,7 @@ public class ToDoPanel extends JPanel {
         JPanel addTaskPanel = new JPanel();
         add(addTaskPanel, BorderLayout.SOUTH);
         
-                // Create addButton using ButtonHelper
+        // Create addButton using ButtonHelper
         addButton = ButtonHelper.newButton("Add Task", "add", e -> openTaskDialog(), 0, 0, 0, 0); // Placeholder values for x, y, width, height
 
         // Further setup for addButton
