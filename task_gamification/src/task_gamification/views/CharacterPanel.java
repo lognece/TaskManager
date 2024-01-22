@@ -22,9 +22,8 @@ public class CharacterPanel extends JPanel {
     private static final int labelWidth = 100;
     private Insets insets;
 
-    private String loggedInUser; //  The user currently logged in
+    private String loggedInUser, characterName, characterLevel, nextLevel;
     private int score, level, characterNum, userIndex, userXP, upperXP, lowerXP, progressValue;
-    private String characterName, characterLevel, nextLevel;
     private JLabel characterLabel, characterNameLabel, levelLabel, characterLevelLabel, progressLabel, storyLabel;
     private JProgressBar levelProgress;
     private JTextArea storyText;
@@ -35,7 +34,6 @@ public class CharacterPanel extends JPanel {
         this.loggedInUser = loggedInUser;
         insets = this.getInsets();
         initializeGUI();
-        //refreshData();
     }
 
     // Initializes the graphical user interface of the panel

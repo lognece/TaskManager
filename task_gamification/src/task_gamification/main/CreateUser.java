@@ -1,12 +1,12 @@
 package task_gamification.main;
 
-import task_gamification.CSV.CSVReader;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.helpers.ButtonHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,9 +132,10 @@ public class CreateUser extends JFrame{
                 } else {
                     List<String> newUserContent = new ArrayList<>();
 
-                    newUserContent.add(textField_username.getText());
-                    newUserContent.add(String.valueOf(characterNum));
-                    newUserContent.add(String.valueOf(score));
+                    newUserContent.add(textField_username.getText()); // col 1 = username
+                    newUserContent.add(String.valueOf(characterNum)); // col 2 = chosen character represented by number
+                    newUserContent.add(String.valueOf(score)); // col 3 = score
+                    // newUserContent.add(String.valueOf(LocalDate.now())); // col 4 = date of user creation
 
                     newUser.createNewUser(userFilePath, newUserContent);
 
