@@ -176,6 +176,8 @@ public class CreateUser extends JFrame{
 
         // Adjust label_username to be centered horizontally
         label_character = new JLabel("Select your character");
+        label_character.setHorizontalAlignment(SwingConstants.CENTER);
+        label_character.setVerticalAlignment(SwingConstants.CENTER);
         label_character.setBounds(centerX - labelCharacterWidth / 2, textField_username.getY() - 200, labelCharacterWidth, 30);
         userPane.add(label_character);
 

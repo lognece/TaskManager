@@ -3,6 +3,7 @@ package task_gamification.views;
 import task_gamification.entity.User;
 import task_gamification.helpers.ButtonHelper;
 import task_gamification.main.CreateUser;
+import task_gamification.main.Login;
 import task_gamification.main.MainFrame;
 
 import javax.swing.*;
@@ -24,11 +25,13 @@ public class GeneralSettingsPanel extends JPanel{
     private Insets insets;
 
     private String loggedInUser, creationDate;
+    private MainFrame mainFrame;
     private JLabel userLabel, usernameLabel, creationLabel, creationDateLabel;
     private JButton logoutButton;
 
-    public GeneralSettingsPanel(String loggedInUser) {
+    public GeneralSettingsPanel(String loggedInUser, MainFrame mainFrame) {
         this.loggedInUser = loggedInUser;
+        this.mainFrame = mainFrame;
         insets = this.getInsets();
         initializeGUI();
     }
@@ -60,10 +63,14 @@ public class GeneralSettingsPanel extends JPanel{
 
         // Add logout button
         logoutButton = ButtonHelper.newButton("Logout", "logout", e -> {
-            // go back to user creation
-            MainFrame mainFrame = new MainFrame(loggedInUser);
-            mainFrame.dispose();
-            new CreateUser();
+
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    mainFrame.dispose();
+                    new CreateUser();
+                }
+            });
 
             //TODO prorerly close mainframe when clicked
 
