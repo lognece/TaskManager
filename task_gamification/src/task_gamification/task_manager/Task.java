@@ -23,13 +23,16 @@ import task_gamification.helpers.GetFilePath;
  * It provides a graphical interface for task operations.
  */
 public class Task extends JDialog {
-    private Runnable onTaskAddedCallback;
+
     private JTextField titleField, descriptionField;
     private JComboBox<String> priorityBox;
     private JSpinner taskXPField;
     private JButton addButton, cancelButton, editButton, deleteButton;
+
     private String taskId, loggedInUser;
+
     private TaskMode mode;
+    private Runnable onTaskAddedCallback;
 
     // path to csv files
     private GetFilePath FilePaths;

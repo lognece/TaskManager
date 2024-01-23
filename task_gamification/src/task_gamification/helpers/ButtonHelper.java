@@ -3,6 +3,9 @@ package task_gamification.helpers;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
+/**
+ * Helperclass for handeling button creations
+ */
 public class ButtonHelper {
 
 	/**

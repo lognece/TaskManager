@@ -1,5 +1,9 @@
 package task_gamification.entity;
 
+/**
+ * Represents the entity character and the linked functions.
+ *
+ */
 public class Character {
 
     private int level;
