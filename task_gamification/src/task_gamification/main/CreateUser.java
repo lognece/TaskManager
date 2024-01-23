@@ -10,12 +10,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Represents the Frame to display the user interface to create a new user.
+ * It provides functionalities to select a character, choose a username and login.
+ */
 public class CreateUser extends JFrame{
-    public static final int H_FRAME = 400;
-    public static final int W_FRAME = 600;
     
     // size and position
+    public static final int H_FRAME = 400;
+    public static final int W_FRAME = 600;
     private static final int centerX = W_FRAME / 2;
     private static final int labelWidth = 100;
     private static final int textFieldWidth = 180;
@@ -27,28 +30,32 @@ public class CreateUser extends JFrame{
     private static final int labelErrorWidth = 260;
     
     private JPanel userPane;
-
     private JButton button_char1, button_char2, button_create, button_toLogin;
-
     private JLabel label_username, label_errorText, label_character;
-
     private JTextField textField_username;
-
     private Insets insets;
 
     private int characterNum; // 0 = Tiefling, 1 = Dragonborn
     private int score = 0, characterIndex;
-
+    private boolean containsUsername;
     private String characterName;
+    private List<String> newUserContent;
+
+    private User newUser;
+    private ImageIcon iconTiefling, iconDragonborn;
+    private Image newImageTiefling, newImageDragonborn;
 
     // path to csv files
     private GetFilePath FilePaths;
-    private String userFilePath = FilePaths.USER_FILE_PATH;
-    private String charImgPath_1 = FilePaths.CHAR_1_FILE_PATH;
-    private String charImgPath_2 = FilePaths.CHAR_2_FILE_PATH;
+    private String userFilePath = FilePaths.USER_FILE_PATH,
+            charImgPath_1 = FilePaths.CHAR_1_FILE_PATH,
+            charImgPath_2 = FilePaths.CHAR_2_FILE_PATH;
 
 
-
+    /**
+     * Constructor for CreateUser frame.
+     * Initializes the frame.
+     */
     public CreateUser() {
 
         super("Create User");
@@ -62,11 +69,15 @@ public class CreateUser extends JFrame{
 
         insets = this.getInsets();
 
-        GUI();
+        initializeGUI();
 
     }
 
-    private void GUI() {
+    /**
+     * Initializes the graphical user interface of the panel.
+     * Sets up the layout, lables, textfields, buttons and error messages.
+     */
+    private void initializeGUI() {
 
         userPane = new JPanel();
         userPane.setLayout(null);
@@ -80,7 +91,8 @@ public class CreateUser extends JFrame{
 
         // Adjust textField_username to be centered horizontally on the same row
         textField_username = new JTextField();
-        textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, 240, textFieldWidth, 20);
+        textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, 240,
+                textFieldWidth, 20);
         userPane.add(textField_username);
 
         // Create button_char1 using ButtonHelper
@@ -89,8 +101,8 @@ public class CreateUser extends JFrame{
                 charWidth, charHeight);
 
         // Set the icon for the button
-        ImageIcon iconTiefling = new ImageIcon(charImgPath_1);
-        Image newImageTiefling = iconTiefling.getImage().getScaledInstance(100, 120, Image.SCALE_DEFAULT);
+        iconTiefling = new ImageIcon(charImgPath_1);
+        newImageTiefling = iconTiefling.getImage().getScaledInstance(100, 120, Image.SCALE_DEFAULT);
         button_char1.setIcon(new ImageIcon(newImageTiefling));
 
         // Set additional properties
@@ -105,8 +117,8 @@ public class CreateUser extends JFrame{
                 charWidth, charHeight);
 
         // Set the icon for the button
-        ImageIcon iconDragonborn = new ImageIcon(charImgPath_2);
-        Image newImageDragonborn = iconDragonborn.getImage().getScaledInstance(100, 120, Image.SCALE_DEFAULT);
+        iconDragonborn = new ImageIcon(charImgPath_2);
+        newImageDragonborn = iconDragonborn.getImage().getScaledInstance(100, 120, Image.SCALE_DEFAULT);
         button_char2.setIcon(new ImageIcon(newImageDragonborn));
 
         // Set additional properties
@@ -123,14 +135,14 @@ public class CreateUser extends JFrame{
 
             } else {
                 label_errorText.setText("");
-                User newUser = new User();
-                boolean containsUsername = newUser.authenticate(textField_username.getText(),userFilePath);
+                newUser = new User();
+                containsUsername = newUser.authenticate(textField_username.getText(),userFilePath);
 
                 if (containsUsername) {
                     label_errorText.setText("Sorry, the user '" + textField_username.getText() + "' already exists");
 
                 } else {
-                    List<String> newUserContent = new ArrayList<>();
+                    newUserContent = new ArrayList<>();
 
                     newUserContent.add(textField_username.getText()); // col 1 = username
                     newUserContent.add(String.valueOf(characterNum)); // col 2 = chosen character represented by number
@@ -178,7 +190,8 @@ public class CreateUser extends JFrame{
         label_character = new JLabel("Select your character");
         label_character.setHorizontalAlignment(SwingConstants.CENTER);
         label_character.setVerticalAlignment(SwingConstants.CENTER);
-        label_character.setBounds(centerX - labelCharacterWidth / 2, textField_username.getY() - 200, labelCharacterWidth, 30);
+        label_character.setBounds(centerX - labelCharacterWidth / 2, textField_username.getY() - 200,
+                labelCharacterWidth, 30);
         userPane.add(label_character);
 
         // Adjust label_username to be centered horizontally
@@ -186,7 +199,8 @@ public class CreateUser extends JFrame{
         label_errorText.setHorizontalAlignment(SwingConstants.CENTER);
         label_errorText.setVerticalAlignment(SwingConstants.CENTER);
         label_errorText.setForeground(Color.RED);
-        label_errorText.setBounds(centerX - labelErrorWidth / 2, textField_username.getY() + 75, labelErrorWidth, 30);
+        label_errorText.setBounds(centerX - labelErrorWidth / 2, textField_username.getY() + 75,
+                labelErrorWidth, 30);
         userPane.add(label_errorText);
 
         setContentPane(userPane);

@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Helperclass for handeling reading csv files
+ */
 public class CSVReader {
 
     public CSVReader() {

@@ -7,8 +7,13 @@ import task_gamification.helpers.GetFilePath;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Represents the Frame to display the user interface to login as a user.
+ * It provides functionalities to login or go back to the user creation frame.
+ */
 public class Login extends JFrame{
 
+    // size and position
 	public static final int H_FRAME = 400;
 	public static final int W_FRAME = 600;
 	private static final int buttonWidth = 150;
@@ -20,13 +25,9 @@ public class Login extends JFrame{
     private static final int labelErrorWidth = 260;
 	
     private JPanel loginPane;
-
     private JButton button_login, button_toCreateUser;
-
     private JLabel label_username, label_errorText;
-
     private JTextField textField_username;
-
     private Insets insets;
 
     // path to csv files
@@ -34,7 +35,10 @@ public class Login extends JFrame{
     private String userFilePath = FilePaths.USER_FILE_PATH;
 
 
-
+    /**
+     * Constructor for Login frame.
+     * Initializes the frame.
+     */
     public Login() {
 
         super("Login");
@@ -48,11 +52,15 @@ public class Login extends JFrame{
 
         insets = this.getInsets();
 
-        GUI();
+        initializeGUI();
 
     }
 
-    private void GUI() {
+    /**
+     * Initializes the graphical user interface of the panel.
+     * Sets up the layout, lables, textfields, buttons and error messages.
+     */
+    private void initializeGUI() {
 
         loginPane = new JPanel();
         loginPane.setLayout(null);

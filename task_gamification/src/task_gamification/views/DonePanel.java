@@ -14,12 +14,17 @@ import java.util.List;
  * Represents the panel to display completed tasks.
  * It provides functionalities to view completed tasks for a logged-in user.
  */
-
 public class DonePanel extends JPanel {
+
     private JTable table;
-    private DefaultTableModel tableModel;
-    private String loggedInUser;
     private JScrollPane scrollPane;
+
+    private String loggedInUser;
+    private List<List<String>> taskData;
+
+    private DefaultTableModel tableModel;
+    private TableColumnModel columnModel;
+
     // path to csv files
     private GetFilePath FilePaths;
     private String taskFilePath = FilePaths.TASK_FILE_PATH;
@@ -61,7 +66,7 @@ public class DonePanel extends JPanel {
         table = new JTable(tableModel);
         
         // Configure table column model and remove unnecessary columns for display
-        TableColumnModel columnModel = table.getColumnModel();
+        columnModel = table.getColumnModel();
         columnModel.removeColumn(columnModel.getColumn(0)); // remove taskid column from view
         columnModel.removeColumn(columnModel.getColumn(4)); // remove status column from view
         
@@ -76,7 +81,7 @@ public class DonePanel extends JPanel {
     public void refreshTableData() {
         try {
             tableModel.setRowCount(0); // Clear existing table data
-            List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
+            taskData = CSVReader.readCSV(taskFilePath);
 
             for (List<String> row : taskData) {
             	// Iterate through each task and add it to the table if it belongs to the user and is completed

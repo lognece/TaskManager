@@ -4,21 +4,29 @@ import java.awt.CardLayout;
 
 import javax.swing.JPanel;
 
-/*
+/**
  * Helper method to add new JPanels to the MainFrame
  */
-
 public class ShowPanel {
 	private JPanel contentPanel;
-	
+
+	/**
+	 *
+	 */
 	public ShowPanel(JPanel contentPanel) {
 		this.contentPanel = contentPanel;
 	}
-	
+
+	/**
+	 *
+	 */
 	public void getShowPanel(JPanel panel, String name) {
 	    showPanel(panel, name);
 	}
-		
+
+	/**
+	 *
+	 */
 	private void showPanel(JPanel panel, String panelName) {
 	    contentPanel.removeAll();
 	    contentPanel.add(panel, panelName);

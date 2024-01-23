@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Helperclass for handeling reading csv files
+ */
 public class CSVWriter {
 
     public CSVWriter() {

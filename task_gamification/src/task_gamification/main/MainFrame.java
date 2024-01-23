@@ -7,6 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 
+/**
+ * Represents the Frame to display the user interface for all main functions.
+ * It provides functionalities in the task overview, the character overview,
+ * the highscore overview and the settings.
+ */
 public class MainFrame extends JFrame {
 	// Constants for frame name and dimensions
     public static final String FRAME_NAME = "Task_Manager";
@@ -16,17 +21,22 @@ public class MainFrame extends JFrame {
     // Menu bar components
     private JMenuBar mainMenuBar;
     private JMenu taskMenu, characterMenu, highscoreMenu, settingsMenu;
-    private JMenuItem toDoItem, doneItem, generalSettings, userManual, credits, characterOverview, highscoreOverview;
-    
-    private ShowPanel showPanel; // Panel for showing different views
+    private JMenuItem toDoItem, doneItem, generalSettings, userManual, credits,
+            characterOverview, highscoreOverview;
     public JPanel contentPanel; // Panel to hold the main content
+
     private String loggedInUser; // Stores the currently logged-in user's username
+
+    private ShowPanel showPanel; // Panel for showing different views
 
     // path to csv files
     private GetFilePath FilePaths;
     private String taskFilePath = FilePaths.TASK_FILE_PATH;
 
-    // Constructor for MainFrame, initializes the frame and GUI components
+    /**
+     * Constructor for MainFrame frame.
+     * Initializes the frame.
+     */
     public MainFrame(String loggedInUser) {
     	this.loggedInUser = loggedInUser;
         initializeFrame();
@@ -35,7 +45,9 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
-    // Initializes the frame's properties
+    /**
+     * Initializes the frame's properties
+     */
     private void initializeFrame() {
         setTitle(FRAME_NAME);
         setLayout(new BorderLayout());
@@ -44,15 +56,19 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
     }
-    
-    // Initializes the GUI components of the frame
+
+    /**
+     * Initializes the GUI components of the frame
+     */
     private void initializeGUI() {
         createMenus();
         contentPanel = new JPanel(new CardLayout());
         add(contentPanel, BorderLayout.CENTER);
     }
 
-    // Creates the menu bar and its components
+    /**
+     * Creates the menu bar and its components
+     */
     private void createMenus() {
         // create menubar
         mainMenuBar = new JMenuBar();
@@ -104,31 +120,41 @@ public class MainFrame extends JFrame {
     }
 
 
-    // Shows the To-Do panel
+    /**
+     * Shows the To-Do panel
+     */
     private void showToDoPanel() {
         ToDoPanel toDoPanel = new ToDoPanel(taskFilePath, loggedInUser);
         showPanel.getShowPanel(toDoPanel, "ToDo");
     }
-    
-    // Shows the Done panel
+
+    /**
+     * Shows the Done panel
+     */
     private void showDonePanel() {
         DonePanel donePanel = new DonePanel(taskFilePath, loggedInUser);
         showPanel.getShowPanel(donePanel, "Done");
     }
 
-    // Shows the Character panel
+    /**
+     * Shows the Character panel
+     */
     private void showCharacterPanel() throws InterruptedException {
         CharacterPanel characterPanel = new CharacterPanel(loggedInUser);
         showPanel.getShowPanel(characterPanel, "Character Overview");
     }
 
-    // Shows the Highscore panel
+    /**
+     * Shows the Highscore panel
+     */
     private void showHighscorePanel() {
         HighscorePanel highscorePanel = new HighscorePanel(loggedInUser);
         showPanel.getShowPanel(highscorePanel, "Highscore Overview");
     }
 
-    // Shows the General Settings panel
+    /**
+     * Shows the General Settings panel
+     */
     private void showGeneralSettingsPanel() {
         GeneralSettingsPanel generalSettingsPanel = new GeneralSettingsPanel(loggedInUser, this);
         showPanel.getShowPanel(generalSettingsPanel, "General Settings");

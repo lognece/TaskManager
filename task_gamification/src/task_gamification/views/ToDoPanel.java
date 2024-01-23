@@ -23,26 +23,38 @@ import java.util.List;
  */
 
 public class ToDoPanel extends JPanel {
+
     private JTable table;
-    private DefaultTableModel tableModel;
-    private String loggedInUser; //  The user currently logged in
-    private String taskId;
-    private boolean isEditMode = false;
-    private TaskMode mode;
     private JButton addButton, editButton, deleteButton;
+
+    private boolean isEditMode = false;
+    private String loggedInUser, taskId;
+
+    private DefaultTableModel tableModel;
+    private TaskMode mode;
+
     // path to csv files
     private GetFilePath FilePaths;
     private String taskFilePath = FilePaths.TASK_FILE_PATH;
 
-
+    /**
+     * Constructor for ToDoPanel.
+     * Initializes the panel with the file path of the task data and the currently logged-in user.
+     *
+     * @param taskFilePath The file path where task data is stored.
+     * @param loggedInUser The username of the currently logged-in user.
+     */
     public ToDoPanel(String taskFilePath, String loggedInUser) {
         this.taskFilePath = taskFilePath;
         this.loggedInUser = loggedInUser;
         initializeGUI();
         refreshTableData();
     }
-    
-    // Initializes the graphical user interface of the panel
+
+    /**
+     * Initializes the graphical user interface of the panel.
+     * Sets up the layout, table, and scroll pane.
+     */
     private void initializeGUI() {
         setLayout(new BorderLayout());
         setupTable();
@@ -105,13 +117,18 @@ public class ToDoPanel extends JPanel {
         addTaskPanel.add(deleteButton);
     }
 
-    // Sets up a button with a specified size and action listener
+    /**
+     * Sets up the button configurations.
+     */
 	private void setupButton(JButton button) {
         button.setMinimumSize(new Dimension(100, 25));
         button.setMaximumSize(new Dimension(100, 25));
     }
 
-	// Sets up the table model and adds listeners for user interactions
+    /**
+     * Sets up the table to display the task data.
+     * Configures the table model and removes unnecessary columns.
+     */
     private void setupTable() {
         tableModel = new DefaultTableModel(new String[]{"Task ID", "Title", "Description", "Priority", "Task XP", "Status"}, 0) {
             @Override
@@ -164,15 +181,19 @@ public class ToDoPanel extends JPanel {
         
         table.setAutoCreateRowSorter(true);
     }
-    
-    // Shows a confirmation dialog and returns the user's choice
+
+    /**
+     * Shows a confirmation dialog and returns the user's choice
+     */
     private boolean showConfirmationDialog(String message, String title) {
         int choice = JOptionPane.showConfirmDialog(this, message, title, JOptionPane.YES_NO_OPTION);
         return choice == JOptionPane.YES_OPTION;
     }
 
-
-    // Refreshes the table data from the CSV file
+    /**
+     * Refreshes the table data by loading completed tasks from the CSV file.
+     * Only includes tasks that belong to the logged-in user and are marked as 'to-do'.
+     */
     public void refreshTableData() {
     	// Read data from CSV and update the table model
         try {
@@ -192,8 +213,9 @@ public class ToDoPanel extends JPanel {
         }
     }
 
-
-    // Updates a task's status in the CSV file
+    /**
+     * Updates a task's status in the CSV file
+     */
     private void updateTaskInCSV(String taskId, boolean isComplete) {
         try {
             List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
@@ -212,15 +234,18 @@ public class ToDoPanel extends JPanel {
         }
     }
 
-    // Opens the dialog for adding a new task
+    /**
+     * Opens the dialog for adding a new task
+     */
     private void openTaskDialog() {
         Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.ADD);
         taskDialog.setLocationRelativeTo(this); // Center the dialog
         taskDialog.setVisible(true);
     }
-    
 
-    // Opens the dialog for editing a task
+    /**
+     * Opens the dialog for editing a task
+     */
     private void openEditTaskDialog(int rowToEdit) {
 	   // Convert view index to model index in case table is sorted
 	   int modelRow = table.convertRowIndexToModel(rowToEdit);
