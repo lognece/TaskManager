@@ -1,6 +1,7 @@
 package helpers;
 
 import task_gamification.CSV.CSVReader;
+import task_gamification.CSV.CSVWriter;
 
 import java.util.List;
 
@@ -8,6 +9,10 @@ import java.util.List;
  * Helperclass for fetching levelrelated XP.
  */
 public class GetLevelXP {
+
+    private List<List<String>> csvContent;
+
+    private CSVReader csvReader;
 
     private int levelXP;
 
@@ -19,8 +24,8 @@ public class GetLevelXP {
      */
     public int getLevelXP(String level, String filePath) {
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> csvContent = csvReader.readCSV(filePath);
+        csvReader = new CSVReader();
+        csvContent = csvReader.readCSV(filePath);
 
         for ( int i = 0; i < csvContent.size(); i++) {
             // assuming that username is saved at index 0

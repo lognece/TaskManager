@@ -1,6 +1,7 @@
 package task_gamification.views;
 
 import helpers.GetLevelXP;
+import task_gamification.entity.Character;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
 
@@ -31,6 +32,7 @@ public class CharacterPanel extends JPanel {
     private String loggedInUser, characterName, characterLevel, nextLevel;
 
     private User user;
+    private Character character;
     private GetLevelXP getLevelXP;
 
     // path to csv files
@@ -115,7 +117,8 @@ public class CharacterPanel extends JPanel {
         storyText.setEditable(false);
         storyScrollPane = new JScrollPane(storyText);
         storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 250);
-        storyText.setText(user.getStory(loggedInUser));
+        character = new Character();
+        storyText.setText(character.getStory(loggedInUser));
         add(storyScrollPane);
 
         //TODO to be tested: if user levels, does the story automatically update?
