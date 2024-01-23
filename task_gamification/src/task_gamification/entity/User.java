@@ -178,31 +178,11 @@ public class User {
         return characterLevel;
     }
 
-    /**
-     * Fetches the story of a users chosen character corresponding to its level.
-     *
-     * @param loggedInUser The username of the currently logged-in user.
-     * */
-    public String getStory(String loggedInUser) {
-
-        characterName = getCharacter(loggedInUser);
-        characterLevel = getLevel(loggedInUser);
-
-        csvReader = new CSVReader();
-        characterContent = userContent(characterName, storyFilePath);
-
-        characterStory = characterContent.get(0).get(2);
-        for (int i = 1; i < Integer.parseInt(characterLevel); i++) {
-            characterStory = characterStory + "\n\n" + characterContent.get(i).get(2);
-        }
-        return characterStory;
-    }
 
     /**
      * Fetches the user content.
      *
-     * @param userName The username of the currently logged-in user when handeling the users.csv or
-     *                 the character name of the users chosen character when handeling the characters.csv.
+     * @param userName The username of the currently logged-in user when handeling the users.csv
      * */
     public List<List<String>> userContent(String userName, String filePath){
 
