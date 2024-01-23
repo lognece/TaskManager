@@ -5,6 +5,7 @@ import task_gamification.helpers.ShowPanel;
 import task_gamification.helpers.GetFilePath;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
 	// Constants for frame name and dimensions
@@ -18,7 +19,7 @@ public class MainFrame extends JFrame {
     private JMenuItem toDoItem, doneItem, generalSettings, userManual, credits, characterOverview, highscoreOverview;
     
     private ShowPanel showPanel; // Panel for showing different views
-    private JPanel contentPanel; // Panel to hold the main content
+    public JPanel contentPanel; // Panel to hold the main content
     private String loggedInUser; // Stores the currently logged-in user's username
 
     // path to csv files
@@ -102,10 +103,6 @@ public class MainFrame extends JFrame {
         generalSettings.addActionListener(e -> showGeneralSettingsPanel());
     }
 
-    // close mainFrame
-    public void closeMainFrame() {
-        MainFrame.this.dispose();
-    }
 
     // Shows the To-Do panel
     private void showToDoPanel() {
@@ -133,7 +130,7 @@ public class MainFrame extends JFrame {
 
     // Shows the General Settings panel
     private void showGeneralSettingsPanel() {
-        GeneralSettingsPanel generalSettingsPanel = new GeneralSettingsPanel(loggedInUser);
+        GeneralSettingsPanel generalSettingsPanel = new GeneralSettingsPanel(loggedInUser, this);
         showPanel.getShowPanel(generalSettingsPanel, "General Settings");
     }
 
