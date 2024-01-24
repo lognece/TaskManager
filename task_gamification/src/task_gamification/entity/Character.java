@@ -2,6 +2,7 @@ package task_gamification.entity;
 
 import task_gamification.CSV.CSVReader;
 import task_gamification.helpers.GetFilePath;
+import task_gamification.task_manager.Level;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class Character {
 
     private CSVReader csvReader;
     private User user;
+    private Level level;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -31,8 +33,9 @@ public class Character {
     public String getStory(String loggedInUser) {
 
         user = new User();
+        level = new Level();
         characterName = user.getCharacter(loggedInUser);
-        characterLevel = Integer.parseInt(user.getLevel(loggedInUser));
+        characterLevel = Integer.parseInt(level.getLevel(loggedInUser));
 
         csvReader = new CSVReader();
         characterContent = characterContent(characterName, storyFilePath);

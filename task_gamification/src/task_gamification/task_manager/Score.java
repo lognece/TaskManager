@@ -17,13 +17,14 @@ import java.util.List;
 public class Score {
 
     private User newUserScore;
-    private int currentScore, nextLevelXP, userIndex, intNextLevel;
+    private int currentScore, nextLevelXP, userIndex, intNextLevel, newLevel;
     private String loggedInUser, userLevel, nextLevel, newStoryLine, characterName;
     private List<List<String>> csvContent, usersContent, storyContent;
 
     private CSVReader csvReader;
     private CSVWriter updateCSV;
     private GetLevelXP getLevelXP;
+    private Level level;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -64,6 +65,32 @@ public class Score {
 
         return true;
     }
+
+    /**
+     * Function to check if the new score triggers a level-up.
+     *
+     * @param newScore new score of the logged-in user.
+     * @param loggedInUser The username of the currently logged-in user.
+     */
+    public boolean checkLevelChange(String loggedInUser, int newScore) {
+
+        level = new Level();
+        userLevel = level.getLevel(loggedInUser);
+        nextLevel = String.valueOf(Integer.parseInt(userLevel) + 1);
+        getLevelXP = new GetLevelXP();
+        nextLevelXP = getLevelXP.getLevelXP(nextLevel, levelFilePath);
+
+        if (newScore < nextLevelXP){
+            return false;
+
+        } else {
+            newLevel = Integer.parseInt(userLevel) + 1;
+            level.updateUserLevel(loggedInUser, newLevel);
+            return true;
+        }
+    }
+
+
 
 
 }

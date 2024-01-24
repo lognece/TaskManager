@@ -147,35 +147,9 @@ public class User {
 
         csvReader = new CSVReader();
         usersContent = csvReader.readCSV(userFilePath);
-        creationDate = usersContent.get(userIndex).get(3);
+        creationDate = usersContent.get(userIndex).get(4);
 
         return creationDate;
-    }
-
-    /**
-     * Fetches the level of a user by accessing the users.csv and the level.csv
-     *
-     * @param loggedInUser The username of the currently logged-in user.
-     * */
-    public String getLevel(String loggedInUser) {
-
-        userIndex = getIndex(loggedInUser, userFilePath);
-
-        csvReader = new CSVReader();
-        usersContent = csvReader.readCSV(userFilePath);
-        characterXP = usersContent.get(userIndex).get(2);
-
-        levelContent = csvReader.readCSV(levelFilePath);
-        characterLevel = "1";
-
-        for (int i = 0; i < levelContent.size(); i++) {
-            // assuming that XP limit is saved at index 1
-            if (Integer.parseInt(levelContent.get(i).get(1)) < Integer.parseInt(characterXP)) {
-                characterLevel = String.valueOf(i);
-            }
-        }
-
-        return characterLevel;
     }
 
 
