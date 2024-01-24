@@ -2,24 +2,50 @@ package task_gamification.entity;
 
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
+import task_gamification.helpers.GetFilePath;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents the entity user and the linked functions.
+ * It provides functionalities to create a new user, authenticate a user and get user related data.
+ */
 public class User {
 
-    private String userName, usercharacter, characterNum, characterName, characterXP, characterLevel, characterStory, creationDate;
     private int index, userXP, userIndex, characterIndex;
-    private List<List<String>> charactersContent, levelContent, levelIndex;
+    private boolean containsUsername;
+    private String userName, usercharacter, characterNum, characterName, characterXP,
+            characterLevel, characterStory, creationDate;
+    private List<List<String>> charactersContent, characterContent, levelContent,
+            levelIndex, csvContent, usersContent, userContent, existingTasks;
 
+    private CSVWriter csvWriter;
+    private CSVReader csvReader;
+
+    // path to csv files
+    private GetFilePath FilePaths;
+    private String taskFilePath = FilePaths.TASK_FILE_PATH,
+            userFilePath = FilePaths.USER_FILE_PATH,
+            characterFilePath = FilePaths.CHARACTER_FILE_PATH,
+            storyFilePath = FilePaths.STORY_FILE_PATH,
+            levelFilePath = FilePaths.LEVEL_FILE_PATH;
+
+
+    /**
+     * Creates a new user adding the user related content to the users.csv
+     *
+     * @param filePath The file path where user data is stored.
+     * @param loggedInUser The username of the currently logged-in user.
+     * */
     public boolean createNewUser(String filePath, List<String> newUserContent){
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> csvContent = csvReader.readCSV(filePath);
+        csvReader = new CSVReader();
+        csvContent = csvReader.readCSV(filePath);
         csvContent.add(newUserContent);
 
-        CSVWriter csvWriter = new CSVWriter();
+        csvWriter = new CSVWriter();
         try {
             csvWriter.writeCSV(filePath, csvContent);
             return true;
@@ -28,12 +54,18 @@ public class User {
         }
     }
 
+    /**
+     * Authenticates a username with the content in users.csv
+     *
+     * @param filePath The file path where user data is stored.
+     * @param userName The username of the currently logged-in user.
+     * */
     public boolean authenticate(String userName, String filePath){
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> csvContent = csvReader.readCSV(filePath);
+        csvReader = new CSVReader();
+        csvContent = csvReader.readCSV(filePath);
 
-        boolean containsUsername = false;
+        containsUsername = false;
 
         for ( int i = 0; i < csvContent.size(); i++) {
             // assuming that username is saved at index 0
@@ -44,69 +76,96 @@ public class User {
         return containsUsername;
     }
 
-    public int getIndex(String string, String filePath){
+    /**
+     * Fetches the index of a user in the users.csv
+     *
+     * @param filePath The file path where user data is stored.
+     * @param loggedInUser The username of the currently logged-in user.
+     * */
+    public int getIndex(String loggedInUser, String filePath){
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> csvContent = csvReader.readCSV(filePath);
+        csvReader = new CSVReader();
+        csvContent = csvReader.readCSV(filePath);
 
         for ( int i = 0; i < csvContent.size(); i++) {
             // assuming that username is saved at index 0
-            if (csvContent.get(i).get(0).equals(string)) {
+            if (csvContent.get(i).get(0).equals(loggedInUser)) {
                 index = i;
             }
         }
         return index;
     }
 
-    public int getXP(String string, String filePath){
+    /**
+     * Fetches the experience points (XP) of a user from the users.csv
+     *
+     * @param filePath The file path where user data is stored.
+     * @param loggedInUser The username of the currently logged-in user.
+     * */
+    public int getXP(String loggedInUser, String filePath){
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> csvContent = csvReader.readCSV(filePath);
+        csvReader = new CSVReader();
+        csvContent = csvReader.readCSV(filePath);
 
         for ( int i = 0; i < csvContent.size(); i++) {
             // assuming that username is saved at index 0
-            if (csvContent.get(i).get(0).equals(string)) {
+            if (csvContent.get(i).get(0).equals(loggedInUser)) {
                 userXP = Integer.parseInt(csvContent.get(i).get(2));
             }
         }
         return userXP;
     }
 
-    public String getCharacter(String userName) {
+    /**
+     * Fetches the character name of a user chosen character from the users.csv
+     *
+     * @param loggedInUser The username of the currently logged-in user.
+     * */
+    public String getCharacter(String loggedInUser) {
 
-        userIndex = getIndex(userName, "src/users.csv");
+        userIndex = getIndex(loggedInUser, userFilePath);
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> usersContent = csvReader.readCSV("src/users.csv");
+        csvReader = new CSVReader();
+        usersContent = csvReader.readCSV(userFilePath);
         characterNum = usersContent.get(userIndex).get(1);
 
-        characterIndex = getIndex(characterNum, "src/characters.csv");
-        charactersContent = csvReader.readCSV("src/characters.csv");
+        characterIndex = getIndex(characterNum, characterFilePath);
+        charactersContent = csvReader.readCSV(characterFilePath);
         characterName = charactersContent.get(characterIndex).get(2);
 
         return characterName;
     }
 
-    public String getCreationDate(String userName) {
+    /**
+     * Fetches the creatin date of a users account from the users.csv
+     *
+     * @param loggedInUser The username of the currently logged-in user.
+     * */
+    public String getCreationDate(String loggedInUser) {
 
-        userIndex = getIndex(userName, "src/users.csv");
+        userIndex = getIndex(loggedInUser, userFilePath);
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> usersContent = csvReader.readCSV("src/users.csv");
+        csvReader = new CSVReader();
+        usersContent = csvReader.readCSV(userFilePath);
         creationDate = usersContent.get(userIndex).get(3);
 
         return creationDate;
     }
 
+    /**
+     * Fetches the level of a user by accessing the users.csv and the level.csv
+     *
+     * @param loggedInUser The username of the currently logged-in user.
+     * */
     public String getLevel(String loggedInUser) {
 
-        userIndex = getIndex(loggedInUser, "src/users.csv");
+        userIndex = getIndex(loggedInUser, userFilePath);
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> usersContent = csvReader.readCSV("src/users.csv");
+        csvReader = new CSVReader();
+        usersContent = csvReader.readCSV(userFilePath);
         characterXP = usersContent.get(userIndex).get(2);
 
-        levelContent = csvReader.readCSV("src/level.csv");
+        levelContent = csvReader.readCSV(levelFilePath);
         characterLevel = "1";
 
         for (int i = 0; i < levelContent.size(); i++) {
@@ -119,27 +178,18 @@ public class User {
         return characterLevel;
     }
 
-    public String getStory(String loggedInUser) {
 
-        characterName = getCharacter(loggedInUser);
-        characterLevel = getLevel(loggedInUser);
-
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> characterContent = userContent(characterName, "src/story.csv");
-
-        characterStory = characterContent.get(0).get(2);
-        for (int i = 1; i < Integer.parseInt(characterLevel); i++) {
-            characterStory = characterStory + "\n\n" + characterContent.get(i).get(2);
-        }
-        return characterStory;
-    }
-
+    /**
+     * Fetches the user content.
+     *
+     * @param userName The username of the currently logged-in user when handeling the users.csv
+     * */
     public List<List<String>> userContent(String userName, String filePath){
 
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> csvContent = csvReader.readCSV(filePath);
+        csvReader = new CSVReader();
+        csvContent = csvReader.readCSV(filePath);
 
-        List<List<String>> userContent = new ArrayList<>();
+        userContent = new ArrayList<>();
 
         for (int i = 0; i < csvContent.size(); i++) {
             // assuming that username is saved at index 0
@@ -150,41 +200,11 @@ public class User {
         return userContent;
     }
 
-    public boolean addTask(List<String> newTask, String filePath){
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> existingTasks = csvReader.readCSV(filePath);
-        existingTasks.add(newTask);
-
-        CSVWriter csvWriter = new CSVWriter();
-        try {
-            csvWriter.writeCSV(filePath, existingTasks);
-            return true;
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-    	
-    }
-
-    public boolean editTask(int taskID){
-        return true;
-    }
-
-    public boolean deleteTask(int taskID){
-        return true;
-    }
-
-    public boolean completeTask(int taskID){
-        return true;
-    }
-
+    /**
+     * Fetches the username.
+     * */
     public String getUserName(){
         return userName;
     }
-
-
-
-
-
-
 
 }

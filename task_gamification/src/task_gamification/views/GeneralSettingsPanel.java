@@ -14,7 +14,6 @@ import java.awt.*;
  * It allows users to see their general settings inkl. their username, date of creation
  * and an uption to logout.
  */
-
 public class GeneralSettingsPanel extends JPanel{
 
     // size and position
@@ -29,6 +28,15 @@ public class GeneralSettingsPanel extends JPanel{
     private JLabel userLabel, usernameLabel, creationLabel, creationDateLabel;
     private JButton logoutButton;
 
+    /**
+     * Constructor for GeneralSettingsPanel.
+     * Initializes the panel with the general settings information
+     * inkl.: username of logged-in user, creation date of the user account.
+     * there is also a button to logout.
+     *
+     * @param loggedInUser The username of the currently logged-in user.
+     * @param mainFrame Currently open frame.
+     */
     public GeneralSettingsPanel(String loggedInUser, MainFrame mainFrame) {
         this.loggedInUser = loggedInUser;
         this.mainFrame = mainFrame;
@@ -36,7 +44,10 @@ public class GeneralSettingsPanel extends JPanel{
         initializeGUI();
     }
 
-    // Initializes the graphical user interface of the panel
+    /**
+     * Initializes the graphical user interface of the panel.
+     * Sets up the layout, lables and buttons.
+     */
     private void initializeGUI() {
         setLayout(null);
         setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
@@ -71,8 +82,6 @@ public class GeneralSettingsPanel extends JPanel{
                     new CreateUser();
                 }
             });
-
-            //TODO prorerly close mainframe when clicked
 
         }, centerX - (W_FRAME/2) + 20, 100, 100, 25);
         add(logoutButton);

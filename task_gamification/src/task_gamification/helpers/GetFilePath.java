@@ -1,5 +1,8 @@
 package task_gamification.helpers;
 
+/**
+ * Helperclass for handeling filepaths
+ */
 public class GetFilePath {
 
 	// stores path to file that store user data and tasks data

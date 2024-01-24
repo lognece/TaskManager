@@ -7,26 +7,27 @@ import task_gamification.helpers.GetFilePath;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Represents the Frame to display the user interface to login as a user.
+ * It provides functionalities to login or go back to the user creation frame.
+ */
 public class Login extends JFrame{
 
-	public static final int H_FRAME = 400;
-	public static final int W_FRAME = 600;
-	private static final int buttonWidth = 150;
-	private static final int buttonHeight = 22;
-	private static final int labelWidth = 100;
-	private static final int textFieldWidth = 180;
-	private static final int centerX = W_FRAME / 2;
-	private static final int centerY = H_FRAME / 2;
+    // size and position
+    public static final int H_FRAME = 400;
+    public static final int W_FRAME = 600;
+    private static final int buttonWidth = 150;
+    private static final int buttonHeight = 22;
+    private static final int labelWidth = 100;
+    private static final int textFieldWidth = 180;
+    private static final int centerX = W_FRAME / 2;
+    private static final int centerY = H_FRAME / 2;
     private static final int labelErrorWidth = 260;
-	
+
     private JPanel loginPane;
-
     private JButton button_login, button_toCreateUser;
-
     private JLabel label_username, label_errorText;
-
     private JTextField textField_username;
-
     private Insets insets;
 
     // path to csv files
@@ -34,7 +35,10 @@ public class Login extends JFrame{
     private String userFilePath = FilePaths.USER_FILE_PATH;
 
 
-
+    /**
+     * Constructor for Login frame.
+     * Initializes the frame.
+     */
     public Login() {
 
         super("Login");
@@ -48,18 +52,22 @@ public class Login extends JFrame{
 
         insets = this.getInsets();
 
-        GUI();
+        initializeGUI();
 
     }
 
-    private void GUI() {
+    /**
+     * Initializes the graphical user interface of the panel.
+     * Sets up the layout, lables, textfields, buttons and error messages.
+     */
+    private void initializeGUI() {
 
         loginPane = new JPanel();
         loginPane.setLayout(null);
         loginPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
 
-               
+
         // Adjust label_username to be centered horizontally
         label_username = new JLabel("Username");
         label_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2, centerY - 40, labelWidth, 20);
@@ -127,8 +135,8 @@ public class Login extends JFrame{
         loginPane.add(label_errorText);
 
         setContentPane(loginPane);
-        
-             
+
+
     }
 
 }
