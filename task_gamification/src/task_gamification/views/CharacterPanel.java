@@ -36,8 +36,8 @@ public class CharacterPanel extends JPanel {
     private User user;
     private Level levelManager;
     private Character character;
-
     private GetLevelXP getLevelXP;
+
     // path to csv files
     private GetFilePath FilePaths;
     private String userFilePath = FilePaths.USER_FILE_PATH,

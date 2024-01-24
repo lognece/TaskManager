@@ -23,7 +23,7 @@ public class Story {
 	 * @param level The level for which the story line is to be fetched.
 	 * @return The story line associated with the given level.
 	 */
-	public String updateStory(int level) {
+	/*public String updateStory(int level) {
 		List<List<String>> storyData = csvReader.readCSV(getStoryFilePath);
 		if (level >= 0 && level < storyData.size() && storyData.get(level).size() > 2) {
 			String storyLine = storyData.get(level).get(2);
@@ -33,5 +33,5 @@ public class Story {
 			return storyLine;
 		}
 		return "";
-	}
+	}*/
 }
