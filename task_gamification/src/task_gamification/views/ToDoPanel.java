@@ -298,5 +298,3 @@ public class ToDoPanel extends JPanel {
     // TODO: Implement an interface for task operations
     // TODO: Update user score when a task is marked as done
 
-
-

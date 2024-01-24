@@ -39,7 +39,10 @@ public class CharacterPanel extends JPanel {
     private GetLevelXP getLevelXP;
     // path to csv files
     private GetFilePath FilePaths;
-    private String userFilePath = FilePaths.USER_FILE_PATH,levelFilePath = FilePaths.LEVEL_FILE_PATH;
+
+    private String userFilePath = FilePaths.USER_FILE_PATH,
+            levelFilePath = FilePaths.LEVEL_FILE_PATH;
+
 
     /**
      * Constructor for CharacterPanel.
@@ -71,6 +74,9 @@ public class CharacterPanel extends JPanel {
         characterLabel = new JLabel("Character:", SwingConstants.LEFT);
         characterLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, 20);
         add(characterLabel);
+
+
+
 
         characterName = user.getCharacter(loggedInUser);
 
@@ -119,6 +125,7 @@ public class CharacterPanel extends JPanel {
         levelProgress.setStringPainted(true);
     }
 
+
     private void updateStoryText() {
         int currentLevel = levelManager.determineLevel(userXP);
         Story storyManager = new Story();
@@ -128,7 +135,7 @@ public class CharacterPanel extends JPanel {
         storyText.setCaretPosition(0);
     }
 
-    //TODO: on level 0 the textfield should be empty
 
+    //TODO: on level 0 the textfield should be empty
 
 }
