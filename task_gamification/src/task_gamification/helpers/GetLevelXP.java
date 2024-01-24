@@ -1,4 +1,4 @@
-package helpers;
+package task_gamification.helpers;
 
 import task_gamification.CSV.CSVReader;
 import task_gamification.helpers.GetFilePath;

@@ -1,6 +1,6 @@
 package task_gamification.views;
 
-import helpers.GetLevelXP;
+import task_gamification.helpers.GetLevelXP;
 import task_gamification.entity.Character;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;

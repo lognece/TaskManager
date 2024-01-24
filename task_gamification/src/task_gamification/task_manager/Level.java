@@ -1,5 +1,6 @@
 package task_gamification.task_manager;
 
+import task_gamification.helpers.GetLevelXP;
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
 import task_gamification.helpers.GetFilePath;
