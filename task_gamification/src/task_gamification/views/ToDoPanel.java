@@ -2,7 +2,6 @@ package task_gamification.views;
 
 import task_gamification.helpers.ButtonHelper;
 import task_gamification.helpers.GetFilePath;
-import task_gamification.task_manager.Score;
 import task_gamification.task_manager.Task;
 import task_gamification.task_manager.TaskMode;
 import task_gamification.CSV.CSVReader;
@@ -155,7 +154,6 @@ public class ToDoPanel extends JPanel {
 
                     if (isComplete) {
                         updateTaskInCSV(taskId, true); // Update the CSV file
-                        updateScoreForUser(loggedInUser, taskId);  // Call method to update the score
                         SwingUtilities.invokeLater(() -> {
                             refreshTableData(); // Refresh the data on the Event Dispatch Thread
                         });
@@ -263,38 +261,12 @@ public class ToDoPanel extends JPanel {
         taskDialog.setVisible(true);
     }
 
-    private void updateScoreForUser(String loggedInUser, String taskId) {
-        try {
-            // Retrieve the XP value of the completed task
-            int taskXP = getTaskXP(taskId);
 
-            // Update the user's score
-            Score scoreManager = new Score();
-            scoreManager.updateScore(loggedInUser, taskXP);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error updating score: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private int getTaskXP(String taskId) {
-        // Assuming the taskXP is stored in the CSV file and the structure of task data is known
-        List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
-        for (List<String> task : taskData) {
-            if (task.get(1).equals(taskId)) {
-                return Integer.parseInt(task.get(5)); // Assuming the XP is stored at index 5
-            }
-        }
-        return 0; // Return 0 if the task is not found
-    }
-
-
+    // TODO: Add confirmations for adding, editing, and deleting tasks
+    // TODO: Refactor shared parts of adding and editing into a common method
+    // TODO: Separate UI and controller logic
+    // TODO: Break down into smaller methods or classes for better modularity
+    // TODO: Implement an interface for task operations
+    // TODO: Update user score when a task is marked as done
 }
-
-
-
-// TODO: Refactor shared parts of adding and editing into a common method
-// TODO: Separate UI and controller logic
-// TODO: Break down into smaller methods or classes for better modularity
-// TODO: Implement an interface for task operations
-// TODO: Update user score when a task is marked as done
 

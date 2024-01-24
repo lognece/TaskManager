@@ -4,8 +4,6 @@ import helpers.GetLevelXP;
 import task_gamification.entity.Character;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
-import task_gamification.task_manager.Level;
-import task_gamification.task_manager.Story;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,17 +28,17 @@ public class CharacterPanel extends JPanel {
     private JScrollPane storyScrollPane;
     private Insets insets;
 
-    private int userXP, progressValue;
-    private String loggedInUser, characterName;
+    private int score, level, characterNum, userIndex, userXP, upperXP, lowerXP, progressValue;
+    private String loggedInUser, characterName, characterLevel, nextLevel;
 
     private User user;
-    private Level levelManager;
     private Character character;
-
     private GetLevelXP getLevelXP;
+
     // path to csv files
     private GetFilePath FilePaths;
-    private String userFilePath = FilePaths.USER_FILE_PATH,
+    private String taskFilePath = FilePaths.TASK_FILE_PATH,
+            userFilePath = FilePaths.USER_FILE_PATH,
             levelFilePath = FilePaths.LEVEL_FILE_PATH;
 
     /**
@@ -52,12 +50,6 @@ public class CharacterPanel extends JPanel {
     public CharacterPanel(String loggedInUser) throws InterruptedException {
         this.loggedInUser = loggedInUser;
         insets = this.getInsets();
-        user = new User();
-        storyText = new JTextArea(""); // Initialize storyText with an empty string
-        storyText.setLineWrap(true);
-        storyText.setEditable(false);
-        getLevelXP = new GetLevelXP();
-        levelManager = new Level(levelFilePath);
         initializeGUI();
     }
 
@@ -67,68 +59,70 @@ public class CharacterPanel extends JPanel {
      */
     private void initializeGUI() throws InterruptedException {
         setLayout(null);
-        setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right, H_FRAME - insets.bottom - insets.top);
+        setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
+                H_FRAME - insets.bottom - insets.top);
 
         // Add Label and output for character
         characterLabel = new JLabel("Character:", SwingConstants.LEFT);
         characterLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, 20);
         add(characterLabel);
 
+        user = new User();
         characterName = user.getCharacter(loggedInUser);
 
         characterNameLabel = new JLabel(characterName, SwingConstants.LEFT);
         characterNameLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 30, labelWidth, 20);
         add(characterNameLabel);
 
-        // Determine user's level based on current XP
-        userXP = user.getXP(loggedInUser, userFilePath);
-        int currentLevel = levelManager.determineLevel(userXP);
-        characterLevelLabel = new JLabel("Level: " + currentLevel, SwingConstants.LEFT);
-        characterLevelLabel.setBounds(centerX - (W_FRAME/2) + 30, 60, labelWidth, 20);
+        // Add Label and output for Level
+        levelLabel = new JLabel("Level:", SwingConstants.LEFT);
+        levelLabel.setBounds(centerX - (W_FRAME/2) + 30, 60, labelWidth, 20);
+        add(levelLabel);
+
+        characterLevel = user.getLevel(loggedInUser);
+
+        characterLevelLabel = new JLabel(characterLevel, SwingConstants.LEFT);
+        characterLevelLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 60, labelWidth, 20);
         add(characterLevelLabel);
 
-        // Setup progress bar
-        setupProgressBar(userXP, currentLevel);
-
-        // Setup for story text
-        character = new Character();
-        storyText = new JTextArea(character.getStory(loggedInUser));
-        storyText.setLineWrap(true);
-        storyText.setEditable(false);
-        storyScrollPane = new JScrollPane(storyText);
-        storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 250);
-        add(storyScrollPane);
-
-        //TODO to be tested: if user levels, does the story automatically update?
-
-    }
-
-    private void setupProgressBar(int userXP, int currentLevel) {
+        // Add progress bar
         progressLabel = new JLabel("Progress:", SwingConstants.LEFT);
         progressLabel.setBounds(centerX - (W_FRAME/2) + 30, 90, labelWidth, 20);
         add(progressLabel);
 
         levelProgress = new JProgressBar();
-        levelProgress.setBounds(centerX - (W_FRAME/2) + 30 + labelWidth, 90, 200, 20);
-        add(levelProgress);
+        levelProgress.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 90, labelWidth, 20);
 
-        // Fetch XP thresholds for current and next level
-        int lowerXP = getLevelXP.getLevelXP(String.valueOf(currentLevel), GetFilePath.LEVEL_FILE_PATH);
-        int upperXP = getLevelXP.getLevelXP(String.valueOf(currentLevel + 1), GetFilePath.LEVEL_FILE_PATH);
-        progressValue = (int) ((userXP - lowerXP) * 100.0 / (upperXP - lowerXP));
+        userXP = user.getXP(loggedInUser, userFilePath);
+
+        getLevelXP = new GetLevelXP();
+        lowerXP = getLevelXP.getLevelXP(characterLevel, levelFilePath);
+        nextLevel = String.valueOf(Integer.parseInt(characterLevel) + 1);
+        upperXP = getLevelXP.getLevelXP(nextLevel, levelFilePath);
+
+        progressValue = (userXP - lowerXP) * 100 / (upperXP - lowerXP);
         levelProgress.setValue(progressValue);
         levelProgress.setStringPainted(true);
+        Thread.sleep(upperXP - lowerXP);
+        add(levelProgress);
+
+        // Add label and text field for story line
+        storyLabel = new JLabel("Story Line:", SwingConstants.LEFT);
+        storyLabel.setBounds(centerX - (W_FRAME/2) + 30, 150, labelWidth, 20);
+        add(storyLabel);
+
+
+        storyText = new JTextArea(13,20);
+        storyText.setLineWrap(true);
+        storyText.setEditable(false);
+        storyScrollPane = new JScrollPane(storyText);
+        storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 250);
+        character = new Character();
+        storyText.setText(character.getStory(loggedInUser));
+        add(storyScrollPane);
+
+        //TODO to be tested: if user levels, does the story automatically update?
+
     }
-
-    private void updateStoryText() {
-        int currentLevel = levelManager.determineLevel(userXP);
-        Story storyManager = new Story();
-        String newStoryLine = storyManager.updateStory(currentLevel);
-
-        storyText.setText(newStoryLine);
-        storyText.setCaretPosition(0);
-    }
-
-    //TODO: on level 0 the textfield should be empty
 
 }
