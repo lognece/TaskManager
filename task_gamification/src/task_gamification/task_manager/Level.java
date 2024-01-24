@@ -28,7 +28,6 @@ public class Level {
 				break;
 			}
 		}
-
 		return userLevel;
 	}
 

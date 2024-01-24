@@ -67,7 +67,8 @@ public class CharacterPanel extends JPanel {
      */
     private void initializeGUI() throws InterruptedException {
         setLayout(null);
-        setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right, H_FRAME - insets.bottom - insets.top);
+        setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
+                H_FRAME - insets.bottom - insets.top);
 
         // Add Label and output for character
         characterLabel = new JLabel("Character:", SwingConstants.LEFT);

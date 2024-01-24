@@ -8,8 +8,9 @@ import task_gamification.helpers.GetFilePath;
 import java.util.List;
 
 public class Story {
-	private CSVReader csvReader;
 	private String getStoryFilePath;
+
+	private CSVReader csvReader;
 
 	public Story () {
 		csvReader = new CSVReader();
