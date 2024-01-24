@@ -41,21 +41,4 @@ public class GetLevelXP {
 
     }
 
-    /**
-     * Gets all level thresholds from the level.csv file.
-     *
-     * @return A map with level numbers as keys and their corresponding XP requirements as values.
-     */
-    public Map<Integer, Integer> getAllLevelXPs(String levelFilePath) {
-        CSVReader csvReader = new CSVReader();
-        List<List<String>> csvContent = csvReader.readCSV(this.levelFilePath);
-        Map<Integer, Integer> levelXPs = new HashMap<>(); // Map to store level and corresponding XP requirements.
-
-        for (List<String> row : csvContent) {
-            int level = Integer.parseInt(row.get(0)); // Parse the level number.
-            int xpRequired = Integer.parseInt(row.get(1)); // Parse the XP required for the level.
-            levelXPs.put(level, xpRequired); // Add the level and its XP requirement to the map.
-        }
-        return levelXPs;
-    }
 }

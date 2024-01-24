@@ -11,20 +11,40 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Class representing the Highscore panel in the app.
+ * It allows users to see their score in comparison to other users
+ */
 public class HighscorePanel extends JPanel {
 
+	// size and position
 	public static final int W_FRAME = 1080;
 	public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
-	private DefaultTableModel tableModel;
+
 	private JTable table;
+
+	private int score1, score2;
+	private List<List<String>> highscoreData;
+
+	private DefaultTableModel tableModel;
+
+	// path to csv files
 	private GetFilePath filePaths = new GetFilePath();
 	private String userFilePath = filePaths.USER_FILE_PATH;
 
+	/**
+	 * Constructor for HighscorePanel.
+	 * Initializes the panel with the highscore information.
+	 */
 	public HighscorePanel() {
 		initializeGUI();
 		refreshTableData();
 	}
 
+	/**
+	 * Initializes the graphical user interface of the panel.
+	 * Sets up the layout, lables, progressbar and textfield.
+	 */
 	private void initializeGUI() {
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(W_FRAME, H_FRAME));
@@ -33,6 +53,9 @@ public class HighscorePanel extends JPanel {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 	}
 
+	/**
+	 * Sets up the table configurations.
+	 */
 	private void setupTable() {
 		tableModel = new DefaultTableModel(new String[]{"#", "Username", "Score"}, 0) {
 			@Override
@@ -44,17 +67,20 @@ public class HighscorePanel extends JPanel {
 		table.setAutoCreateRowSorter(false);
 	}
 
+	/**
+	 * Refreshes the table data to always stay up to date.
+	 */
 	public void refreshTableData() {
 		try {
 			tableModel.setRowCount(0); // Clear existing table data
-			List<List<String>> highscoreData = CSVReader.readCSV(userFilePath);
+			highscoreData = CSVReader.readCSV(userFilePath);
 
 			// Sort highscoreData based on score in descending order
 			Collections.sort(highscoreData, new Comparator<List<String>>() {
 				@Override
 				public int compare(List<String> row1, List<String> row2) {
-					int score1 = Integer.parseInt(row1.get(2));
-					int score2 = Integer.parseInt(row2.get(2));
+					score1 = Integer.parseInt(row1.get(2));
+					score2 = Integer.parseInt(row2.get(2));
 					return Integer.compare(score2, score1);
 				}
 			});
