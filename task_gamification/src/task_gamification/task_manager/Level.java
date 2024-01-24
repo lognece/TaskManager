@@ -11,7 +11,7 @@ import java.util.Map;
 public class Level{
 
 	private int userIndex;
-	private String characterXP, characterLevel;
+	private String characterXP, characterLevel, userLevel;
 	private List<List<String>> usersContent, levelContent;
 
 	private CSVWriter csvWriter;
@@ -36,18 +36,9 @@ public class Level{
 
 		csvReader = new CSVReader();
 		usersContent = csvReader.readCSV(userFilePath);
-		characterXP = usersContent.get(userIndex).get(2);
+		userLevel = usersContent.get(userIndex).get(3);
 
-		levelContent = csvReader.readCSV(levelFilePath);
-		characterLevel = "1";
-
-		for (int i = 0; i < levelContent.size(); i++) {
-			// assuming that XP limit is saved at index 1
-			if (Integer.parseInt(levelContent.get(i).get(1)) < Integer.parseInt(characterXP)) {
-				characterLevel = String.valueOf(i);
-			}
-		}
-		return characterLevel;
+		return userLevel;
 	}
 
 	public void updateUserLevel(String loggedInUser, int newLevel) {

@@ -30,7 +30,7 @@ public class CharacterPanel extends JPanel {
     private JScrollPane storyScrollPane;
     private Insets insets;
 
-    private int userXP, progressValue;
+    private int userXP, lowerXP, upperXP, progressValue;
     private String loggedInUser, characterName, currentLevel;
 
     private User user;
@@ -93,6 +93,7 @@ public class CharacterPanel extends JPanel {
         add(characterLevelLabel);
 
         // Setup progress bar
+        userXP = user.getXP(loggedInUser);
         setupProgressBar(userXP, Integer.parseInt(currentLevel));
 
         // Setup for story text
@@ -110,21 +111,22 @@ public class CharacterPanel extends JPanel {
     /**
      * Sets up progress bar to show users progress in the current level.
      */
-    private void setupProgressBar(int userXP, int currentLevel) {
+    private void setupProgressBar(int userXP, int currentLevel) throws InterruptedException {
         progressLabel = new JLabel("Progress:", SwingConstants.LEFT);
         progressLabel.setBounds(centerX - (W_FRAME/2) + 30, 90, labelWidth, 20);
         add(progressLabel);
 
         levelProgress = new JProgressBar();
         levelProgress.setBounds(centerX - (W_FRAME/2) + 30 + labelWidth, 90, 200, 20);
-        add(levelProgress);
+        levelProgress.setStringPainted(true);
 
         // Fetch XP thresholds for current and next level
-        int lowerXP = getLevelXP.getLevelXP(String.valueOf(currentLevel), levelFilePath);
-        int upperXP = getLevelXP.getLevelXP(String.valueOf(currentLevel + 1), levelFilePath);
-        progressValue = (int) ((userXP - lowerXP) * 100.0 / (upperXP - lowerXP));
+        lowerXP = getLevelXP.getLevelXP(String.valueOf(currentLevel - 1), levelFilePath);
+        upperXP = getLevelXP.getLevelXP(String.valueOf(currentLevel), levelFilePath);
+        progressValue = ((userXP - lowerXP) * 100)  / (upperXP - lowerXP);
         levelProgress.setValue(progressValue);
-        levelProgress.setStringPainted(true);
+        Thread.sleep(upperXP - lowerXP);
+        add(levelProgress);
     }
 
 }

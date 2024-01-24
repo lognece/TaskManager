@@ -102,10 +102,10 @@ public class User {
      * @param filePath The file path where user data is stored.
      * @param loggedInUser The username of the currently logged-in user.
      * */
-    public int getXP(String loggedInUser, String filePath){
+    public int getXP(String loggedInUser){
 
         csvReader = new CSVReader();
-        csvContent = csvReader.readCSV(filePath);
+        csvContent = csvReader.readCSV(userFilePath);
 
         for ( int i = 0; i < csvContent.size(); i++) {
             // assuming that username is saved at index 0
