@@ -1,6 +1,5 @@
 package task_gamification.views;
 
-import helpers.GetLevelXP;
 import task_gamification.entity.Character;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
@@ -40,8 +39,7 @@ public class CharacterPanel extends JPanel {
     private GetLevelXP getLevelXP;
     // path to csv files
     private GetFilePath FilePaths;
-    private String userFilePath = FilePaths.USER_FILE_PATH,
-            levelFilePath = FilePaths.LEVEL_FILE_PATH;
+    private String userFilePath = FilePaths.USER_FILE_PATH,levelFilePath = FilePaths.LEVEL_FILE_PATH;
 
     /**
      * Constructor for CharacterPanel.
@@ -109,6 +107,7 @@ public class CharacterPanel extends JPanel {
         add(progressLabel);
 
         levelProgress = new JProgressBar();
+
         levelProgress.setBounds(centerX - (W_FRAME/2) + 30 + labelWidth, 90, 200, 20);
         add(levelProgress);
 
@@ -130,5 +129,6 @@ public class CharacterPanel extends JPanel {
     }
 
     //TODO: on level 0 the textfield should be empty
+
 
 }
