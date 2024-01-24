@@ -15,7 +15,7 @@ import java.util.List;
  * It provides functionalities to select a character, choose a username and login.
  */
 public class CreateUser extends JFrame{
-    
+
     // size and position
     public static final int H_FRAME = 400;
     public static final int W_FRAME = 600;
@@ -28,7 +28,7 @@ public class CreateUser extends JFrame{
     private static final int buttonHeight = 22;
     private static final int labelCharacterWidth = 170;
     private static final int labelErrorWidth = 260;
-    
+
     private JPanel userPane;
     private JButton button_char1, button_char2, button_create, button_toLogin;
     private JLabel label_username, label_errorText, label_character;
@@ -36,6 +36,7 @@ public class CreateUser extends JFrame{
     private Insets insets;
 
     private int characterNum; // 0 = Tiefling, 1 = Dragonborn
+    private int level = 0;
     private int score = 0, characterIndex;
     private boolean containsUsername;
     private String characterName;
@@ -83,7 +84,7 @@ public class CreateUser extends JFrame{
         userPane.setLayout(null);
         userPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
-               
+
         // Adjust label_username to be centered horizontally
         label_username = new JLabel("Username");
         label_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2, 240, labelWidth, 20);
@@ -130,37 +131,37 @@ public class CreateUser extends JFrame{
         // Create button_create using ButtonHelper
         button_create = ButtonHelper.newButton("Create User", "create", e -> {
 
-            if(textField_username.getText().equals("")) {
-                label_errorText.setText("Please enter a username");
+                    if(textField_username.getText().equals("")) {
+                        label_errorText.setText("Please enter a username");
 
-            } else {
-                label_errorText.setText("");
-                newUser = new User();
-                containsUsername = newUser.authenticate(textField_username.getText(),userFilePath);
+                    } else {
+                        label_errorText.setText("");
+                        newUser = new User();
+                        containsUsername = newUser.authenticate(textField_username.getText(),userFilePath);
 
-                if (containsUsername) {
-                    label_errorText.setText("Sorry, the user '" + textField_username.getText() + "' already exists");
+                        if (containsUsername) {
+                            label_errorText.setText("Sorry, the user '" + textField_username.getText() + "' already exists");
 
-                } else {
-                    newUserContent = new ArrayList<>();
+                        } else {
+                            newUserContent = new ArrayList<>();
 
-                    newUserContent.add(textField_username.getText()); // col 1 = username
-                    newUserContent.add(String.valueOf(characterNum)); // col 2 = chosen character represented by number
-                    newUserContent.add(String.valueOf(score)); // col 3 = score
-                    newUserContent.add(String.valueOf(LocalDate.now())); // col 4 = date of user creation
+                            newUserContent.add(textField_username.getText()); // col 1 = username
+                            newUserContent.add(String.valueOf(characterNum)); // col 2 = chosen character represented by number
+                            newUserContent.add(String.valueOf(score)); // col 3 = score
+                            newUserContent.add(String.valueOf(LocalDate.now())); // col 4 = date of user creation
 
-                    newUser.createNewUser(userFilePath, newUserContent);
+                            newUser.createNewUser(userFilePath, newUserContent);
 
-                    EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            CreateUser.this.dispose();
-                            new MainFrame(textField_username.getText());
+                            EventQueue.invokeLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    CreateUser.this.dispose();
+                                    new MainFrame(textField_username.getText());
+                                }
+                            });
                         }
-                    });
-                }
-            }
-        }, centerX - buttonWidth - 10, label_username.getY() + 45,
+                    }
+                }, centerX - buttonWidth - 10, label_username.getY() + 45,
                 buttonWidth, buttonHeight);
 
         // Set additional properties
@@ -171,14 +172,14 @@ public class CreateUser extends JFrame{
 
         // Create button_create using ButtonHelper
         button_toLogin = ButtonHelper.newButton("Login", "login", e -> {
-                    EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            CreateUser.this.dispose();
-                            new Login();
-                        }
-                    });
-                }, centerX + 10, label_username.getY() + 45, buttonWidth, buttonHeight);
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    CreateUser.this.dispose();
+                    new Login();
+                }
+            });
+        }, centerX + 10, label_username.getY() + 45, buttonWidth, buttonHeight);
 
         // Set additional properties
         button_toLogin.setFocusPainted(false);

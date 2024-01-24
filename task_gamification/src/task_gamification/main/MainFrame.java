@@ -13,11 +13,11 @@ import java.awt.event.WindowEvent;
  * the highscore overview and the settings.
  */
 public class MainFrame extends JFrame {
-	// Constants for frame name and dimensions
+    // Constants for frame name and dimensions
     public static final String FRAME_NAME = "Task_Manager";
     public static final int W_FRAME = 1080;
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
-    
+
     // Menu bar components
     private JMenuBar mainMenuBar;
     private JMenu taskMenu, characterMenu, highscoreMenu, settingsMenu;
@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
      * Initializes the frame.
      */
     public MainFrame(String loggedInUser) {
-    	this.loggedInUser = loggedInUser;
+        this.loggedInUser = loggedInUser;
         initializeFrame();
         initializeGUI();
         showPanel = new ShowPanel(contentPanel);
@@ -148,7 +148,7 @@ public class MainFrame extends JFrame {
      * Shows the Highscore panel
      */
     private void showHighscorePanel() {
-        HighscorePanel highscorePanel = new HighscorePanel(loggedInUser);
+        HighscorePanel highscorePanel = new HighscorePanel();
         showPanel.getShowPanel(highscorePanel, "Highscore Overview");
     }
 
@@ -163,4 +163,3 @@ public class MainFrame extends JFrame {
 
 
 }
-

@@ -14,16 +14,16 @@ import java.awt.*;
 public class Login extends JFrame{
 
     // size and position
-	public static final int H_FRAME = 400;
-	public static final int W_FRAME = 600;
-	private static final int buttonWidth = 150;
-	private static final int buttonHeight = 22;
-	private static final int labelWidth = 100;
-	private static final int textFieldWidth = 180;
-	private static final int centerX = W_FRAME / 2;
-	private static final int centerY = H_FRAME / 2;
+    public static final int H_FRAME = 400;
+    public static final int W_FRAME = 600;
+    private static final int buttonWidth = 150;
+    private static final int buttonHeight = 22;
+    private static final int labelWidth = 100;
+    private static final int textFieldWidth = 180;
+    private static final int centerX = W_FRAME / 2;
+    private static final int centerY = H_FRAME / 2;
     private static final int labelErrorWidth = 260;
-	
+
     private JPanel loginPane;
     private JButton button_login, button_toCreateUser;
     private JLabel label_username, label_errorText;
@@ -67,7 +67,7 @@ public class Login extends JFrame{
         loginPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
 
-               
+
         // Adjust label_username to be centered horizontally
         label_username = new JLabel("Username");
         label_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2, centerY - 40, labelWidth, 20);
@@ -135,8 +135,8 @@ public class Login extends JFrame{
         loginPane.add(label_errorText);
 
         setContentPane(loginPane);
-        
-             
+
+
     }
 
 }

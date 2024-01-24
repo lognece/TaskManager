@@ -73,12 +73,12 @@ public class Task extends JDialog {
             String selectedPriority = (String) priorityBox.getSelectedItem();
             if ("Low".equals(selectedPriority)) {
                 taskXPField.setValue(10);
-            } 
-            
+            }
+
             else if ("Medium".equals(selectedPriority)) {
                 taskXPField.setValue(20);
-            } 
-            
+            }
+
             else {
                 taskXPField.setValue(30);
             }
@@ -92,20 +92,20 @@ public class Task extends JDialog {
         add(priorityBox);
         add(new JLabel("Task XP:"));
         add(taskXPField);
-        
+
         // Button setup based on the task mode
         if (mode == TaskMode.ADD) {
             addButton = ButtonHelper.newButton("Add Task", "add", e -> addTask(),
                     0, 0, 0, 0);
             add(addButton);
         }
-        
+
         else if (mode == TaskMode.EDIT) {
             editButton = ButtonHelper.newButton("Edit Task", "edit", e -> editTask(),
                     0, 0, 0, 0);
             add(editButton);
         }
-        
+
         else if (mode == TaskMode.DELETE) {
             deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> deleteTask(),
                     0, 0, 0, 0);
@@ -117,11 +117,11 @@ public class Task extends JDialog {
         add(cancelButton);
 
     }
-    
+
     /**
      * Sets the initial data for the task fields when in edit mode.
      */
-	public void setTaskData(String taskId, String title, String description, String priority, int taskXP) {
+    public void setTaskData(String taskId, String title, String description, String priority, int taskXP) {
         this.taskId = taskId;
         this.titleField.setText(title);
         this.descriptionField.setText(description);
@@ -129,7 +129,7 @@ public class Task extends JDialog {
         this.taskXPField.setValue(taskXP);
     }
 
-	/**
+    /**
      * Adds a new task to the task data file.
      */
     private void addTask() {
@@ -145,7 +145,7 @@ public class Task extends JDialog {
             List<String> newTask = new ArrayList<>();
             // Assuming the columns as [username, taskID, title, description, priority, taskXP, status]
             newTask.add(loggedInUser);
-            newTask.add(UUID.randomUUID().toString()); 
+            newTask.add(UUID.randomUUID().toString());
             newTask.add(titleField.getText());
             newTask.add(descriptionField.getText());
             newTask.add((String) priorityBox.getSelectedItem());
@@ -167,7 +167,7 @@ public class Task extends JDialog {
             JOptionPane.showMessageDialog(this, "Error adding task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
      * Edits an existing task in the task data file.
      */
@@ -180,7 +180,7 @@ public class Task extends JDialog {
 
         try {
             List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
-            
+
             // Find and update the task in taskData
             for (List<String> task : taskData) {
                 if (task.get(1).equals(this.taskId)) { // taskID is at index 1
@@ -205,12 +205,12 @@ public class Task extends JDialog {
             JOptionPane.showMessageDialog(this, "Error editing task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-            
+
     /**
      * Deletes the specified task from the task data file.
      */
     public void deleteTask() {
-    	try {
+        try {
             List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
             taskData.removeIf(task -> task.get(1).equals(this.taskId)); // Remove the task with matching taskId
 
@@ -228,4 +228,3 @@ public class Task extends JDialog {
         }
     }
 }
-

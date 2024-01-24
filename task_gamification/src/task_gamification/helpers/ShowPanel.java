@@ -21,19 +21,19 @@ public class ShowPanel {
 	 *
 	 */
 	public void getShowPanel(JPanel panel, String name) {
-	    showPanel(panel, name);
+		showPanel(panel, name);
 	}
 
 	/**
 	 *
 	 */
 	private void showPanel(JPanel panel, String panelName) {
-	    contentPanel.removeAll();
-	    contentPanel.add(panel, panelName);
-	    CardLayout cl = (CardLayout)(contentPanel.getLayout());
-	    cl.show(contentPanel, panelName);
-	    contentPanel.revalidate();
-	    contentPanel.repaint();
+		contentPanel.removeAll();
+		contentPanel.add(panel, panelName);
+		CardLayout cl = (CardLayout)(contentPanel.getLayout());
+		cl.show(contentPanel, panelName);
+		contentPanel.revalidate();
+		contentPanel.repaint();
 	}
-	
+
 }

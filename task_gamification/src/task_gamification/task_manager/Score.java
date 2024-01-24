@@ -16,11 +16,11 @@ import java.util.List;
  */
 public class Score {
 
-    private int score, nextLevelXP, userIndex, intNextLevel;
+    private User newUserScore;
+    private int currentScore, nextLevelXP, userIndex, intNextLevel;
     private String loggedInUser, userLevel, nextLevel, newStoryLine, characterName;
     private List<List<String>> csvContent, usersContent, storyContent;
 
-    private User newUserScore, user;
     private CSVReader csvReader;
     private CSVWriter updateCSV;
     private GetLevelXP getLevelXP;
@@ -31,11 +31,14 @@ public class Score {
             storyFilePath = FilePaths.STORY_FILE_PATH,
             levelFilePath = FilePaths.LEVEL_FILE_PATH;
 
+    public Score() {
+        newUserScore = new User();
+    }
     /**
      * Function to return the user score.
      */
     public int getScore(){
-        return score;
+        return currentScore;
     }
 
     /**
@@ -46,14 +49,15 @@ public class Score {
      */
     public boolean updateScore(String loggedInUser, int newScore) throws IOException {
 
-        newUserScore = new User();
         userIndex = newUserScore.getIndex(loggedInUser, userFilePath);
-
-        checkLevelChange(loggedInUser, score);
 
         csvReader = new CSVReader();
         csvContent = csvReader.readCSV(userFilePath);
-        csvContent.get(userIndex).set(1, String.valueOf(score));
+
+        currentScore = Integer.parseInt(csvContent.get(userIndex).get(2));
+        currentScore += newScore;
+
+        csvContent.get(userIndex).set(2, String.valueOf(currentScore));
 
         updateCSV = new CSVWriter();
         updateCSV.writeCSV(userFilePath, csvContent);
@@ -61,52 +65,5 @@ public class Score {
         return true;
     }
 
-    /**
-     * Function to check if the new score triggers a level-up.
-     *
-     * @param newScore new score of the logged-in user.
-     * @param loggedInUser The username of the currently logged-in user.
-     */
-    public boolean checkLevelChange(String loggedInUser, int newScore) {
-
-        user = new User();
-        userLevel = user.getLevel(loggedInUser);
-        nextLevel = String.valueOf(Integer.parseInt(userLevel) + 1);
-        getLevelXP = new GetLevelXP();
-        nextLevelXP = getLevelXP.getLevelXP(nextLevel, levelFilePath);
-
-        if (newScore < nextLevelXP){
-            return false;
-
-        } else {
-            updateStoryLine(loggedInUser);
-            return true;
-        }
-    }
-
-    /**
-     * Function to update the character story.
-     *
-     * @param loggedInUser The username of the currently logged-in user.
-     */
-    public boolean updateStoryLine(String loggedInUser) {
-
-        user = new User();
-        userLevel = user.getLevel(loggedInUser);
-        intNextLevel = Integer.parseInt(userLevel) + 1;
-        userIndex = user.getIndex(loggedInUser, userFilePath);
-        characterName = user.getCharacter(loggedInUser);
-
-        csvReader = new CSVReader();
-        usersContent = csvReader.readCSV(userFilePath);
-
-        storyContent = user.userContent(characterName, storyFilePath);
-        for (int i = 0; i < intNextLevel + 1; i++) {
-            newStoryLine = newStoryLine + storyContent.get(i).get(2);
-        }
-
-        usersContent.get(userIndex).set(3, newStoryLine);
-        return true;
-    }
 
 }
