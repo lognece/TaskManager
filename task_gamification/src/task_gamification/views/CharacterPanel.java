@@ -74,6 +74,7 @@ public class CharacterPanel extends JPanel {
         characterLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, 20);
         add(characterLabel);
 
+
         characterName = user.getCharacter(loggedInUser);
 
         characterNameLabel = new JLabel(characterName, SwingConstants.LEFT);
@@ -109,6 +110,7 @@ public class CharacterPanel extends JPanel {
         add(progressLabel);
 
         levelProgress = new JProgressBar();
+
         levelProgress.setBounds(centerX - (W_FRAME/2) + 30 + labelWidth, 90, 200, 20);
         add(levelProgress);
 
