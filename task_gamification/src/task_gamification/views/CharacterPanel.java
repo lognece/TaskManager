@@ -23,6 +23,7 @@ public class CharacterPanel extends JPanel {
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
     private static final int centerX = W_FRAME / 2;
     private static final int labelWidth = 100;
+    private static final int labelHight = 20;
 
     private JLabel characterLabel, characterNameLabel, levelLabel, characterLevelLabel, progressLabel, storyLabel;
     private JProgressBar levelProgress;
@@ -72,24 +73,24 @@ public class CharacterPanel extends JPanel {
 
         // Add label and output for character
         characterLabel = new JLabel("Character:", SwingConstants.LEFT);
-        characterLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, 20);
+        characterLabel.setBounds(centerX - (W_FRAME/2) + 30, 30, labelWidth, labelHight);
         add(characterLabel);
 
         characterName = user.getCharacter(loggedInUser);
 
         characterNameLabel = new JLabel(characterName, SwingConstants.LEFT);
-        characterNameLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 30, labelWidth, 20);
+        characterNameLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 30, labelWidth, labelHight);
         add(characterNameLabel);
 
         // Add label and output for level
         levelLabel = new JLabel("Level:", SwingConstants.LEFT);
-        levelLabel.setBounds(centerX - (W_FRAME/2) + 30, 60, labelWidth, 20);
+        levelLabel.setBounds(centerX - (W_FRAME/2) + 30, 60, labelWidth, labelHight);
         add(levelLabel);
 
         currentLevel = levelManager.getLevel(loggedInUser);
 
         characterLevelLabel = new JLabel(currentLevel, SwingConstants.LEFT);
-        characterLevelLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 60, labelWidth, 20);
+        characterLevelLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 60, labelWidth, labelHight);
         add(characterLevelLabel);
 
         // Setup progress bar
@@ -98,7 +99,7 @@ public class CharacterPanel extends JPanel {
 
         // Add label for story line
         storyLabel = new JLabel("Story Line:", SwingConstants.LEFT);
-        storyLabel.setBounds(centerX - (W_FRAME/2) + 30, 150, labelWidth, 20);
+        storyLabel.setBounds(centerX - (W_FRAME/2) + 30, 150, labelWidth, labelHight);
         add(storyLabel);
 
         // Setup for story text
@@ -107,7 +108,7 @@ public class CharacterPanel extends JPanel {
         storyText.setLineWrap(true);
         storyText.setEditable(false);
         storyScrollPane = new JScrollPane(storyText);
-        storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 250);
+        storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 260);
         add(storyScrollPane);
 
         //TODO to be tested: if user levels, does the story automatically update?
@@ -118,7 +119,7 @@ public class CharacterPanel extends JPanel {
      */
     private void setupProgressBar(int userXP, int currentLevel) throws InterruptedException {
         progressLabel = new JLabel("Progress:", SwingConstants.LEFT);
-        progressLabel.setBounds(centerX - (W_FRAME/2) + 30, 90, labelWidth, 20);
+        progressLabel.setBounds(centerX - (W_FRAME/2) + 30, 90, labelWidth, labelHight);
         add(progressLabel);
 
         levelProgress = new JProgressBar();

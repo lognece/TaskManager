@@ -1,18 +1,12 @@
 package task_gamification.task_manager;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.*;
+
 import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
 import task_gamification.helpers.ButtonHelper;
@@ -23,11 +17,23 @@ import task_gamification.helpers.GetFilePath;
  * It provides a graphical interface for task operations.
  */
 public class Task extends JDialog {
+    // size and position
+    public static final int popUpWidth = 600;
+    public static final int popUpHight = 370;
+    private static final int centerX = popUpWidth / 2;
+    private static final int labelWidth = 100;
+    private static final int labelHight = 25;
+    private static final int textWidth = 370;
+    private static final int textHight = 67;
+    private static final int buttonWidth = 200;
+    private static final int buttonHight = 30;
 
     private JTextField titleField, descriptionField;
     private JComboBox<String> priorityBox;
     private JSpinner taskXPField;
     private JButton addButton, cancelButton, editButton, deleteButton;
+    private JLabel titleLabel, descriptionLabel, priorityLabel, taskXPLabel;
+    private Insets insets;
 
     private String taskId, loggedInUser;
 
@@ -52,6 +58,7 @@ public class Task extends JDialog {
         this.loggedInUser = loggedInUser;
         this.onTaskAddedCallback = onTaskAddedCallback;
         this.mode = mode;
+        insets = this.getInsets();
         initializeComponents();
         pack();
     }
@@ -61,7 +68,11 @@ public class Task extends JDialog {
      * Sets up the layout and components based on the specified task mode.
      */
     private void initializeComponents() {
-        setLayout(new GridLayout(0, 2));
+        // setLayout(new GridLayout(0, 2));
+        setLayout(null);
+        setBounds(insets.left, insets.top, popUpWidth - insets.left - insets.right,
+                popUpHight - insets.bottom - insets.top);
+        setResizable(false);
 
         titleField = new JTextField();
         descriptionField = new JTextField();
@@ -84,6 +95,31 @@ public class Task extends JDialog {
             }
         });
 
+        titleLabel = new JLabel("Title:", SwingConstants.LEFT);
+        titleLabel.setBounds(centerX - (popUpWidth/2) + 30, 30 + (textHight/2) - (labelHight/2), labelWidth, labelHight);
+        add(titleLabel);
+        titleField.setBounds(centerX - 100, 30, textWidth, textHight);
+        add(titleField);
+
+        descriptionLabel = new JLabel("Description:", SwingConstants.LEFT);
+        descriptionLabel.setBounds(centerX - (popUpWidth/2) + 30, titleLabel.getY() + textHight + 4, labelWidth, labelHight);
+        add(descriptionLabel);
+        descriptionField.setBounds(centerX - 100, titleField.getY() + textHight + 4, textWidth, textHight);
+        add(descriptionField);
+
+        priorityLabel = new JLabel("Priority:", SwingConstants.LEFT);
+        priorityLabel.setBounds(centerX - (popUpWidth/2) + 30, descriptionLabel.getY() + (textHight/2) + (labelHight/2)+ 4, labelWidth, labelHight);
+        add(priorityLabel);
+        priorityBox.setBounds(centerX - 100, descriptionField.getY() + textHight + 4, textWidth, 25);
+        add(priorityBox);
+
+        taskXPLabel = new JLabel("Task XP:", SwingConstants.LEFT);
+        taskXPLabel.setBounds(centerX - (popUpWidth/2) + 30, descriptionLabel.getY() + textHight + labelHight + 8, labelWidth, labelHight);
+        add(taskXPLabel);
+        taskXPField.setBounds(centerX - 100, descriptionField.getY() + textHight + labelHight + 8, textWidth, textHight);
+        add(taskXPField);
+
+        /*
         add(new JLabel("Title:"));
         add(titleField);
         add(new JLabel("Description:"));
@@ -91,29 +127,33 @@ public class Task extends JDialog {
         add(new JLabel("Priority:"));
         add(priorityBox);
         add(new JLabel("Task XP:"));
-        add(taskXPField);
+        add(taskXPField);*/
 
         // Button setup based on the task mode
         if (mode == TaskMode.ADD) {
             addButton = ButtonHelper.newButton("Add Task", "add", e -> addTask(),
                     0, 0, 0, 0);
+            addButton.setBounds(centerX - (popUpWidth/2) + 50, popUpHight - 80, buttonWidth, buttonHight);
             add(addButton);
         }
 
         else if (mode == TaskMode.EDIT) {
             editButton = ButtonHelper.newButton("Edit Task", "edit", e -> editTask(),
                     0, 0, 0, 0);
+            editButton.setBounds(centerX - (popUpWidth/2) + 50, popUpHight - 80, buttonWidth, buttonHight);
             add(editButton);
         }
 
         else if (mode == TaskMode.DELETE) {
             deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> deleteTask(),
                     0, 0, 0, 0);
+            deleteButton.setBounds(centerX - (popUpWidth/2) + 50, popUpHight - 80, buttonWidth, buttonHight);
             add(deleteButton);
         }
 
         cancelButton = ButtonHelper.newButton("Cancel", "cancel", e -> dispose(),
                 0, 0, 0, 0);
+        cancelButton.setBounds(centerX - (popUpWidth/2) + 350, popUpHight - 80, buttonWidth, buttonHight);
         add(cancelButton);
 
     }

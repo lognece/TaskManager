@@ -88,7 +88,7 @@ public class CreditsPanel extends JPanel{
         aboutText.setLineWrap(true);
         aboutText.setEditable(false);
         storyScrollPane = new JScrollPane(aboutText);
-        storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 250);
+        storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 260);
         add(storyScrollPane);
     }
 
