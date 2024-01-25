@@ -117,6 +117,7 @@ public class MainFrame extends JFrame {
         });
         highscoreOverview.addActionListener(e -> showHighscorePanel());
         generalSettings.addActionListener(e -> showGeneralSettingsPanel());
+        credits.addActionListener(e -> showCreditsPanel());
     }
 
 
@@ -160,6 +161,12 @@ public class MainFrame extends JFrame {
         showPanel.getShowPanel(generalSettingsPanel, "General Settings");
     }
 
-
+    /**
+     * Shows the Credits panel
+     */
+    private void showCreditsPanel() {
+        CreditsPanel creditsPanel = new CreditsPanel();
+        showPanel.getShowPanel(creditsPanel, "Credits");
+    }
 
 }

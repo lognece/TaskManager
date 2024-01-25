@@ -70,7 +70,7 @@ public class CharacterPanel extends JPanel {
         setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
 
-        // Add Label and output for character
+        // Add label and output for character
         characterLabel = new JLabel("Character:", SwingConstants.LEFT);
         characterLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, 20);
         add(characterLabel);
@@ -81,7 +81,7 @@ public class CharacterPanel extends JPanel {
         characterNameLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 30, labelWidth, 20);
         add(characterNameLabel);
 
-        // Add Label and output for level
+        // Add label and output for level
         levelLabel = new JLabel("Level:", SwingConstants.LEFT);
         levelLabel.setBounds(centerX - (W_FRAME/2) + 30, 60, labelWidth, 20);
         add(levelLabel);
@@ -95,6 +95,11 @@ public class CharacterPanel extends JPanel {
         // Setup progress bar
         userXP = user.getXP(loggedInUser);
         setupProgressBar(userXP, Integer.parseInt(currentLevel));
+
+        // Add label for story line
+        storyLabel = new JLabel("Story Line:", SwingConstants.LEFT);
+        storyLabel.setBounds(centerX - (W_FRAME/2) + 30, 150, labelWidth, 20);
+        add(storyLabel);
 
         // Setup for story text
         character = new Character();
