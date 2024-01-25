@@ -12,6 +12,7 @@ public class GetFilePath {
 	public static final String LEVEL_FILE_PATH = "src/level.csv";
 	public static final String STORY_FILE_PATH = "src/story.csv";
 	public static final String CHARACTER_FILE_PATH = "src/characters.csv";
+	public static final String ABOUT_FILE_PATH = "src/about.csv";
 	public static final String CHAR_1_FILE_PATH = "src/icon/tiefling.png";
 	public static final String CHAR_2_FILE_PATH = "src/icon/dragonborn.png";
 }

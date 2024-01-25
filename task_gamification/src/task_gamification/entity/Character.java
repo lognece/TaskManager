@@ -37,7 +37,6 @@ public class Character {
         characterName = user.getCharacter(loggedInUser);
         characterLevel = Integer.parseInt(level.getLevel(loggedInUser));
 
-        csvReader = new CSVReader();
         characterContent = characterContent(characterName, storyFilePath);
 
         characterStory = characterContent.get(0).get(2);
