@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class User {
 
-    private int index, userXP, userIndex, characterIndex;
+    private int index, userXP, userIndex, characterIndex, userHighscore;
     private boolean containsUsername;
     private String userName, usercharacter, characterNum, characterName, characterXP,
             characterLevel, characterStory, creationDate;
@@ -172,6 +172,23 @@ public class User {
             }
         }
         return userContent;
+    }
+
+    /**
+     * Fetches the user highscore as requested in "Implementierung 4.".
+     *
+     * @param loggedInUser The username of the currently logged-in user when handeling the users.csv
+     * */
+    public int getUserHighscore(String loggedInUser) {
+
+        userIndex = getIndex(loggedInUser, userFilePath);
+
+        csvReader = new CSVReader();
+        usersContent = csvReader.readCSV(userFilePath);
+        userHighscore = Integer.parseInt(usersContent.get(userIndex).get(2));
+
+        return userHighscore;
+
     }
 
     /**
