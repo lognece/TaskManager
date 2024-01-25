@@ -16,8 +16,14 @@ import java.util.List;
  */
 public class DonePanel extends JPanel {
 
+    // size and position
+    public static final int W_FRAME = 1080;
+    public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
+    private static final int centerX = W_FRAME / 2;
+
     private JTable table;
     private JScrollPane scrollPane;
+    private Insets insets;
 
     private String loggedInUser;
     private List<List<String>> taskData;
@@ -40,6 +46,7 @@ public class DonePanel extends JPanel {
     public DonePanel(String taskFilePath, String loggedInUser) {
         this.taskFilePath = taskFilePath;
         this.loggedInUser = loggedInUser;
+        insets = this.getInsets();
         initializeGUI();
     }
 
@@ -48,10 +55,15 @@ public class DonePanel extends JPanel {
      * Sets up the layout, table, and scroll pane.
      */
     private void initializeGUI() {
-        setLayout(new BorderLayout());
+        setLayout(null);
+        setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
+                H_FRAME - insets.bottom - insets.top);
+
+        // setLayout(new BorderLayout());
         setupTable();
         scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setBounds(centerX - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 150);
+        add(scrollPane);
         refreshTableData();
     }
 

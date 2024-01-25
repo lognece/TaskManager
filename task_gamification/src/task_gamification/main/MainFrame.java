@@ -28,6 +28,12 @@ public class MainFrame extends JFrame {
     private String loggedInUser; // Stores the currently logged-in user's username
 
     private ShowPanel showPanel; // Panel for showing different views
+    private ToDoPanel toDoPanel;
+    private DonePanel donePanel;
+    private CharacterPanel characterPanel;
+    private HighscorePanel highscorePanel;
+    private GeneralSettingsPanel generalSettingsPanel;
+    private CreditsPanel creditsPanel;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -41,7 +47,11 @@ public class MainFrame extends JFrame {
         this.loggedInUser = loggedInUser;
         initializeFrame();
         initializeGUI();
+
         showPanel = new ShowPanel(contentPanel);
+        toDoPanel = new ToDoPanel(taskFilePath, loggedInUser);
+        showPanel.getShowPanel(toDoPanel, "ToDo");
+
         setVisible(true);
     }
 
@@ -125,7 +135,7 @@ public class MainFrame extends JFrame {
      * Shows the To-Do panel
      */
     private void showToDoPanel() {
-        ToDoPanel toDoPanel = new ToDoPanel(taskFilePath, loggedInUser);
+        toDoPanel = new ToDoPanel(taskFilePath, loggedInUser);
         showPanel.getShowPanel(toDoPanel, "ToDo");
     }
 
@@ -133,7 +143,7 @@ public class MainFrame extends JFrame {
      * Shows the Done panel
      */
     private void showDonePanel() {
-        DonePanel donePanel = new DonePanel(taskFilePath, loggedInUser);
+        donePanel = new DonePanel(taskFilePath, loggedInUser);
         showPanel.getShowPanel(donePanel, "Done");
     }
 
@@ -141,7 +151,7 @@ public class MainFrame extends JFrame {
      * Shows the Character panel
      */
     private void showCharacterPanel() throws InterruptedException {
-        CharacterPanel characterPanel = new CharacterPanel(loggedInUser);
+        characterPanel = new CharacterPanel(loggedInUser);
         showPanel.getShowPanel(characterPanel, "Character Overview");
     }
 
@@ -149,7 +159,7 @@ public class MainFrame extends JFrame {
      * Shows the Highscore panel
      */
     private void showHighscorePanel() {
-        HighscorePanel highscorePanel = new HighscorePanel();
+        highscorePanel = new HighscorePanel();
         showPanel.getShowPanel(highscorePanel, "Highscore Overview");
     }
 
@@ -157,7 +167,7 @@ public class MainFrame extends JFrame {
      * Shows the General Settings panel
      */
     private void showGeneralSettingsPanel() {
-        GeneralSettingsPanel generalSettingsPanel = new GeneralSettingsPanel(loggedInUser, this);
+        generalSettingsPanel = new GeneralSettingsPanel(loggedInUser, this);
         showPanel.getShowPanel(generalSettingsPanel, "General Settings");
     }
 
@@ -165,7 +175,7 @@ public class MainFrame extends JFrame {
      * Shows the Credits panel
      */
     private void showCreditsPanel() {
-        CreditsPanel creditsPanel = new CreditsPanel();
+        creditsPanel = new CreditsPanel();
         showPanel.getShowPanel(creditsPanel, "Credits");
     }
 

@@ -20,8 +20,10 @@ public class HighscorePanel extends JPanel {
 	// size and position
 	public static final int W_FRAME = 1080;
 	public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
+	private static final int centerX = W_FRAME / 2;
 
 	private JTable table;
+	private Insets insets;
 
 	private int score1, score2;
 	private List<List<String>> highscoreData;
@@ -37,6 +39,7 @@ public class HighscorePanel extends JPanel {
 	 * Initializes the panel with the highscore information.
 	 */
 	public HighscorePanel() {
+		insets = this.getInsets();
 		initializeGUI();
 		refreshTableData();
 	}
@@ -46,11 +49,17 @@ public class HighscorePanel extends JPanel {
 	 * Sets up the layout, lables, progressbar and textfield.
 	 */
 	private void initializeGUI() {
-		setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(W_FRAME, H_FRAME));
+		setLayout(null);
+		setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
+				H_FRAME - insets.bottom - insets.top);
+
+		// setLayout(new BorderLayout());
+		// setPreferredSize(new Dimension(W_FRAME, H_FRAME));
 
 		setupTable();
-		add(new JScrollPane(table), BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(centerX - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 110);
+		add(scrollPane);
 	}
 
 	/**

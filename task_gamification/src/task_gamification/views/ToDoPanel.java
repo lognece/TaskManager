@@ -25,8 +25,16 @@ import java.util.List;
 
 public class ToDoPanel extends JPanel {
 
+    // size and position
+    public static final int W_FRAME = 1080;
+    public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
+    private static final int centerX = W_FRAME / 2;
+    public static final int popUpWidth = 600;
+    public static final int popUpHight = 370;
+
     private JTable table;
     private JButton addButton, editButton, deleteButton;
+    private Insets insets;
 
     private boolean isEditMode = false;
     private String loggedInUser, taskId;
@@ -48,6 +56,7 @@ public class ToDoPanel extends JPanel {
     public ToDoPanel(String taskFilePath, String loggedInUser) {
         this.taskFilePath = taskFilePath;
         this.loggedInUser = loggedInUser;
+        insets = this.getInsets();
         initializeGUI();
         refreshTableData();
     }
@@ -57,19 +66,18 @@ public class ToDoPanel extends JPanel {
      * Sets up the layout, table, and scroll pane.
      */
     private void initializeGUI() {
-        setLayout(new BorderLayout());
+        setLayout(null);
+        setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
+                H_FRAME - insets.bottom - insets.top);
+
+        // setLayout(new BorderLayout());
         setupTable();
         JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER);
+        scrollPane.setBounds(centerX - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 150);
+        add(scrollPane);
 
         JPanel addTaskPanel = new JPanel();
-        add(addTaskPanel, BorderLayout.SOUTH);
-
-        // Create addButton using ButtonHelper
-        addButton = ButtonHelper.newButton("Add Task", "add", e -> openTaskDialog(), 0, 0, 0, 0); // Placeholder values for x, y, width, height
-
-        // Further setup for addButton
-        setupButton(addButton);
+        add(addTaskPanel);
 
 
         // Edit
@@ -84,8 +92,15 @@ public class ToDoPanel extends JPanel {
                         "Select Row to Edit",
                         JOptionPane.INFORMATION_MESSAGE);
             }
-        }, 0, 0, 0, 0); // Placeholder values for x, y, width, height
-        setupButton(editButton);
+        }, centerX - 50, scrollPane.getHeight() + 50, 100, 30); // Placeholder values for x, y, width, height
+        //setupButton(editButton);
+
+        // Create addButton using ButtonHelper
+        addButton = ButtonHelper.newButton("Add Task", "add",
+                e -> openTaskDialog(), editButton.getX() - 130, scrollPane.getHeight() + 50, 100, 30); // Placeholder values for x, y, width, height
+
+        // Further setup for addButton
+        //setupButton(addButton);
 
         // Delete
         deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> {
@@ -109,22 +124,26 @@ public class ToDoPanel extends JPanel {
                     taskDialog.deleteTask();
                 }
             }
-        }, 0, 0, 0, 0); // Placeholder values for x, y, width, height
-        setupButton(deleteButton);
+        }, editButton.getX() + 130, scrollPane.getHeight() + 50, 100, 30); // Placeholder values for x, y, width, height
+        //setupButton(deleteButton);
 
 
-        addTaskPanel.add(addButton);
-        addTaskPanel.add(editButton);
-        addTaskPanel.add(deleteButton);
+        // addTaskPanel.add(addButton);
+        // addTaskPanel.add(editButton);
+        // addTaskPanel.add(deleteButton);
+        add(addButton);
+        add(editButton);
+        add(deleteButton);
     }
 
     /**
      * Sets up the button configurations.
      */
+    /*
     private void setupButton(JButton button) {
         button.setMinimumSize(new Dimension(100, 25));
         button.setMaximumSize(new Dimension(100, 25));
-    }
+    }*/
 
     /**
      * Sets up the table to display the task data.
@@ -241,6 +260,7 @@ public class ToDoPanel extends JPanel {
      */
     private void openTaskDialog() {
         Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.ADD);
+        taskDialog.setSize(popUpWidth, popUpHight);
         taskDialog.setLocationRelativeTo(this); // Center the dialog
         taskDialog.setVisible(true);
     }
@@ -259,6 +279,7 @@ public class ToDoPanel extends JPanel {
         int taskXP = Integer.parseInt((String) tableModel.getValueAt(modelRow, 4));
         Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.EDIT);
         taskDialog.setTaskData(taskId, title, description, priority, taskXP);
+        taskDialog.setSize(popUpWidth, popUpHight);
         taskDialog.setLocationRelativeTo(this); // Center the dialog
         taskDialog.setVisible(true);
     }
