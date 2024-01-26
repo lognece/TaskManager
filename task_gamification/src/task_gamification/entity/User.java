@@ -76,6 +76,24 @@ public class User {
         return containsUsername;
     }
 
+    public boolean passwordAuthentification(String userName, String password) {
+
+        csvReader = new CSVReader();
+        csvContent = csvReader.readCSV(userFilePath);
+
+        containsUsername = false;
+
+        for ( int i = 0; i < csvContent.size(); i++) {
+            // assuming that username is saved at index 0
+            if (csvContent.get(i).get(0).equals(userName) &&
+                    csvContent.get(i).get(5).equals(password)) {
+                containsUsername = true;
+            }
+        }
+        return containsUsername;
+
+    }
+
     /**
      * Fetches the index of a user in the users.csv
      *

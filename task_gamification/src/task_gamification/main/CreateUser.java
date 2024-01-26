@@ -30,7 +30,6 @@ public class CreateUser extends JFrame{
     private static final int buttonWidth = 150;
     private static final int buttonHeight = 22;
     private static final int labelCharacterWidth = 170;
-    private static final int labelErrorWidth = 260;
 
     private JPanel userPane;
     private JButton char1Button, char2Button, button_create, button_toLogin;
