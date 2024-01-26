@@ -5,7 +5,6 @@ import task_gamification.entity.Character;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.task_manager.Level;
-import task_gamification.task_manager.Story;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +30,7 @@ public class CharacterPanel extends JPanel {
     private JScrollPane storyScrollPane;
     private Insets insets;
 
-    private int userXP, lowerXP, upperXP, progressValue;
+    private int userXP, currentLevelXP, nextLevelXP, progressValue;
     private String loggedInUser, characterName, currentLevel;
 
     private User user;
@@ -127,11 +126,11 @@ public class CharacterPanel extends JPanel {
         levelProgress.setStringPainted(true);
 
         // Fetch XP thresholds for current and next level
-        lowerXP = getLevelXP.getLevelXP(String.valueOf(currentLevel - 1), levelFilePath);
-        upperXP = getLevelXP.getLevelXP(String.valueOf(currentLevel), levelFilePath);
-        progressValue = ((userXP - lowerXP) * 100)  / (upperXP - lowerXP);
+        currentLevelXP = getLevelXP.getLevelXP(String.valueOf(currentLevel), levelFilePath);
+        nextLevelXP = getLevelXP.getLevelXP(String.valueOf(currentLevel + 1), levelFilePath);
+        progressValue = ((userXP - currentLevelXP) * 100)  / (nextLevelXP - currentLevelXP);
         levelProgress.setValue(progressValue);
-        Thread.sleep(upperXP - lowerXP);
+        Thread.sleep(nextLevelXP - currentLevelXP);
         add(levelProgress);
     }
 

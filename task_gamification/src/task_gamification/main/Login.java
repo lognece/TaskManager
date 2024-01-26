@@ -6,6 +6,7 @@ import task_gamification.helpers.GetFilePath;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * Represents the Frame to display the user interface to login as a user.
@@ -19,16 +20,21 @@ public class Login extends JFrame{
     private static final int buttonWidth = 150;
     private static final int buttonHeight = 22;
     private static final int labelWidth = 100;
+    private static final int labelHight = 30;
     private static final int textFieldWidth = 180;
     private static final int centerX = W_FRAME / 2;
     private static final int centerY = H_FRAME / 2;
-    private static final int labelErrorWidth = 260;
+
+    private boolean containsUsername;
 
     private JPanel loginPane;
-    private JButton button_login, button_toCreateUser;
-    private JLabel label_username, label_errorText;
-    private JTextField textField_username;
+    private JButton loginButton, toCreateUserButton;
+    private JLabel usernameLabel, errorTextLabel, passwordLabel;
+    private JTextField usernameTextField;
+    private JPasswordField passwordField;
     private Insets insets;
+
+    private User userLogin;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -67,75 +73,109 @@ public class Login extends JFrame{
         loginPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
 
+        createLabels();
+        createButtons();
+        createTextFields();
+        setContentPane(loginPane);
 
-        // Adjust label_username to be centered horizontally
-        label_username = new JLabel("Username");
-        label_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2, centerY - 40, labelWidth, 20);
-        loginPane.add(label_username);
+    }
 
-        // Adjust textField_username to be centered horizontally on the same row
-        textField_username = new JTextField();
-        textField_username.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, centerY - 40 , textFieldWidth, 20);
-        loginPane.add(textField_username);
+    /**
+     * Creates all the labels in the panel.
+     */
+    private void createLabels() {
+
+        // Add Label for username and determine its positioning
+        usernameLabel = new JLabel("Username");
+        usernameLabel.setBounds(centerX - (labelWidth + textFieldWidth) / 2, centerY - 70, labelWidth, labelHight);
+        loginPane.add(usernameLabel);
+
+        // Add Label for password and determine its positioning
+        passwordLabel = new JLabel("Password");
+        passwordLabel.setBounds(centerX - (labelWidth + textFieldWidth) / 2,
+                usernameLabel.getY() + (labelHight/2) + 20, labelWidth, labelHight);
+        loginPane.add(passwordLabel);
+
+    }
+
+    /**
+     * Creates all the buttons in the panel.
+     */
+    private void createButtons() {
 
         // Create button_login using ButtonHelper
-        button_login = ButtonHelper.newButton("Login", "login", e -> {
-            if(textField_username.getText().equals("")) {
-                label_errorText.setText("Please enter a username");
+        loginButton = ButtonHelper.newButton("Login", "login", e -> {
+            if(usernameTextField.getText().equals("") && (passwordField.getPassword().length == 0)) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter a valid username and password",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+
+            } else if (usernameTextField.getText().equals("")) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter a username",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
+
+            } else if (passwordField.getPassword().length == 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Please enter a password",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
 
             } else {
-
-                //label_errorText.setText("");
-                User userLogin = new User();
-                boolean containsUsername = userLogin.authenticate(textField_username.getText(),userFilePath);
+                userLogin = new User();
+                containsUsername = userLogin.passwordAuthentification(usernameTextField.getText(),
+                        Arrays.toString(passwordField.getPassword()));
 
                 if ( containsUsername ) {
                     EventQueue.invokeLater(new Runnable() {
                         @Override
                         public void run() {
                             Login.this.dispose();
-                            new MainFrame(textField_username.getText());
+                            new MainFrame(usernameTextField.getText());
                         }
                     });
 
                 } else {
-                    label_errorText.setText("Sorry, the user: '" + textField_username.getText() + "' does not exist!");
+                    JOptionPane.showMessageDialog(this,
+                            "Sorry, the username and password don't seem to match. Plase try again.",
+                            "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
 
 
             }
-        }, centerX + 10, label_username.getY() + 60, buttonWidth, buttonHeight);
-
-        // Set additional properties
-        button_login.setFocusPainted(false);
-
-        // Add the button to the panel
-        loginPane.add(button_login);
-
+        }, centerX + 10, passwordLabel.getY() + 60, buttonWidth, buttonHeight);
 
         // Create button_create using ButtonHelper
-        button_toCreateUser = ButtonHelper.newButton("Back", "back", e -> {
+        toCreateUserButton = ButtonHelper.newButton("Back", "back", e -> {
             Login.this.dispose(); // Dispose current Login frame
             new CreateUser(); // Open CreateUser frame
-        }, centerX - buttonWidth - 10, label_username.getY() + 60, buttonWidth, buttonHeight);
+        }, centerX - buttonWidth - 10, passwordLabel.getY() + 60, buttonWidth, buttonHeight);
 
         // Set additional properties
-        button_toCreateUser.setFocusPainted(false);
+        loginButton.setFocusPainted(false);
+        toCreateUserButton.setFocusPainted(false);
 
         // Add the button to the panel
-        loginPane.add(button_toCreateUser);
+        loginPane.add(loginButton);
+        loginPane.add(toCreateUserButton);
+
+    }
 
 
-        // Adjust label_username to be centered horizontally
-        label_errorText = new JLabel();
-        label_errorText.setHorizontalAlignment(SwingConstants.CENTER);
-        label_errorText.setVerticalAlignment(SwingConstants.CENTER);
-        label_errorText.setForeground(Color.RED);
-        label_errorText.setBounds(centerX - labelErrorWidth / 2, textField_username.getY() + 95, labelErrorWidth, 30);
-        loginPane.add(label_errorText);
+    /**
+     * Creates all the text fields in the panel.
+     */
+    private void createTextFields() {
 
-        setContentPane(loginPane);
+        // Add textfield for username and determine positioning
+        usernameTextField = new JTextField();
+        usernameTextField.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, usernameLabel.getY(), textFieldWidth, labelHight);
+        loginPane.add(usernameTextField);
 
+        // Add password field for password input
+        passwordField = new JPasswordField();
+        passwordField.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
+                passwordLabel.getY(), textFieldWidth, labelHight);
+        loginPane.add(passwordField);
 
     }
 
