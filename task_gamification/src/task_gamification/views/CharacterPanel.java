@@ -2,6 +2,7 @@ package task_gamification.views;
 
 import task_gamification.entity.Character;
 import task_gamification.entity.User;
+import task_gamification.helpers.ComponentSizePanel;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.task_manager.Level;
 
@@ -14,15 +15,7 @@ import java.awt.*;
  * a level indicator and the unlocked story line.
  */
 
-public class CharacterPanel extends JPanel {
-
-    // size and position
-    public static final int W_FRAME = 1080;
-    public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
-    private static final int centerX = W_FRAME / 2;
-    private static final int labelWidth = 100;
-    private static final int labelHight = 30;
-
+public class CharacterPanel extends ComponentSizePanel {
 
     private JLabel characterLabel, characterNameLabel, levelLabel, characterLevelLabel, progressLabel, storyLabel;
     private JProgressBar levelProgress;
@@ -81,34 +74,34 @@ public class CharacterPanel extends JPanel {
 
         // Add label and output for character
         characterLabel = new JLabel("Character:", SwingConstants.LEFT);
-        characterLabel.setBounds(centerX - (W_FRAME/2) + 30, 30, labelWidth, labelHight);
+        characterLabel.setBounds(CENTER_X - (W_FRAME/2) + 30, 30, LABEL_WIDTH, LABEL_HEIGHT);
         add(characterLabel);
 
         characterName = user.getCharacter(loggedInUser);
 
         characterNameLabel = new JLabel(characterName, SwingConstants.LEFT);
-        characterNameLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 30, labelWidth, labelHight);
+        characterNameLabel.setBounds(CENTER_X - (W_FRAME/2) + LABEL_WIDTH + 30, 30, LABEL_WIDTH, LABEL_HEIGHT);
         add(characterNameLabel);
 
         // Add label and output for level
         levelLabel = new JLabel("Level:", SwingConstants.LEFT);
-        levelLabel.setBounds(centerX - (W_FRAME/2) + 30, 60, labelWidth, labelHight);
+        levelLabel.setBounds(CENTER_X - (W_FRAME/2) + 30, 60, LABEL_WIDTH, LABEL_HEIGHT);
         add(levelLabel);
 
         currentLevel = levelManager.getLevel(loggedInUser);
 
         characterLevelLabel = new JLabel(currentLevel, SwingConstants.LEFT);
-        characterLevelLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 60, labelWidth, labelHight);
+        characterLevelLabel.setBounds(CENTER_X - (W_FRAME/2) + LABEL_WIDTH + 30, 60, LABEL_WIDTH, LABEL_HEIGHT);
         add(characterLevelLabel);
 
         // Add label for progressbar
         progressLabel = new JLabel("Progress:", SwingConstants.LEFT);
-        progressLabel.setBounds(centerX - (W_FRAME/2) + 30, 90, labelWidth, labelHight);
+        progressLabel.setBounds(CENTER_X - (W_FRAME/2) + 30, 90, LABEL_WIDTH, LABEL_HEIGHT);
         add(progressLabel);
 
         // Add label for story line
         storyLabel = new JLabel("Story Line:", SwingConstants.LEFT);
-        storyLabel.setBounds(centerX - (W_FRAME/2) + 30, 150, labelWidth, labelHight);
+        storyLabel.setBounds(CENTER_X - (W_FRAME/2) + 30, 150, LABEL_WIDTH, LABEL_HEIGHT);
         add(storyLabel);
 
     }
@@ -123,7 +116,7 @@ public class CharacterPanel extends JPanel {
         nextLevelXP = levelManager.getLevelXP(String.valueOf(currentLevel + 1));
 
         levelProgress = new JProgressBar();
-        levelProgress.setBounds(centerX - (W_FRAME/2) + 30 + labelWidth, 90, 200, 20);
+        levelProgress.setBounds(CENTER_X - (W_FRAME/2) + 30 + LABEL_WIDTH, 90, 200, 20);
         levelProgress.setStringPainted(true);
 
         // Fetch XP thresholds for current and next level
@@ -147,7 +140,7 @@ public class CharacterPanel extends JPanel {
         storyText.setLineWrap(true);
         storyText.setEditable(false);
         storyScrollPane = new JScrollPane(storyText);
-        storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 260);
+        storyScrollPane.setBounds(CENTER_X - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 260);
         add(storyScrollPane);
 
     }

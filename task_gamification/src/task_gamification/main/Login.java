@@ -2,6 +2,8 @@ package task_gamification.main;
 
 import task_gamification.entity.User;
 import task_gamification.helpers.ButtonHelper;
+import task_gamification.helpers.ComponentSizesSmallFrame;
+import task_gamification.helpers.ComponentSizesSmallFrame;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.helpers.UIComponentHelper;
 
@@ -15,14 +17,7 @@ import java.util.Arrays;
  * Represents the Frame to display the user interface to login as a user.
  * It provides functionalities to login or go back to the user creation frame.
  */
-public class Login extends JFrame {
-
-    // size and position constants
-    private static final int H_FRAME = 400, W_FRAME = 600;
-    private static final int BUTTON_WIDTH = 150, BUTTON_HEIGHT = 25;
-    private static final int LABEL_WIDTH = 100, LABEL_HEIGHT = 30;
-    private static final int TEXT_FIELD_WIDTH = 180;
-    private static final int CENTER_X = W_FRAME / 2, CENTER_Y = H_FRAME / 2;
+public class Login extends ComponentSizesSmallFrame {
 
     private JPanel loginPane;
     private JButton loginButton, toCreateUserButton;
@@ -40,16 +35,7 @@ public class Login extends JFrame {
      * Initializes the frame and GUI components of the login window.
      */
     public Login() {
-        initializeFrame();
-        initializeGUI();
-    }
-
-    /**
-     * Initializes the main frame of the login window.
-     * Sets layout, size, location, default close operation, resizability and visibility.
-     */
-    private void initializeFrame() {
-        setTitle("Login");
+        super("Login");
         setLayout(null);
         setSize(W_FRAME, H_FRAME);
         setLocationRelativeTo(null);
@@ -59,6 +45,8 @@ public class Login extends JFrame {
         setVisible(true);
 
         insets = this.getInsets();
+
+        initializeGUI();
     }
 
     /**

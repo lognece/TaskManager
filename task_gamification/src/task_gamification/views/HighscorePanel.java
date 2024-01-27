@@ -1,5 +1,6 @@
 package task_gamification.views;
 
+import task_gamification.helpers.ComponentSizePanel;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.CSV.CSVReader;
 
@@ -15,12 +16,7 @@ import java.util.List;
  * Class representing the Highscore panel in the app.
  * It allows users to see their score in comparison to other users
  */
-public class HighscorePanel extends JPanel {
-
-	// size and position
-	public static final int W_FRAME = 1080;
-	public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
-	private static final int centerX = W_FRAME / 2;
+public class HighscorePanel extends ComponentSizePanel {
 
 	private JTable table;
 	private Insets insets;
@@ -58,7 +54,7 @@ public class HighscorePanel extends JPanel {
 
 		setupTable();
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(centerX - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 110);
+		scrollPane.setBounds(CENTER_X - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 110);
 		add(scrollPane);
 	}
 

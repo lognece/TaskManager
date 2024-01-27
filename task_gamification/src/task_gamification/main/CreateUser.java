@@ -1,6 +1,7 @@
 package task_gamification.main;
 
 import task_gamification.entity.User;
+import task_gamification.helpers.ComponentSizesSmallFrame;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.helpers.ButtonHelper;
 import task_gamification.helpers.UIComponentHelper;
@@ -17,20 +18,7 @@ import java.util.regex.Pattern;
  * Represents the Frame to display the user interface to create a new user.
  * It provides functionalities to select a character, choose a username and login.
  */
-public class CreateUser extends JFrame{
-
-    // size and position
-    public static final int H_FRAME = 400;
-    public static final int W_FRAME = 600;
-    private static final int centerX = W_FRAME / 2;
-    private static final int labelWidth = 100;
-    private static final int labelHight = 30;
-    private static final int textFieldWidth = 180;
-    private static final int charWidth = 100;
-    private static final int charHeight = 120;
-    private static final int buttonWidth = 150;
-    private static final int buttonHeight = 25;
-    private static final int labelCharacterWidth = 170;
+public class CreateUser extends ComponentSizesSmallFrame {
 
     private JPanel userPane;
     private JButton char1Button, char2Button, button_create, button_toLogin;
@@ -102,19 +90,19 @@ public class CreateUser extends JFrame{
     private void createLabels() {
 
         characterLabel = UIComponentHelper.createLabel("Select your character",
-                centerX - labelCharacterWidth / 2, 30, labelCharacterWidth, labelHight);
+                CENTER_X - LABEL_CHARACTER_WIDTH / 2, 30, LABEL_CHARACTER_WIDTH, LABEL_HEIGHT);
         userPane.add(characterLabel);
 
-        usernameLabel = UIComponentHelper.createLabel("Username", centerX - (labelWidth + textFieldWidth) / 2,
-                characterLabel.getY() + (labelHight/2) + charHeight + 45, labelWidth, labelHight);
+        usernameLabel = UIComponentHelper.createLabel("Username", CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2,
+                characterLabel.getY() + (LABEL_HEIGHT /2) + CHAR_HEIGHT + 45, LABEL_WIDTH, LABEL_HEIGHT);
         userPane.add(usernameLabel);
 
-        passwordLabel = UIComponentHelper.createLabel("Password", centerX - (labelWidth + textFieldWidth) / 2,
-                usernameLabel.getY() + (labelHight/2) + 20, labelWidth, labelHight);
+        passwordLabel = UIComponentHelper.createLabel("Password", CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2,
+                usernameLabel.getY() + (LABEL_HEIGHT /2) + 20, LABEL_WIDTH, LABEL_HEIGHT);
         userPane.add(passwordLabel);
 
-        emailLabel = UIComponentHelper.createLabel("E-Mail", centerX - (labelWidth + textFieldWidth) / 2,
-                passwordLabel.getY() + (labelHight/2) + 20, labelWidth, labelHight);
+        emailLabel = UIComponentHelper.createLabel("E-Mail", CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2,
+                passwordLabel.getY() + (LABEL_HEIGHT /2) + 20, LABEL_WIDTH, LABEL_HEIGHT);
         userPane.add(emailLabel);
 
     }
@@ -126,8 +114,8 @@ public class CreateUser extends JFrame{
 
         // Create button_char1 using ButtonHelper
         char1Button = ButtonHelper.newButton("", "", e -> characterNum = 0,
-                centerX - charWidth - 10, characterLabel.getY() + (labelHight / 2) + 30,
-                charWidth, charHeight);
+                CENTER_X - CHAR_WIDTH - 10, characterLabel.getY() + (LABEL_HEIGHT / 2) + 30,
+                CHAR_WIDTH, CHAR_HEIGHT);
 
         // Set the icon for the button_char1
         iconTiefling = new ImageIcon(charImgPath_1);
@@ -136,8 +124,8 @@ public class CreateUser extends JFrame{
 
         // Create button_char2 using ButtonHelper
         char2Button = ButtonHelper.newButton("", "", e -> characterNum = 1,
-                centerX + 10, characterLabel.getY() + (labelHight / 2) + 30,
-                charWidth, charHeight);
+                CENTER_X + 10, characterLabel.getY() + (LABEL_HEIGHT / 2) + 30,
+                CHAR_WIDTH, CHAR_HEIGHT);
 
         // Set the icon for the button_char2
         iconDragonborn = new ImageIcon(charImgPath_2);
@@ -148,7 +136,7 @@ public class CreateUser extends JFrame{
         button_create = ButtonHelper.newButton("Create User", "create", e -> {
                     checkInputData();
 
-        }, centerX - buttonWidth - 10, emailLabel.getY() + 45, buttonWidth, buttonHeight);
+        }, CENTER_X - BUTTON_WIDTH - 10, emailLabel.getY() + 45, BUTTON_WIDTH, BUTTON_HEIGHT);
 
 
         // Create button_create using ButtonHelper
@@ -160,7 +148,7 @@ public class CreateUser extends JFrame{
                     new Login();
                 }
             });
-        }, centerX + 10, emailLabel.getY() + 45, buttonWidth, buttonHeight);
+        }, CENTER_X + 10, emailLabel.getY() + 45, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         // Set additional properties
         char1Button.setFocusPainted(false);
@@ -181,16 +169,16 @@ public class CreateUser extends JFrame{
      */
     private void createTextFields() {
 
-        usernameTextField = UIComponentHelper.createTextField(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
-                usernameLabel.getY(), textFieldWidth, labelHight);
+        usernameTextField = UIComponentHelper.createTextField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
+                usernameLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
         userPane.add(usernameTextField);
 
-        passwordField = UIComponentHelper.createPasswordField(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
-                passwordLabel.getY(), textFieldWidth, labelHight);
+        passwordField = UIComponentHelper.createPasswordField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
+                passwordLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
         userPane.add(passwordField);
 
-        emailTextField = UIComponentHelper.createTextField(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
-                emailLabel.getY(), textFieldWidth, labelHight);
+        emailTextField = UIComponentHelper.createTextField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
+                emailLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
         userPane.add(emailTextField);
     }
 
