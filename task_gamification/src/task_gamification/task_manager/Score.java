@@ -4,7 +4,6 @@ import task_gamification.CSV.CSVReader;
 import task_gamification.CSV.CSVWriter;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
-import task_gamification.helpers.GetLevelXP;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,8 +22,7 @@ public class Score {
 
     private CSVReader csvReader;
     private CSVWriter updateCSV;
-    private GetLevelXP getLevelXP;
-    private Level level;
+    private Level levelManager;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -76,18 +74,17 @@ public class Score {
      */
     public boolean checkLevelChange(String loggedInUser, int newScore) {
 
-        level = new Level();
-        userLevel = level.getLevel(loggedInUser);
+        levelManager = new Level();
+        userLevel = levelManager.getLevel(loggedInUser);
         nextLevel = String.valueOf(Integer.parseInt(userLevel) + 1);
-        getLevelXP = new GetLevelXP();
-        nextLevelXP = getLevelXP.getLevelXP(nextLevel, levelFilePath);
+        nextLevelXP = levelManager.getLevelXP(nextLevel);
 
         if (newScore < nextLevelXP){
             return false;
 
         } else {
             newLevel = Integer.parseInt(userLevel) + 1;
-            level.updateUserLevel(loggedInUser, newLevel);
+            levelManager.updateUserLevel(loggedInUser, newLevel);
             return true;
         }
     }
