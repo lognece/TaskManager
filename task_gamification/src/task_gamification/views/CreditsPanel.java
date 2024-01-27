@@ -2,6 +2,7 @@ package task_gamification.views;
 
 
 import task_gamification.CSV.CSVReader;
+import task_gamification.helpers.ComponentSizePanel;
 import task_gamification.helpers.GetFilePath;
 
 import javax.swing.*;
@@ -12,14 +13,7 @@ import java.util.List;
  * Class representing the Credits panel in the app.
  * It allows users to see app information and credits.
  */
-public class CreditsPanel extends JPanel{
-
-    // size and position
-    public static final int W_FRAME = 1080;
-    public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
-    private static final int centerX = W_FRAME / 2;
-    private static final int labelWidth = 120;
-    private static final int labelHight = 30;
+public class CreditsPanel extends ComponentSizePanel {
 
     private JLabel versionLabel, versionOutputLabel, aboutLabel, compatibilityLabel, compatibilityOutputLabel;
     private JTextArea aboutText;
@@ -41,6 +35,7 @@ public class CreditsPanel extends JPanel{
      */
     public CreditsPanel(){
         insets = this.getInsets();
+        super.LABEL_WIDTH = 120;
         aboutText = new JTextArea(""); // Initialize storyText with an empty string
         aboutText.setLineWrap(true);
         aboutText.setEditable(false);
@@ -58,29 +53,29 @@ public class CreditsPanel extends JPanel{
 
         // Add label and output for version
         versionLabel = new JLabel("Version:", SwingConstants.LEFT);
-        versionLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, labelHight);
+        versionLabel.setBounds(CENTER_X - (W_FRAME/2)+ 30, 30, LABEL_WIDTH, LABEL_HEIGHT);
         add(versionLabel);
 
         version = "1.0.0";
 
         versionOutputLabel = new JLabel(version, SwingConstants.LEFT);
-        versionOutputLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 50, 30, labelWidth, labelHight);
+        versionOutputLabel.setBounds(CENTER_X - (W_FRAME/2) + LABEL_WIDTH + 50, 30, LABEL_WIDTH, LABEL_HEIGHT);
         add(versionOutputLabel);
 
         // Add label and output for compatibility
         compatibilityLabel = new JLabel("Compatibility:", SwingConstants.LEFT);
-        compatibilityLabel.setBounds(centerX - (W_FRAME/2)+ 30, 60, labelWidth, labelHight);
+        compatibilityLabel.setBounds(CENTER_X - (W_FRAME/2)+ 30, 60, LABEL_WIDTH, LABEL_HEIGHT);
         add(compatibilityLabel);
 
         compatibleWith = "Windows, Linux, MacOS";
 
         compatibilityOutputLabel = new JLabel(compatibleWith, SwingConstants.LEFT);
-        compatibilityOutputLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 50, 60, 200, labelHight);
+        compatibilityOutputLabel.setBounds(CENTER_X - (W_FRAME/2) + LABEL_WIDTH + 50, 60, 200, LABEL_HEIGHT);
         add(compatibilityOutputLabel);
 
         // Add label and output for about
         aboutLabel = new JLabel("About:", SwingConstants.LEFT);
-        aboutLabel.setBounds(centerX - (W_FRAME/2)+ 30, 150, labelWidth, labelHight);
+        aboutLabel.setBounds(CENTER_X - (W_FRAME/2)+ 30, 150, LABEL_WIDTH, LABEL_HEIGHT);
         add(aboutLabel);
 
         about = getAbout();
@@ -89,7 +84,7 @@ public class CreditsPanel extends JPanel{
         aboutText.setLineWrap(true);
         aboutText.setEditable(false);
         storyScrollPane = new JScrollPane(aboutText);
-        storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 260);
+        storyScrollPane.setBounds(CENTER_X - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 260);
         add(storyScrollPane);
     }
 

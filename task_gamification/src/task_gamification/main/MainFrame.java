@@ -14,7 +14,7 @@ import java.awt.event.WindowEvent;
  */
 public class MainFrame extends JFrame {
     // Constants for frame name and dimensions
-    public static final String FRAME_NAME = "Task_Manager";
+    public static final String FRAME_NAME = "Task Manager";
     public static final int W_FRAME = 1080;
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
 

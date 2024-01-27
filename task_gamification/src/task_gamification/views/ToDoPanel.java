@@ -1,6 +1,7 @@
 package task_gamification.views;
 
 import task_gamification.helpers.ButtonHelper;
+import task_gamification.helpers.ComponentSizePanel;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.task_manager.Score;
 import task_gamification.task_manager.Task;
@@ -23,19 +24,7 @@ import java.util.List;
  * It allows users to manage their tasks (add, edit, delete) and view them in a table format.
  */
 
-public class ToDoPanel extends JPanel {
-
-    // size and position
-    public static final int W_FRAME = 1080;
-    public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
-    private static final int centerX = W_FRAME / 2;
-    private static final int editX = centerX - 60;
-    private static final int addX = editX - 140;
-    private static final int deleteX = editX + 140;
-    private static final int buttonWidth = 120;
-    private static final int buttonHeight = 30;
-    public static final int popUpWidth = 600;
-    public static final int popUpHight = 370;
+public class ToDoPanel extends ComponentSizePanel {
 
     private JTable table;
     private JButton addButton, editButton, deleteButton;
@@ -88,7 +77,7 @@ public class ToDoPanel extends JPanel {
 
     private JScrollPane setupScrollPane() {
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(centerX - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 150);
+        scrollPane.setBounds(CENTER_X - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 150);
         add(scrollPane);
         return scrollPane;
     }
@@ -110,7 +99,7 @@ public class ToDoPanel extends JPanel {
     private void setupAddButton(JScrollPane scrollPane) {
         // Create addButton using ButtonHelper
         addButton = ButtonHelper.newButton("Add Task", "add",
-                e -> openTaskDialog(), addX, scrollPane.getHeight() + 50, buttonWidth, buttonHeight);
+                e -> openTaskDialog(), TASK_ADD_BUTTON, scrollPane.getHeight() + 50, BUTTON_WIDTH, BUTTON_HEIGHT);
         add(addButton);
     }
 
@@ -128,7 +117,7 @@ public class ToDoPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Please click on the row you want to edit.",
                         "Select Row to Edit", JOptionPane.INFORMATION_MESSAGE);
             }
-        }, editX, scrollPane.getHeight() + 50, buttonWidth, buttonHeight);
+        }, TASK_EDIT_BUTTON, scrollPane.getHeight() + 50, BUTTON_WIDTH, BUTTON_HEIGHT);
         add(editButton);
     }
 
@@ -153,7 +142,7 @@ public class ToDoPanel extends JPanel {
                     taskDialog.deleteTask();
                 }
             }
-        }, deleteX, scrollPane.getHeight() + 50, buttonWidth, buttonHeight);
+        }, TASK_DELETE_BUTTON, scrollPane.getHeight() + 50, BUTTON_WIDTH, BUTTON_HEIGHT);
         add(deleteButton);
     }
 
@@ -311,7 +300,7 @@ public class ToDoPanel extends JPanel {
      * @param taskDialog The dialog to be configured.
      */
     private void configureDialog(Task taskDialog) {
-        taskDialog.setSize(popUpWidth, popUpHight);
+        taskDialog.setSize(POP_UP_WIDTH, POP_UP_HIGHT);
         taskDialog.setLocationRelativeTo(this); // Center the dialog relative to the ToDoPanel
         taskDialog.setVisible(true);
     }
@@ -330,7 +319,7 @@ public class ToDoPanel extends JPanel {
         int taskXP = Integer.parseInt((String) tableModel.getValueAt(modelRow, 4));
         Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.EDIT);
         taskDialog.setTaskData(taskId, title, description, priority, taskXP);
-        taskDialog.setSize(popUpWidth, popUpHight);
+        taskDialog.setSize(POP_UP_WIDTH, POP_UP_HIGHT);
         taskDialog.setLocationRelativeTo(this); // Center the dialog
         taskDialog.setVisible(true);
     }

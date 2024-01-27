@@ -2,6 +2,7 @@ package task_gamification.views;
 
 import task_gamification.entity.User;
 import task_gamification.helpers.ButtonHelper;
+import task_gamification.helpers.ComponentSizePanel;
 import task_gamification.helpers.UIComponentHelper;
 import task_gamification.main.CreateUser;
 import task_gamification.main.Login;
@@ -15,16 +16,7 @@ import java.awt.*;
  * It allows users to see their general settings inkl. their username, date of creation
  * and an uption to logout.
  */
-public class GeneralSettingsPanel extends JPanel{
-
-    // size and position constants
-    public static final int W_FRAME = 1080;
-    public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
-    private static final int CENTER_X = W_FRAME / 2;
-    private static final int LABEL_WIDTH = 100;
-    private static final int LABEL_HEIGHT = 30;
-    private static final int BUTTON_WIDTH = 150;
-    private static final int BUTTON_HEIGHT = 25;
+public class GeneralSettingsPanel extends ComponentSizePanel {
 
     private MainFrame mainFrame;
     private User user;
