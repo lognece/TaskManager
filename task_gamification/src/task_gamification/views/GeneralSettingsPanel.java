@@ -21,12 +21,19 @@ public class GeneralSettingsPanel extends JPanel{
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
     private static final int centerX = W_FRAME / 2;
     private static final int labelWidth = 100;
+    private static final int labelHight = 30;
+    private static final int buttonWidth = 150;
+    private static final int buttonHeight = 25;
+
+    private JLabel userLabel, usernameLabel, creationLabel, creationDateLabel, emailLabel, emailAddressLabel;
+    private JButton logoutButton;
     private Insets insets;
 
     private String loggedInUser, creationDate;
+
     private MainFrame mainFrame;
-    private JLabel userLabel, usernameLabel, creationLabel, creationDateLabel;
-    private JButton logoutButton;
+    private User user;
+
 
     /**
      * Constructor for GeneralSettingsPanel.
@@ -53,24 +60,52 @@ public class GeneralSettingsPanel extends JPanel{
         setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
 
+        createLabels();
+        createButtons();
+
+    }
+
+    /**
+     * Creates all the labels in the panel.
+     */
+    private void createLabels() {
+
         // Add Label and output for username
         userLabel = new JLabel("Username:", SwingConstants.LEFT);
-        userLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, 20);
+        userLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, labelHight);
         add(userLabel);
 
         usernameLabel = new JLabel(loggedInUser, SwingConstants.LEFT);
-        usernameLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 30, labelWidth, 20);
+        usernameLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 30, labelWidth, labelHight);
         add(usernameLabel);
 
-        // Add Label and output for username
+        // Add creation date label and output for username
         creationLabel = new JLabel("Created at:", SwingConstants.LEFT);
-        creationLabel.setBounds(centerX - (W_FRAME/2)+ 30, 60, labelWidth, 20);
+        creationLabel.setBounds(centerX - (W_FRAME/2)+ 30, userLabel.getY() + 30, labelWidth, labelHight);
         add(creationLabel);
 
-        User user = new User();
+        user = new User();
         creationDateLabel = new JLabel(user.getCreationDate(loggedInUser), SwingConstants.LEFT);
-        creationDateLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 60, labelWidth, 20);
+        creationDateLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, creationLabel.getY(),
+                labelWidth, labelHight);
         add(creationDateLabel);
+
+        // Add e-mail address label and output for username
+        emailLabel = new JLabel("E-Mail:", SwingConstants.LEFT);
+        emailLabel.setBounds(centerX - (W_FRAME/2)+ 30, creationLabel.getY() + 30, labelWidth, labelHight);
+        add(emailLabel);
+
+        emailAddressLabel = new JLabel(user.getEMail(loggedInUser), SwingConstants.LEFT);
+        emailAddressLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, emailLabel.getY(),
+                labelWidth, labelHight);
+        add(emailAddressLabel);
+
+    }
+
+    /**
+     * Creates all the buttons in the panel.
+     */
+    private void createButtons() {
 
         // Add logout button
         logoutButton = ButtonHelper.newButton("Logout", "logout", e -> {
@@ -83,7 +118,7 @@ public class GeneralSettingsPanel extends JPanel{
                 }
             });
 
-        }, centerX - (W_FRAME/2) + 20, 100, 100, 25);
+        }, centerX - (W_FRAME/2) + 20, emailLabel.getY() + (buttonHeight/2) + 30, buttonWidth, buttonHeight);
         add(logoutButton);
 
     }
