@@ -1,6 +1,5 @@
 package task_gamification.views;
 
-import task_gamification.helpers.GetLevelXP;
 import task_gamification.entity.Character;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
@@ -37,7 +36,6 @@ public class CharacterPanel extends JPanel {
     private User user;
     private Level levelManager;
     private Character character;
-    private GetLevelXP getLevelXP;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -57,7 +55,6 @@ public class CharacterPanel extends JPanel {
 		storyText = new JTextArea(""); // Initialize storyText with an empty string
 		storyText.setLineWrap(true);
 		storyText.setEditable(false);
-        getLevelXP = new GetLevelXP();
         levelManager = new Level();
         initializeGUI();
     }
@@ -122,19 +119,22 @@ public class CharacterPanel extends JPanel {
     private void setupProgressBar() throws InterruptedException {
         userXP = user.getXP(loggedInUser);
         currentLevel = levelManager.getLevel(loggedInUser);
+        currentLevelXP = levelManager.getLevelXP(String.valueOf(currentLevel));
+        nextLevelXP = levelManager.getLevelXP(String.valueOf(currentLevel + 1));
 
         levelProgress = new JProgressBar();
         levelProgress.setBounds(centerX - (W_FRAME/2) + 30 + labelWidth, 90, 200, 20);
         levelProgress.setStringPainted(true);
 
         // Fetch XP thresholds for current and next level
-        currentLevelXP = getLevelXP.getLevelXP(String.valueOf(currentLevel), levelFilePath);
-        nextLevelXP = getLevelXP.getLevelXP(String.valueOf(Integer.parseInt(currentLevel) + 1), levelFilePath);
-        progressValue = ((userXP - currentLevelXP) * 100)  / (nextLevelXP - currentLevelXP);
+        progressValue = levelManager.getProgressValue(Integer.parseInt(currentLevel), userXP);
         levelProgress.setValue(progressValue);
         Thread.sleep(nextLevelXP - currentLevelXP);
         add(levelProgress);
     }
+
+
+
 
     /**
      * Creates all the text fields in the panel.
