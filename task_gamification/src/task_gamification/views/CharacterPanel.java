@@ -22,7 +22,8 @@ public class CharacterPanel extends JPanel {
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
     private static final int centerX = W_FRAME / 2;
     private static final int labelWidth = 100;
-    private static final int labelHight = 20;
+    private static final int labelHight = 30;
+
 
     private JLabel characterLabel, characterNameLabel, levelLabel, characterLevelLabel, progressLabel, storyLabel;
     private JProgressBar levelProgress;
@@ -70,6 +71,17 @@ public class CharacterPanel extends JPanel {
         setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
 
+        createLabels();
+        setupProgressBar();
+        createTextFields();
+
+    }
+
+    /**
+     * Creates all the labels in the panel.
+     */
+    private void createLabels() {
+
         // Add label and output for character
         characterLabel = new JLabel("Character:", SwingConstants.LEFT);
         characterLabel.setBounds(centerX - (W_FRAME/2) + 30, 30, labelWidth, labelHight);
@@ -92,14 +104,42 @@ public class CharacterPanel extends JPanel {
         characterLevelLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 30, 60, labelWidth, labelHight);
         add(characterLevelLabel);
 
-        // Setup progress bar
-        userXP = user.getXP(loggedInUser);
-        setupProgressBar(userXP, Integer.parseInt(currentLevel));
+        // Add label for progressbar
+        progressLabel = new JLabel("Progress:", SwingConstants.LEFT);
+        progressLabel.setBounds(centerX - (W_FRAME/2) + 30, 90, labelWidth, labelHight);
+        add(progressLabel);
 
         // Add label for story line
         storyLabel = new JLabel("Story Line:", SwingConstants.LEFT);
         storyLabel.setBounds(centerX - (W_FRAME/2) + 30, 150, labelWidth, labelHight);
         add(storyLabel);
+
+    }
+
+    /**
+     * Sets up progress bar to show users progress in the current level.
+     */
+    private void setupProgressBar() throws InterruptedException {
+        userXP = user.getXP(loggedInUser);
+        currentLevel = levelManager.getLevel(loggedInUser);
+
+        levelProgress = new JProgressBar();
+        levelProgress.setBounds(centerX - (W_FRAME/2) + 30 + labelWidth, 90, 200, 20);
+        levelProgress.setStringPainted(true);
+
+        // Fetch XP thresholds for current and next level
+        currentLevelXP = getLevelXP.getLevelXP(String.valueOf(currentLevel), levelFilePath);
+        nextLevelXP = getLevelXP.getLevelXP(String.valueOf(Integer.parseInt(currentLevel) + 1), levelFilePath);
+        progressValue = ((userXP - currentLevelXP) * 100)  / (nextLevelXP - currentLevelXP);
+        levelProgress.setValue(progressValue);
+        Thread.sleep(nextLevelXP - currentLevelXP);
+        add(levelProgress);
+    }
+
+    /**
+     * Creates all the text fields in the panel.
+     */
+    private void createTextFields() {
 
         // Setup for story text
         character = new Character();
@@ -110,28 +150,6 @@ public class CharacterPanel extends JPanel {
         storyScrollPane.setBounds(centerX - (W_FRAME/2) + 30, 180, W_FRAME - 60, H_FRAME - 260);
         add(storyScrollPane);
 
-        //TODO to be tested: if user levels, does the story automatically update?
-    }
-
-    /**
-     * Sets up progress bar to show users progress in the current level.
-     */
-    private void setupProgressBar(int userXP, int currentLevel) throws InterruptedException {
-        progressLabel = new JLabel("Progress:", SwingConstants.LEFT);
-        progressLabel.setBounds(centerX - (W_FRAME/2) + 30, 90, labelWidth, labelHight);
-        add(progressLabel);
-
-        levelProgress = new JProgressBar();
-        levelProgress.setBounds(centerX - (W_FRAME/2) + 30 + labelWidth, 90, 200, 20);
-        levelProgress.setStringPainted(true);
-
-        // Fetch XP thresholds for current and next level
-        currentLevelXP = getLevelXP.getLevelXP(String.valueOf(currentLevel), levelFilePath);
-        nextLevelXP = getLevelXP.getLevelXP(String.valueOf(currentLevel + 1), levelFilePath);
-        progressValue = ((userXP - currentLevelXP) * 100)  / (nextLevelXP - currentLevelXP);
-        levelProgress.setValue(progressValue);
-        Thread.sleep(nextLevelXP - currentLevelXP);
-        add(levelProgress);
     }
 
 }

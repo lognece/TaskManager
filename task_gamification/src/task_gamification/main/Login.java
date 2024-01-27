@@ -18,7 +18,7 @@ public class Login extends JFrame{
     public static final int H_FRAME = 400;
     public static final int W_FRAME = 600;
     private static final int buttonWidth = 150;
-    private static final int buttonHeight = 22;
+    private static final int buttonHeight = 25;
     private static final int labelWidth = 100;
     private static final int labelHight = 30;
     private static final int textFieldWidth = 180;

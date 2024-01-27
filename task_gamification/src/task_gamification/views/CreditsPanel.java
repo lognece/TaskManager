@@ -19,6 +19,7 @@ public class CreditsPanel extends JPanel{
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
     private static final int centerX = W_FRAME / 2;
     private static final int labelWidth = 120;
+    private static final int labelHight = 30;
 
     private JLabel versionLabel, versionOutputLabel, aboutLabel, compatibilityLabel, compatibilityOutputLabel;
     private JTextArea aboutText;
@@ -57,29 +58,29 @@ public class CreditsPanel extends JPanel{
 
         // Add label and output for version
         versionLabel = new JLabel("Version:", SwingConstants.LEFT);
-        versionLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, 20);
+        versionLabel.setBounds(centerX - (W_FRAME/2)+ 30, 30, labelWidth, labelHight);
         add(versionLabel);
 
         version = "1.0.0";
 
         versionOutputLabel = new JLabel(version, SwingConstants.LEFT);
-        versionOutputLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 50, 30, labelWidth, 20);
+        versionOutputLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 50, 30, labelWidth, labelHight);
         add(versionOutputLabel);
 
         // Add label and output for compatibility
         compatibilityLabel = new JLabel("Compatibility:", SwingConstants.LEFT);
-        compatibilityLabel.setBounds(centerX - (W_FRAME/2)+ 30, 60, labelWidth, 20);
+        compatibilityLabel.setBounds(centerX - (W_FRAME/2)+ 30, 60, labelWidth, labelHight);
         add(compatibilityLabel);
 
         compatibleWith = "Windows, Linux, MacOS";
 
         compatibilityOutputLabel = new JLabel(compatibleWith, SwingConstants.LEFT);
-        compatibilityOutputLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 50, 60, 200, 20);
+        compatibilityOutputLabel.setBounds(centerX - (W_FRAME/2) + labelWidth + 50, 60, 200, labelHight);
         add(compatibilityOutputLabel);
 
         // Add label and output for about
         aboutLabel = new JLabel("About:", SwingConstants.LEFT);
-        aboutLabel.setBounds(centerX - (W_FRAME/2)+ 30, 150, labelWidth, 20);
+        aboutLabel.setBounds(centerX - (W_FRAME/2)+ 30, 150, labelWidth, labelHight);
         add(aboutLabel);
 
         about = getAbout();

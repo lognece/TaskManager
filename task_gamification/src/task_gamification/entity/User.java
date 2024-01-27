@@ -17,7 +17,7 @@ public class User {
     private int index, userXP, userIndex, characterIndex, userHighscore;
     private boolean containsUsername;
     private String userName, usercharacter, characterNum, characterName, characterXP,
-            characterLevel, characterStory, creationDate;
+            characterLevel, characterStory, creationDate, eMailAddress;
     private List<List<String>> charactersContent, characterContent, levelContent,
             levelIndex, csvContent, usersContent, userContent, existingTasks;
 
@@ -168,6 +168,22 @@ public class User {
         creationDate = usersContent.get(userIndex).get(4);
 
         return creationDate;
+    }
+
+    /**
+     * Fetches the creatin date of a users account from the users.csv
+     *
+     * @param loggedInUser The username of the currently logged-in user.
+     * */
+    public String getEMail(String loggedInUser) {
+
+        userIndex = getIndex(loggedInUser, userFilePath);
+
+        csvReader = new CSVReader();
+        usersContent = csvReader.readCSV(userFilePath);
+        eMailAddress = usersContent.get(userIndex).get(6);
+
+        return eMailAddress;
     }
 
 
