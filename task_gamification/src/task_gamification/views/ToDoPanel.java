@@ -29,6 +29,11 @@ public class ToDoPanel extends JPanel {
     public static final int W_FRAME = 1080;
     public static final int H_FRAME = (int) (W_FRAME / ((Math.sqrt(5) + 1) / 2));
     private static final int centerX = W_FRAME / 2;
+    private static final int editX = centerX - 60;
+    private static final int addX = editX - 140;
+    private static final int deleteX = editX + 140;
+    private static final int buttonWidth = 120;
+    private static final int buttonHeight = 30;
     public static final int popUpWidth = 600;
     public static final int popUpHight = 370;
 
@@ -67,90 +72,110 @@ public class ToDoPanel extends JPanel {
      */
     private void initializeGUI() {
         setLayout(null);
+        configurePaneBounds();
+        setupTable();
+        JScrollPane scrollPane = setupScrollPane();
+        setupButtons(scrollPane);
+    }
+
+    /**
+     * Configures the bounds (size and position) of the panel.
+     */
+    private void configurePaneBounds() {
         setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
                 H_FRAME - insets.bottom - insets.top);
+    }
 
-        // setLayout(new BorderLayout());
-        setupTable();
+    private JScrollPane setupScrollPane() {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(centerX - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 150);
         add(scrollPane);
-
-        JPanel addTaskPanel = new JPanel();
-        add(addTaskPanel);
-
-
-        // Edit
-        editButton = ButtonHelper.newButton("Edit Task", "edit", e -> {
-            isEditMode = true;
-            // Provide instructions for the user in edit mode
-            if (isEditMode) {
-                table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                table.clearSelection();
-                JOptionPane.showMessageDialog(this,
-                        "Please click on the row you want to edit.",
-                        "Select Row to Edit",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        }, centerX - 50, scrollPane.getHeight() + 50, 100, 30); // Placeholder values for x, y, width, height
-        //setupButton(editButton);
-
-        // Create addButton using ButtonHelper
-        addButton = ButtonHelper.newButton("Add Task", "add",
-                e -> openTaskDialog(), editButton.getX() - 130, scrollPane.getHeight() + 50, 100, 30); // Placeholder values for x, y, width, height
-
-        // Further setup for addButton
-        //setupButton(addButton);
-
-        // Delete
-        deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> {
-            // Delete operation with confirmation dialog
-            if (table.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(this,
-                        "Please click on the row you want to delete.",
-                        "Select Row to Delete",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                int selectedRow = table.getSelectedRow();
-                String taskId = (String) tableModel.getValueAt(selectedRow, 0);
-                int confirm = JOptionPane.showConfirmDialog(this,
-                        "Are you sure you want to delete this task?",
-                        "Confirm Deletion",
-                        JOptionPane.YES_NO_OPTION);
-
-                if (confirm == JOptionPane.YES_OPTION) {
-                    Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.DELETE);
-                    taskDialog.setTaskData(taskId, null, null, null, 0);
-                    taskDialog.deleteTask();
-                }
-            }
-        }, editButton.getX() + 130, scrollPane.getHeight() + 50, 100, 30); // Placeholder values for x, y, width, height
-        //setupButton(deleteButton);
-
-
-        // addTaskPanel.add(addButton);
-        // addTaskPanel.add(editButton);
-        // addTaskPanel.add(deleteButton);
-        add(addButton);
-        add(editButton);
-        add(deleteButton);
+        return scrollPane;
     }
 
     /**
      * Sets up the button configurations.
      */
-    /*
-    private void setupButton(JButton button) {
-        button.setMinimumSize(new Dimension(100, 25));
-        button.setMaximumSize(new Dimension(100, 25));
-    }*/
+    private void setupButtons(JScrollPane scrollPane) {
+        setupAddButton(scrollPane);
+        setupEditButton(scrollPane);
+        setupDeleteButton(scrollPane);
+    }
+
+    /**
+     * Sets up the "Add Task" button.
+     *
+     * @param scrollPane The JScrollPane used for button positioning.
+     */
+    private void setupAddButton(JScrollPane scrollPane) {
+        // Create addButton using ButtonHelper
+        addButton = ButtonHelper.newButton("Add Task", "add",
+                e -> openTaskDialog(), addX, scrollPane.getHeight() + 50, buttonWidth, buttonHeight);
+        add(addButton);
+    }
+
+    /**
+     * Sets up the "Edit Task" button.
+     *
+     * @param scrollPane The JScrollPane used for button positioning.
+     */
+    private void setupEditButton(JScrollPane scrollPane) {
+        editButton = ButtonHelper.newButton("Edit Task", "edit", e -> {
+            isEditMode = true;
+            if (isEditMode) {
+                table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                table.clearSelection();
+                JOptionPane.showMessageDialog(this, "Please click on the row you want to edit.",
+                        "Select Row to Edit", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }, editX, scrollPane.getHeight() + 50, buttonWidth, buttonHeight);
+        add(editButton);
+    }
+
+    /**
+     * Sets up the "Delete Task" button.
+     *
+     * @param scrollPane The JScrollPane used for button positioning.
+     */
+    private void setupDeleteButton(JScrollPane scrollPane) {
+        deleteButton = ButtonHelper.newButton("Delete Task", "delete", e -> {
+            if (table.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(this,
+                        "Please click on the row you want to delete.",
+                        "Select Row to Delete", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                int selectedRow = table.getSelectedRow();
+                String taskId = (String) tableModel.getValueAt(selectedRow, 0);
+                if (showConfirmationDialog("Are you sure you want to delete this task?",
+                        "Confirm Deletion")) {
+                    Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.DELETE);
+                    taskDialog.setTaskData(taskId, null, null, null, 0);
+                    taskDialog.deleteTask();
+                }
+            }
+        }, deleteX, scrollPane.getHeight() + 50, buttonWidth, buttonHeight);
+        add(deleteButton);
+    }
 
     /**
      * Sets up the table to display the task data.
      * Configures the table model and removes unnecessary columns.
      */
+
     private void setupTable() {
-        tableModel = new DefaultTableModel(new String[]{"Task ID", "Title", "Description", "Priority", "Task XP", "Status"}, 0) {
+        initializeTableModel();
+        configureTableProperties();
+        configureTableColumns();
+        setupTableListeners();
+    }
+
+    /**
+     * Initializes the table model for displaying task data.
+     * Configures column names and cell editability.
+     */
+    private void initializeTableModel() {
+        tableModel = new DefaultTableModel(new String[]{"Task ID", "Title", "Description",
+                "Priority", "Task XP", "Status"}, 0) {
             @Override
             public Class<?> getColumnClass(int column) {
                 return column == 5 ? Boolean.class : String.class; // The "Status" column
@@ -161,9 +186,29 @@ public class ToDoPanel extends JPanel {
                 return column == 5; // Only the "Status" column is editable
             }
         };
+    }
 
-        // Setup table and add listeners for interactions
+    /**
+     * Configures properties of the table, such as creating the JTable instance and enabling row sorting.
+     */
+    private void configureTableProperties() {
         table = new JTable(tableModel);
+        table.setAutoCreateRowSorter(true);
+    }
+
+    /**
+     * Configures the table columns, hiding the "Task ID" column.
+     */
+    private void configureTableColumns() {
+        // Configure and hide the "Task ID" column
+        TableColumnModel columnModel = table.getColumnModel();
+        columnModel.removeColumn(columnModel.getColumn(0));
+    }
+
+    /**
+     * Sets up listeners for the table, including a listener for changes in the "Status" column and mouse click events.
+     */
+    private void setupTableListeners() {
         table.getModel().addTableModelListener(e -> {
             // Listener for changes in the "Status" column
             if (e.getType() == TableModelEvent.UPDATE && e.getColumn() == 5) {
@@ -195,12 +240,6 @@ public class ToDoPanel extends JPanel {
                 }
             }
         });
-
-        // Configure and hide the "Task ID" column
-        TableColumnModel columnModel = table.getColumnModel();
-        columnModel.removeColumn(columnModel.getColumn(0));
-
-        table.setAutoCreateRowSorter(true);
     }
 
     /**
@@ -230,7 +269,8 @@ public class ToDoPanel extends JPanel {
                 }
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error loading data: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -251,7 +291,8 @@ public class ToDoPanel extends JPanel {
 
             CSVWriter.writeCSV(taskFilePath, taskData);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error updating task: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error updating task: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -260,8 +301,18 @@ public class ToDoPanel extends JPanel {
      */
     private void openTaskDialog() {
         Task taskDialog = new Task(taskFilePath, loggedInUser, this::refreshTableData, TaskMode.ADD);
+        configureDialog(taskDialog);
+    }
+
+    /**
+     * Configures the appearance and behavior of a task dialog.
+     * Sets its size, centers it relative to the ToDoPanel, and makes it visible.
+     *
+     * @param taskDialog The dialog to be configured.
+     */
+    private void configureDialog(Task taskDialog) {
         taskDialog.setSize(popUpWidth, popUpHight);
-        taskDialog.setLocationRelativeTo(this); // Center the dialog
+        taskDialog.setLocationRelativeTo(this); // Center the dialog relative to the ToDoPanel
         taskDialog.setVisible(true);
     }
 
@@ -284,6 +335,12 @@ public class ToDoPanel extends JPanel {
         taskDialog.setVisible(true);
     }
 
+    /**
+     * Updates the user's score based on the XP earned from completing a task.
+     *
+     * @param loggedInUser The username of the logged-in user.
+     * @param taskId The ID of the completed task.
+     */
     private void updateScoreForUser(String loggedInUser, String taskId) {
         try {
             // Retrieve the XP value of the completed task
@@ -293,16 +350,22 @@ public class ToDoPanel extends JPanel {
             Score scoreManager = new Score();
             scoreManager.updateScore(loggedInUser, taskXP);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error updating score: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Error updating score: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
+    /**
+     * Retrieves the XP value associated with a task from the CSV file.
+     *
+     * @param taskId The ID of the task for which XP is to be retrieved.
+     * @return The XP value of the task, or 0 if the task is not found.
+     */
     private int getTaskXP(String taskId) {
-        // Assuming the taskXP is stored in the CSV file and the structure of task data is known
         List<List<String>> taskData = CSVReader.readCSV(taskFilePath);
         for (List<String> task : taskData) {
             if (task.get(1).equals(taskId)) {
-                return Integer.parseInt(task.get(5)); // Assuming the XP is stored at index 5
+                return Integer.parseInt(task.get(5)); // XP is stored at index 5
             }
         }
         return 0; // Return 0 if the task is not found

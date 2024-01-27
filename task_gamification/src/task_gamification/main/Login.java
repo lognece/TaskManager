@@ -3,180 +3,162 @@ package task_gamification.main;
 import task_gamification.entity.User;
 import task_gamification.helpers.ButtonHelper;
 import task_gamification.helpers.GetFilePath;
+import task_gamification.helpers.UIComponentHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 /**
  * Represents the Frame to display the user interface to login as a user.
  * It provides functionalities to login or go back to the user creation frame.
  */
-public class Login extends JFrame{
+public class Login extends JFrame {
 
-    // size and position
-    public static final int H_FRAME = 400;
-    public static final int W_FRAME = 600;
-    private static final int buttonWidth = 150;
-    private static final int buttonHeight = 25;
-    private static final int labelWidth = 100;
-    private static final int labelHight = 30;
-    private static final int textFieldWidth = 180;
-    private static final int centerX = W_FRAME / 2;
-    private static final int centerY = H_FRAME / 2;
-
-    private boolean containsUsername;
+    // size and position constants
+    private static final int H_FRAME = 400, W_FRAME = 600;
+    private static final int BUTTON_WIDTH = 150, BUTTON_HEIGHT = 25;
+    private static final int LABEL_WIDTH = 100, LABEL_HEIGHT = 30;
+    private static final int TEXT_FIELD_WIDTH = 180;
+    private static final int CENTER_X = W_FRAME / 2, CENTER_Y = H_FRAME / 2;
 
     private JPanel loginPane;
     private JButton loginButton, toCreateUserButton;
-    private JLabel usernameLabel, errorTextLabel, passwordLabel;
+    private JLabel usernameLabel, passwordLabel;
     private JTextField usernameTextField;
     private JPasswordField passwordField;
     private Insets insets;
 
     private User userLogin;
-
-    // path to csv files
-    private GetFilePath FilePaths;
+    private GetFilePath FilePaths = new GetFilePath();
     private String userFilePath = FilePaths.USER_FILE_PATH;
 
-
     /**
-     * Constructor for Login frame.
-     * Initializes the frame.
+     * Constructor for Login class.
+     * Initializes the frame and GUI components of the login window.
      */
     public Login() {
+        initializeFrame();
+        initializeGUI();
+    }
 
-        super("Login");
+    /**
+     * Initializes the main frame of the login window.
+     * Sets layout, size, location, default close operation, resizability and visibility.
+     */
+    private void initializeFrame() {
+        setTitle("Login");
         setLayout(null);
         setSize(W_FRAME, H_FRAME);
         setLocationRelativeTo(null);
         setLocation(getX() - 80, getY() - 80);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
         setResizable(false);
+        setVisible(true);
 
         insets = this.getInsets();
-
-        initializeGUI();
-
     }
 
     /**
-     * Initializes the graphical user interface of the panel.
-     * Sets up the layout, lables, textfields, buttons and error messages.
+     * Initializes the graphical user interface components.
+     * Adds labels, buttons, and text fields to the login panel.
      */
     private void initializeGUI() {
-
         loginPane = new JPanel();
         loginPane.setLayout(null);
-        loginPane.setBounds(insets.left, insets.top, W_FRAME - insets.left - insets.right,
-                H_FRAME - insets.bottom - insets.top);
+        loginPane.setBounds(insets.left, insets.top,
+                W_FRAME - insets.left - insets.right, H_FRAME - insets.bottom - insets.top);
 
-        createLabels();
-        createButtons();
-        createTextFields();
+        addLabelsToPane();
+        addButtonsToPane();
+        addTextFieldsToPane();
+
         setContentPane(loginPane);
-
     }
 
     /**
-     * Creates all the labels in the panel.
+     * Adds labels for username and password to the login panel.
      */
-    private void createLabels() {
-
-        // Add Label for username and determine its positioning
-        usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(centerX - (labelWidth + textFieldWidth) / 2, centerY - 70, labelWidth, labelHight);
+    private void addLabelsToPane() {
+        usernameLabel = UIComponentHelper.createLabel("Username",
+                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2, CENTER_Y - 70, LABEL_WIDTH, LABEL_HEIGHT);
+        passwordLabel = UIComponentHelper.createLabel("Password",
+                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2, usernameLabel.getY() + (LABEL_HEIGHT / 2) + 20, LABEL_WIDTH, LABEL_HEIGHT);
         loginPane.add(usernameLabel);
-
-        // Add Label for password and determine its positioning
-        passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(centerX - (labelWidth + textFieldWidth) / 2,
-                usernameLabel.getY() + (labelHight/2) + 20, labelWidth, labelHight);
         loginPane.add(passwordLabel);
-
     }
 
     /**
-     * Creates all the buttons in the panel.
+     * Adds login and back buttons to the login panel.
      */
-    private void createButtons() {
+    private void addButtonsToPane() {
+        // Coordinates for the Login button
+        int loginButtonX = CENTER_X + 10;
+        int loginButtonY = passwordLabel.getY() + 60;
 
-        // Create button_login using ButtonHelper
-        loginButton = ButtonHelper.newButton("Login", "login", e -> {
-            if(usernameTextField.getText().equals("") && (passwordField.getPassword().length == 0)) {
-                JOptionPane.showMessageDialog(this,
-                        "Please enter a valid username and password",
-                        "ERROR", JOptionPane.ERROR_MESSAGE);
+        // Coordinates for the Back button
+        int backButtonX = CENTER_X - BUTTON_WIDTH - 10;
+        int backButtonY = passwordLabel.getY() + 60;
 
-            } else if (usernameTextField.getText().equals("")) {
-                JOptionPane.showMessageDialog(this,
-                        "Please enter a username",
-                        "ERROR", JOptionPane.ERROR_MESSAGE);
-
-            } else if (passwordField.getPassword().length == 0) {
-                JOptionPane.showMessageDialog(this,
-                        "Please enter a password",
-                        "ERROR", JOptionPane.ERROR_MESSAGE);
-
-            } else {
-                userLogin = new User();
-                containsUsername = userLogin.passwordAuthentification(usernameTextField.getText(),
-                        Arrays.toString(passwordField.getPassword()));
-
-                if ( containsUsername ) {
-                    EventQueue.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            Login.this.dispose();
-                            new MainFrame(usernameTextField.getText());
-                        }
-                    });
-
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                            "Sorry, the username and password don't seem to match. Plase try again.",
-                            "ERROR", JOptionPane.ERROR_MESSAGE);
-                }
-
-
-            }
-        }, centerX + 10, passwordLabel.getY() + 60, buttonWidth, buttonHeight);
-
-        // Create button_create using ButtonHelper
-        toCreateUserButton = ButtonHelper.newButton("Back", "back", e -> {
-            Login.this.dispose(); // Dispose current Login frame
-            new CreateUser(); // Open CreateUser frame
-        }, centerX - buttonWidth - 10, passwordLabel.getY() + 60, buttonWidth, buttonHeight);
-
-        // Set additional properties
-        loginButton.setFocusPainted(false);
-        toCreateUserButton.setFocusPainted(false);
-
-        // Add the button to the panel
+        // Create the Login button using the ButtonHelper
+        loginButton = ButtonHelper.newButton("Login", "login", this::loginAction,
+                loginButtonX, loginButtonY, BUTTON_WIDTH, BUTTON_HEIGHT);
         loginPane.add(loginButton);
+
+        // Create the Back button using the ButtonHelper
+        toCreateUserButton = ButtonHelper.newButton("Back", "back", this::backAction,
+                backButtonX, backButtonY, BUTTON_WIDTH, BUTTON_HEIGHT);
         loginPane.add(toCreateUserButton);
-
     }
-
 
     /**
-     * Creates all the text fields in the panel.
+     * Defines the action to be taken when the login button is clicked.
+     * Validates the user credentials and proceeds accordingly.
+     *
+     * @param e The action event.
      */
-    private void createTextFields() {
+    private void loginAction(ActionEvent e) {
+        if (usernameTextField.getText().isEmpty() && passwordField.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid username and password", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else if (usernameTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a username", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else if (passwordField.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "Please enter a password", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            userLogin = new User();
+            boolean containsUsername = userLogin.passwordAuthentification(usernameTextField.getText(), Arrays.toString(passwordField.getPassword()));
 
-        // Add textfield for username and determine positioning
-        usernameTextField = new JTextField();
-        usernameTextField.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth, usernameLabel.getY(), textFieldWidth, labelHight);
-        loginPane.add(usernameTextField);
-
-        // Add password field for password input
-        passwordField = new JPasswordField();
-        passwordField.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
-                passwordLabel.getY(), textFieldWidth, labelHight);
-        loginPane.add(passwordField);
-
+            if (containsUsername) {
+                EventQueue.invokeLater(() -> {
+                    Login.this.dispose();
+                    new MainFrame(usernameTextField.getText());
+                });
+            } else {
+                JOptionPane.showMessageDialog(this, "Sorry, the username and password don't seem to match. Please try again.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
+    /**
+     * Defines the action to be taken when the back button is clicked.
+     * Disposes the current window and opens the user creation frame.
+     *
+     * @param e The action event.
+     */
+    private void backAction(ActionEvent e) {
+        this.dispose();
+        new CreateUser();
+    }
+
+    /**
+     * Adds text fields for username and password to the login panel.
+     */
+    private void addTextFieldsToPane() {
+        usernameTextField = UIComponentHelper.createTextField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH, usernameLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
+        passwordField = UIComponentHelper.createPasswordField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH, passwordLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
+        loginPane.add(usernameTextField);
+        loginPane.add(passwordField);
+    }
 }

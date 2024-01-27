@@ -3,6 +3,7 @@ package task_gamification.main;
 import task_gamification.entity.User;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.helpers.ButtonHelper;
+import task_gamification.helpers.UIComponentHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,29 +101,19 @@ public class CreateUser extends JFrame{
      */
     private void createLabels() {
 
-        // Add Label for character selection and determine its positioning
-        characterLabel = new JLabel("Select your character");
-        characterLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        characterLabel.setVerticalAlignment(SwingConstants.CENTER);
-        characterLabel.setBounds(centerX - labelCharacterWidth / 2, 30,
-                labelCharacterWidth, labelHight);
+        characterLabel = UIComponentHelper.createLabel("Select your character",
+                centerX - labelCharacterWidth / 2, 30, labelCharacterWidth, labelHight);
         userPane.add(characterLabel);
 
-        // Add Label for username and determine its positioning
-        usernameLabel = new JLabel("Username");
-        usernameLabel.setBounds(centerX - (labelWidth + textFieldWidth) / 2,
+        usernameLabel = UIComponentHelper.createLabel("Username", centerX - (labelWidth + textFieldWidth) / 2,
                 characterLabel.getY() + (labelHight/2) + charHeight + 45, labelWidth, labelHight);
         userPane.add(usernameLabel);
 
-        // Add Label for password and determine its positioning
-        passwordLabel = new JLabel("Password");
-        passwordLabel.setBounds(centerX - (labelWidth + textFieldWidth) / 2,
+        passwordLabel = UIComponentHelper.createLabel("Password", centerX - (labelWidth + textFieldWidth) / 2,
                 usernameLabel.getY() + (labelHight/2) + 20, labelWidth, labelHight);
         userPane.add(passwordLabel);
 
-        // Add Label for email and determine its positioning
-        emailLabel = new JLabel("E-Mail");
-        emailLabel.setBounds(centerX - (labelWidth + textFieldWidth) / 2,
+        emailLabel = UIComponentHelper.createLabel("E-Mail", centerX - (labelWidth + textFieldWidth) / 2,
                 passwordLabel.getY() + (labelHight/2) + 20, labelWidth, labelHight);
         userPane.add(emailLabel);
 
@@ -190,21 +181,15 @@ public class CreateUser extends JFrame{
      */
     private void createTextFields() {
 
-        // Add textfield for username and determine positioning
-        usernameTextField = new JTextField();
-        usernameTextField.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
+        usernameTextField = UIComponentHelper.createTextField(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
                 usernameLabel.getY(), textFieldWidth, labelHight);
         userPane.add(usernameTextField);
 
-        // Add password field for password input
-        passwordField = new JPasswordField();
-        passwordField.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
+        passwordField = UIComponentHelper.createPasswordField(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
                 passwordLabel.getY(), textFieldWidth, labelHight);
         userPane.add(passwordField);
 
-        // Add textfield for email address and determine positioning
-        emailTextField = new JTextField();
-        emailTextField.setBounds(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
+        emailTextField = UIComponentHelper.createTextField(centerX - (labelWidth + textFieldWidth) / 2 + labelWidth,
                 emailLabel.getY(), textFieldWidth, labelHight);
         userPane.add(emailTextField);
     }

@@ -19,6 +19,7 @@
           <root url="file://$MODULE_DIR$/src" />
         </SOURCES>
         <jarDirectory url="file://$MODULE_DIR$" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$" recursive="false" />
         <jarDirectory url="file://$MODULE_DIR$" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>

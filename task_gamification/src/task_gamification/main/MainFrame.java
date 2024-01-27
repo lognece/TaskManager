@@ -90,13 +90,7 @@ public class MainFrame extends JFrame {
         settingsMenu = new JMenu("Settings");
 
         // create menu items
-        toDoItem = new JMenuItem("To-Do");
-        doneItem = new JMenuItem("Done");
-        generalSettings = new JMenuItem("General Settings");
-        userManual = new JMenuItem("User Manual");
-        credits = new JMenuItem("Credits");
-        characterOverview = new JMenuItem("Character Overview");
-        highscoreOverview = new JMenuItem("Highscore Overview");
+        createMenuItems();
 
         // add menu items to menu
         taskMenu.add(toDoItem);
@@ -116,6 +110,26 @@ public class MainFrame extends JFrame {
         setJMenuBar(mainMenuBar);
 
         // Adding action listeners to menu items
+        addActionListeners();
+    }
+
+    /**
+     * Creates menu items and adds them to the respective menus
+     */
+    private void createMenuItems() {
+        toDoItem = new JMenuItem("To-Do");
+        doneItem = new JMenuItem("Done");
+        generalSettings = new JMenuItem("General Settings");
+        userManual = new JMenuItem("User Manual");
+        credits = new JMenuItem("Credits");
+        characterOverview = new JMenuItem("Character Overview");
+        highscoreOverview = new JMenuItem("Highscore Overview");
+    }
+
+    /**
+     * Adds action listeners to menu items
+     */
+    private void addActionListeners() {
         toDoItem.addActionListener(e -> showToDoPanel());
         doneItem.addActionListener(e -> showDonePanel());
         characterOverview.addActionListener(e -> {
@@ -129,7 +143,6 @@ public class MainFrame extends JFrame {
         generalSettings.addActionListener(e -> showGeneralSettingsPanel());
         credits.addActionListener(e -> showCreditsPanel());
     }
-
 
     /**
      * Shows the To-Do panel
@@ -178,5 +191,4 @@ public class MainFrame extends JFrame {
         creditsPanel = new CreditsPanel();
         showPanel.getShowPanel(creditsPanel, "Credits");
     }
-
 }

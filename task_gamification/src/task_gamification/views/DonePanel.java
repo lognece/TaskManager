@@ -73,9 +73,17 @@ public class DonePanel extends JPanel {
      */
     private void setupTable() {
         // Define column names for the table
-        tableModel = new DefaultTableModel(new String[]{"Task ID", "Title", "Description", "Priority", "Task XP", "Status"}, 0);
+        tableModel = new DefaultTableModel(new String[]{"Task ID", "Title", "Description", "Priority", "Task XP", "Status"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                //all cells false
+                return false;
+            }
+        };
 
         table = new JTable(tableModel);
+
+        table.setModel(tableModel);
 
         // Configure table column model and remove unnecessary columns for display
         columnModel = table.getColumnModel();
