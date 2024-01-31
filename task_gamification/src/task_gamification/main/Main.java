@@ -12,19 +12,6 @@ public class Main {
         createUserFrame = new CreateUser();
         createUserFrame.setVisible(true);
 
-        //printStartTime();
-
     }
 
-    /**
-     * Calculates Time needed to start application.
-     * Needed check if time < max. reaction time for Application
-     */
-/*    private static void printStartTime() {
-
-        currentTime = System.currentTimeMillis();
-        vmStartTime = ManagementFactory.getRuntimeMXBean().getStartTime();
-        System.out.println(currentTime - vmStartTime);
-
-    } */
 }

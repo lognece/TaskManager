@@ -169,15 +169,18 @@ public class CreateUser extends ComponentSizesSmallFrame {
      */
     private void createTextFields() {
 
-        usernameTextField = UIComponentHelper.createTextField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
+        usernameTextField = UIComponentHelper.createTextField(
+                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
                 usernameLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
         userPane.add(usernameTextField);
 
-        passwordField = UIComponentHelper.createPasswordField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
+        passwordField = UIComponentHelper.createPasswordField(
+                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
                 passwordLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
         userPane.add(passwordField);
 
-        emailTextField = UIComponentHelper.createTextField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
+        emailTextField = UIComponentHelper.createTextField(
+                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH,
                 emailLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
         userPane.add(emailTextField);
     }
@@ -210,7 +213,7 @@ public class CreateUser extends ComponentSizesSmallFrame {
 
         } else {
             newUser = new User();
-            containsUsername = newUser.authenticate(usernameTextField.getText(), userFilePath);
+            containsUsername = newUser.authenticate(usernameTextField.getText());
 
             if (containsUsername) {
                 JOptionPane.showMessageDialog(this,
@@ -255,7 +258,7 @@ public class CreateUser extends ComponentSizesSmallFrame {
     /**
      * Checks validity of the e-mail address using regular expression.
      */
-    private boolean validateEmail(String emailAddress) {
+    public boolean validateEmail(String emailAddress) {
 
         regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
