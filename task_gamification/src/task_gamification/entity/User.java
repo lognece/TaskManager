@@ -60,10 +60,10 @@ public class User {
      * @param filePath The file path where user data is stored.
      * @param userName The username of the currently logged-in user.
      * */
-    public boolean authenticate(String userName, String filePath){
+    public boolean authenticate(String userName){
 
         csvReader = new CSVReader();
-        csvContent = csvReader.readCSV(filePath);
+        csvContent = csvReader.readCSV(userFilePath);
 
         containsUsername = false;
 
@@ -213,12 +213,12 @@ public class User {
      *
      * @param loggedInUser The username of the currently logged-in user when handeling the users.csv
      * */
-    public int getUserHighscore(String loggedInUser) {
+    public int getUserHighscore(String loggedInUser, String filePath) {
 
-        userIndex = getIndex(loggedInUser, userFilePath);
+        userIndex = getIndex(loggedInUser, filePath);
 
         csvReader = new CSVReader();
-        usersContent = csvReader.readCSV(userFilePath);
+        usersContent = csvReader.readCSV(filePath);
         userHighscore = Integer.parseInt(usersContent.get(userIndex).get(2));
 
         return userHighscore;
