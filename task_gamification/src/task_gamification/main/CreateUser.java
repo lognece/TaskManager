@@ -5,6 +5,7 @@ import task_gamification.helpers.ComponentSizesSmallFrame;
 import task_gamification.helpers.GetFilePath;
 import task_gamification.helpers.ButtonHelper;
 import task_gamification.helpers.UIComponentHelper;
+import task_gamification.helpers.Userlog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -237,6 +238,9 @@ public class CreateUser extends ComponentSizesSmallFrame {
                     newUserContent.add(emailTextField.getText()); // col 7 = e-mail address
 
                     newUser.createNewUser(userFilePath, newUserContent);
+
+                    Userlog userlog = new Userlog();
+                    userlog.startUserlog(usernameTextField.getText());
 
                     EventQueue.invokeLater(new Runnable() {
                         @Override

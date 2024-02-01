@@ -4,12 +4,14 @@ import task_gamification.entity.User;
 import task_gamification.helpers.ButtonHelper;
 import task_gamification.helpers.ComponentSizePanel;
 import task_gamification.helpers.UIComponentHelper;
+import task_gamification.helpers.Userlog;
 import task_gamification.main.CreateUser;
 import task_gamification.main.Login;
 import task_gamification.main.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Class representing the General Settings panel in the app.
@@ -20,6 +22,7 @@ public class GeneralSettingsPanel extends ComponentSizePanel {
 
     private MainFrame mainFrame;
     private User user;
+    private Userlog userlog;
 
     /**
      * Constructor for GeneralSettingsPanel.
@@ -73,6 +76,14 @@ public class GeneralSettingsPanel extends ComponentSizePanel {
 
     private void addLogoutButton() {
         JButton logoutButton = ButtonHelper.newButton("Logout", "logout", e -> {
+
+            userlog = new Userlog();
+            try {
+                userlog.endUserLog();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
             EventQueue.invokeLater(() -> {
                 mainFrame.dispose();
                 // Assuming 'CreateUser' is a class to show the user creation screen

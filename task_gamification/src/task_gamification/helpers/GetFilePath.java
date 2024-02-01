@@ -8,6 +8,7 @@ public class GetFilePath {
 	// stores path to file that store user data and tasks data
 
 	public static final String USER_FILE_PATH = "src/csv_files/users.csv";
+	public static final String USERLOG_FILE_PATH = "src/csv_files/userlog.csv";
 	public static final String TASK_FILE_PATH = "src/csv_files/tasks.csv";
 	public static final String LEVEL_FILE_PATH = "src/csv_files/level.csv";
 	public static final String STORY_FILE_PATH = "src/csv_files/story.csv";

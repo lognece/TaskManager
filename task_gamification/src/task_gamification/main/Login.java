@@ -1,11 +1,8 @@
 package task_gamification.main;
 
 import task_gamification.entity.User;
-import task_gamification.helpers.ButtonHelper;
+import task_gamification.helpers.*;
 import task_gamification.helpers.ComponentSizesSmallFrame;
-import task_gamification.helpers.ComponentSizesSmallFrame;
-import task_gamification.helpers.GetFilePath;
-import task_gamification.helpers.UIComponentHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,6 +24,7 @@ public class Login extends ComponentSizesSmallFrame {
     private Insets insets;
 
     private User userLogin;
+    private Userlog userlog;
     private GetFilePath FilePaths = new GetFilePath();
     private String userFilePath = FilePaths.USER_FILE_PATH;
 
@@ -119,6 +117,10 @@ public class Login extends ComponentSizesSmallFrame {
             boolean containsUsername = userLogin.passwordAuthentification(usernameTextField.getText(), Arrays.toString(passwordField.getPassword()));
 
             if (containsUsername) {
+
+                userlog = new Userlog();
+                userlog.startUserlog(usernameTextField.getText());
+
                 EventQueue.invokeLater(() -> {
                     Login.this.dispose();
                     new MainFrame(usernameTextField.getText());
