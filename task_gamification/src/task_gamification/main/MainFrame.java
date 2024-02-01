@@ -1,11 +1,13 @@
 package task_gamification.main;
 
+import task_gamification.helpers.Userlog;
 import task_gamification.views.*;
 import task_gamification.helpers.ShowPanel;
 import task_gamification.helpers.GetFilePath;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 /**
  * Represents the Frame to display the user interface for all main functions.
@@ -34,6 +36,7 @@ public class MainFrame extends JFrame {
     private HighscorePanel highscorePanel;
     private GeneralSettingsPanel generalSettingsPanel;
     private CreditsPanel creditsPanel;
+    private Userlog userlog;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -63,8 +66,23 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout());
         setSize(W_FRAME, H_FRAME);
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        // adding a actionlistener for userlog entry when frame is closed
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+
+                userlog = new Userlog();
+                try {
+                    userlog.endUserLog();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                e.getWindow().dispose();
+            }
+        });
     }
 
     /**
