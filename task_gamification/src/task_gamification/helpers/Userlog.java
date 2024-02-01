@@ -58,7 +58,7 @@ public class Userlog {
 
     }
 
-    public void endUserLog() throws IOException {
+    public void endUserlog() throws IOException {
 
         user = new User();
         csvReader = new CSVReader();

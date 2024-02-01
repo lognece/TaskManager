@@ -79,7 +79,7 @@ public class GeneralSettingsPanel extends ComponentSizePanel {
 
             userlog = new Userlog();
             try {
-                userlog.endUserLog();
+                userlog.endUserlog();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
