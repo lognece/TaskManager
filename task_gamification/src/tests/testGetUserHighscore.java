@@ -13,6 +13,9 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test for the getUserHighscore() Method.
+ */
 public class testGetUserHighscore {
 
     // Creates the temporary directory and deletes it after the tests
@@ -23,6 +26,9 @@ public class testGetUserHighscore {
     private File emptyCSVFile;
     private User testUser;
 
+    /**
+     * Creates a temporary validTest.csv with test data used for the test.
+     */
     @BeforeEach
     void setUp() throws IOException {
         testUser = new User();
@@ -42,12 +48,18 @@ public class testGetUserHighscore {
     }
 
 
+    /**
+     * Tests if the method functions properly if a user has no Highscore. (value - 0)
+     */
     @Test
     void test_noHighscore() {
         assertEquals(0,
                 testUser.getUserHighscore("Mel", validCSVFile.getAbsolutePath()));
     }
 
+    /**
+     * Tests if the method functions properly if a user has a Highscore.
+     */
     @Test
     void test_newHighscore() {
         assertEquals(110, testUser.getUserHighscore("Tom", validCSVFile.getAbsolutePath()));

@@ -14,6 +14,9 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test for the updateScore() Method.
+ */
 public class testUpdateScore {
     // Creates the temporary directory and deletes it after the tests
     @TempDir
@@ -24,6 +27,9 @@ public class testUpdateScore {
     private Score score;
     private User testUser;
 
+    /**
+     * Creates a temporary validTest.csv with test data used for the test.
+     */
     @BeforeEach
     void setUp() throws IOException {
         score = new Score();
@@ -43,18 +49,27 @@ public class testUpdateScore {
         }
     }
 
+    /**
+     * Tests if the method functions properly if a users highscore is being updated.
+     */
     @Test
     void test_updateScore_1() throws IOException {
         assertEquals(true, score.updateScore("Tom", 15, validCSVFile.getAbsolutePath()));
         assertEquals(125, testUser.getUserHighscore("Tom", validCSVFile.getAbsolutePath()));
     }
 
+    /**
+     * Tests if the method functions properly if a users highscore is being updated.
+     */
     @Test
     void test_updateScore_2() throws IOException {
         assertEquals(true, score.updateScore("filia", 32, validCSVFile.getAbsolutePath()));
         assertEquals(92, testUser.getUserHighscore("filia", validCSVFile.getAbsolutePath()));
     }
 
+    /**
+     * Tests if the method functions properly if a users highscore is being updated.
+     */
     @Test
     void test_updateScore_3() throws IOException {
         assertEquals(true, score.updateScore("Mel", 45, validCSVFile.getAbsolutePath()));
