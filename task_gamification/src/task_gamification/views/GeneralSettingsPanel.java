@@ -44,6 +44,10 @@ public class GeneralSettingsPanel extends ComponentSizePanel {
         addLogoutButton();
     }
 
+    /**
+     * Creates username label and output.
+     * @param loggedInUser The username of the currently logged-in user.
+     */
     private void addUsernameLabel(String loggedInUser) {
         JLabel userLabel = UIComponentHelper.createLabel("Username:", CENTER_X - (W_FRAME / 2) + 30,
                 30, LABEL_WIDTH, LABEL_HEIGHT);
@@ -54,6 +58,10 @@ public class GeneralSettingsPanel extends ComponentSizePanel {
         add(usernameLabel);
     }
 
+    /**
+     * Creates creation date label and output.
+     * @param loggedInUser The username of the currently logged-in user.
+     */
     private void addCreationDateLabel(String loggedInUser) {
         JLabel creationLabel = UIComponentHelper.createLabel("Created at:", CENTER_X - (W_FRAME / 2) + 30,
                 60, LABEL_WIDTH, LABEL_HEIGHT);
@@ -64,6 +72,10 @@ public class GeneralSettingsPanel extends ComponentSizePanel {
         add(creationDateLabel);
     }
 
+    /**
+     * Creates email label and output.
+     * @param loggedInUser The username of the currently logged-in user.
+     */
     private void addEmailLabel(String loggedInUser) {
         JLabel emailLabel = UIComponentHelper.createLabel("E-Mail:", CENTER_X - (W_FRAME / 2) + 30, 90,
                 LABEL_WIDTH, LABEL_HEIGHT);
@@ -74,6 +86,10 @@ public class GeneralSettingsPanel extends ComponentSizePanel {
         add(emailAddressLabel);
     }
 
+    /**
+     * Creates a logout button. Which will lead the user back to the create user frame
+     * and finalise userlog for the running session.
+     */
     private void addLogoutButton() {
         JButton logoutButton = ButtonHelper.newButton("Logout", "logout", e -> {
 

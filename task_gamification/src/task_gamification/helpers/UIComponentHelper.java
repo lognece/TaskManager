@@ -2,6 +2,9 @@ package task_gamification.helpers;
 
 import javax.swing.*;
 
+/**
+ * Helperclass for easier implementation of UI-Components.
+ */
 public class UIComponentHelper {
 	/**
 	 * Creates a JLabel with specified properties.
@@ -74,7 +77,8 @@ public class UIComponentHelper {
 	 * @param height The height of the password field.
 	 * @return The created JSpinner object.
 	 */
-	public static JSpinner createSpinner(int minValue, int maxValue, int stepSize, int initialValue, int x, int y, int width, int height) {
+	public static JSpinner createSpinner(int minValue, int maxValue, int stepSize,
+										 int initialValue, int x, int y, int width, int height) {
 		JSpinner spinner = new JSpinner(new SpinnerNumberModel(initialValue, minValue, maxValue, stepSize));
 		spinner.setBounds(x, y, width, height);
 		return spinner;

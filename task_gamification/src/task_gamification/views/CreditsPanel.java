@@ -88,6 +88,10 @@ public class CreditsPanel extends ComponentSizePanel {
         add(storyScrollPane);
     }
 
+    /**
+     * Fetches the data from the about.csv inkluding cresits info.
+     * @return about
+     */
     private String getAbout() {
         csvReader = new CSVReader();
         aboutContent = csvReader.readCSV(aboutFilePath);
