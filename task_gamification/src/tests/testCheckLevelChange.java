@@ -15,14 +15,21 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Test for testion the checkLevelChange() Method.
+ */
 public class testCheckLevelChange {
 
 	private Score score;
 	private User loggedInUser;
 
+	// Creates the temporary directory and deletes it after the tests
 	@TempDir
 	Path tempDir;
 
+	/**
+	 * Creates a temporary Test.csv with test data used for the test.
+	 */
 	@BeforeEach
 	void setUp() throws IOException {
 		score = new Score();
@@ -36,7 +43,6 @@ public class testCheckLevelChange {
 
 	/**
 	 * checkLevelChange returns false when newScore is less than nextLevelXP
-	 *
 	 */
 	@Test
 	void levelChangeNoUpdate() {

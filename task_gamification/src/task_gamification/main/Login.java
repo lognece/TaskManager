@@ -71,7 +71,8 @@ public class Login extends ComponentSizesSmallFrame {
         usernameLabel = UIComponentHelper.createLabel("Username",
                 CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2, CENTER_Y - 70, LABEL_WIDTH, LABEL_HEIGHT);
         passwordLabel = UIComponentHelper.createLabel("Password",
-                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2, usernameLabel.getY() + (LABEL_HEIGHT / 2) + 20, LABEL_WIDTH, LABEL_HEIGHT);
+                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2, usernameLabel.getY() + (LABEL_HEIGHT / 2) + 20,
+                LABEL_WIDTH, LABEL_HEIGHT);
         loginPane.add(usernameLabel);
         loginPane.add(passwordLabel);
     }
@@ -107,17 +108,21 @@ public class Login extends ComponentSizesSmallFrame {
      */
     private void loginAction(ActionEvent e) {
         if (usernameTextField.getText().isEmpty() && passwordField.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid username and password", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a valid username and password",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
         } else if (usernameTextField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a username", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a username",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
         } else if (passwordField.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(this, "Please enter a password", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a password",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             userLogin = new User();
-            boolean containsUsername = userLogin.passwordAuthentification(usernameTextField.getText(), Arrays.toString(passwordField.getPassword()));
+            boolean containsUsername = userLogin.passwordAuthentification(usernameTextField.getText(),
+                    Arrays.toString(passwordField.getPassword()));
 
             if (containsUsername) {
-
+                // start logging current session in userlog
                 userlog = new Userlog();
                 userlog.startUserlog(usernameTextField.getText());
 
@@ -126,7 +131,9 @@ public class Login extends ComponentSizesSmallFrame {
                     new MainFrame(usernameTextField.getText());
                 });
             } else {
-                JOptionPane.showMessageDialog(this, "Sorry, the username and password don't seem to match. Please try again.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Sorry, the username and password don't seem to match. Please try again.",
+                        "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -146,8 +153,12 @@ public class Login extends ComponentSizesSmallFrame {
      * Adds text fields for username and password to the login panel.
      */
     private void addTextFieldsToPane() {
-        usernameTextField = UIComponentHelper.createTextField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH, usernameLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
-        passwordField = UIComponentHelper.createPasswordField(CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH, passwordLabel.getY(), TEXT_FIELD_WIDTH, LABEL_HEIGHT);
+        usernameTextField = UIComponentHelper.createTextField(
+                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH, usernameLabel.getY(),
+                TEXT_FIELD_WIDTH, LABEL_HEIGHT);
+        passwordField = UIComponentHelper.createPasswordField(
+                CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2 + LABEL_WIDTH, passwordLabel.getY(),
+                TEXT_FIELD_WIDTH, LABEL_HEIGHT);
         loginPane.add(usernameTextField);
         loginPane.add(passwordField);
     }

@@ -5,7 +5,7 @@ import java.awt.CardLayout;
 import javax.swing.JPanel;
 
 /**
- * Helper method to add new JPanels to the MainFrame
+ * Helperclass to add new JPanels to the MainFrame
  */
 public class ShowPanel {
 	private JPanel contentPanel;

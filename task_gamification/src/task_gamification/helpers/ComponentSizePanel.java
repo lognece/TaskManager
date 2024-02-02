@@ -2,6 +2,9 @@ package task_gamification.helpers;
 
 import javax.swing.*;
 
+/**
+ * Helperclass to implement fixed sizes and positions for the panels.
+ */
 public class ComponentSizePanel extends JPanel {
 
     // size and position

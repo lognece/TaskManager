@@ -12,6 +12,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test for the readCSV() Method.
+ */
 public class testCSVReader {
 
 	// Creates the temporary directory and deletes it after the tests
@@ -23,6 +26,9 @@ public class testCSVReader {
 	private File incorrectCSVFile;
 	private String nonExistentFilePath = "no_existent_file.csv";
 
+	/**
+	 * Creates a temporary validTest.csv and emptyTest.csv with test data used for the test.
+	 */
 	@BeforeEach
 	void setUp() throws IOException {
 		// Set up a valid CSV file
@@ -39,6 +45,9 @@ public class testCSVReader {
 		}
 	}
 
+	/**
+	 * Tests if the method functions properly with a valid file input.
+	 */
 	@Test
 	void testReadCSV_ValidFile() {
 		List<List<String>> result = CSVReader.readCSV(validCSVFile.getAbsolutePath());
@@ -55,12 +64,18 @@ public class testCSVReader {
 		assertEquals("filia@barklin.shop", result.get(1).get(6), "the email should be filia@barklin.shop");
 	}
 
+	/**
+	 * Tests if the method functions properly with a empty file input.
+	 */
 	@Test
 	void testReadCSV_EmptyFile() {
 		List<List<String>> result = CSVReader.readCSV(emptyCSVFile.getAbsolutePath());
 		assertTrue(result.isEmpty(), "The result should be empty");
 	}
 
+	/**
+	 * Tests if the method throws expected error with a non existing file input.
+	 */
 	@Test
 	void testReadCSV_NonExistentFile() {
 		Exception exception = assertThrows(RuntimeException.class, () -> {

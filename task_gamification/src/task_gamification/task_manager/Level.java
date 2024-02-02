@@ -6,6 +6,9 @@ import task_gamification.CSV.CSVWriter;
 import task_gamification.helpers.GetFilePath;
 import java.util.List;
 
+/**
+ * Class managing all methods related to level management.
+ */
 public class Level{
 
 	private int userIndex, userXP, currentLevelXP, nextLevelXP, progressValue, levelXP;
@@ -58,6 +61,12 @@ public class Level{
 
 	}
 
+	/**
+	 * Updates the users level.
+	 *
+	 * @param loggedInUser The username of the currently logged-in user.
+	 * @param newLevel The users new level.
+	 */
 	public void updateUserLevel(String loggedInUser, int newLevel) {
 
 		try {
@@ -80,6 +89,9 @@ public class Level{
 
 	/**
 	 * Calculates progress value for progress bar.
+	 *
+	 * @param currentLevel The users current level.
+	 * @param userXP The users current XP.
 	 */
 	public int getProgressValue(int currentLevel, int userXP) {
 		currentLevelXP = getLevelXP(String.valueOf(currentLevel));

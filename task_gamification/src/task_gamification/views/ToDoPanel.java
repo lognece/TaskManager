@@ -76,6 +76,10 @@ public class ToDoPanel extends ComponentSizePanel {
                 H_FRAME - insets.bottom - insets.top);
     }
 
+    /**
+     * Sets up the scroll pane.
+     * @return
+     */
     private JScrollPane setupScrollPane() {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(CENTER_X - (W_FRAME/2) + 30, 30, W_FRAME - 60, H_FRAME - 150);

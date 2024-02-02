@@ -332,7 +332,8 @@ public class Task extends JDialog {
      * @param message The message to display as a success message.
      */
     private void showSuccessMessage(String message) {
-        JOptionPane.showMessageDialog(this, message, "Task Operation", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, message, "Task Operation",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**

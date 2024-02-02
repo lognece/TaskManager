@@ -50,6 +50,7 @@ public class Character {
      * Fetches the character content.
      *
      * @param characterName the character name of the users chosen character when handeling the characters.csv.
+     * @param filepath referes to the filepath from which the data is extracted from
      * */
     public List<List<String>> characterContent(String characterName, String filepath){
         characterContent = user.userContent(characterName, filepath);

@@ -2,6 +2,9 @@ package task_gamification.helpers;
 
 import javax.swing.*;
 
+/**
+ * Helperclass to implement fixed sizes and positions for the small frames.
+ */
 public class ComponentSizesSmallFrame extends JFrame {
 
     // size and position

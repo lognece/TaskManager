@@ -37,7 +37,9 @@ public class User {
      * Creates a new user adding the user related content to the users.csv
      *
      * @param filePath The file path where user data is stored.
-     * @param loggedInUser The username of the currently logged-in user.
+     * @param newUserContent The username and data of the currently logged-in user.
+     *                       This includes the chosen character, XP, Level, creation date,
+     *                       password and e-mail-address.
      * */
     public boolean createNewUser(String filePath, List<String> newUserContent){
 
@@ -76,6 +78,12 @@ public class User {
         return containsUsername;
     }
 
+    /**
+     * Authenticates a username with the content in users.csv
+     *
+     * @param userName The username of the currently logged-in user.
+     * @param password a password chosen by the user for login.
+     * */
     public boolean passwordAuthentification(String userName, String password) {
 
         csvReader = new CSVReader();
@@ -191,6 +199,7 @@ public class User {
      * Fetches the user content.
      *
      * @param userName The username of the currently logged-in user when handeling the users.csv
+     * @param filePath The path where user date is stored.
      * */
     public List<List<String>> userContent(String userName, String filePath){
 
@@ -212,6 +221,7 @@ public class User {
      * Fetches the user highscore as requested in "Implementierung 4.".
      *
      * @param loggedInUser The username of the currently logged-in user when handeling the users.csv
+     * @param filePath The path where user date is stored.
      * */
     public int getUserHighscore(String loggedInUser, String filePath) {
 

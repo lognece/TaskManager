@@ -239,6 +239,7 @@ public class CreateUser extends ComponentSizesSmallFrame {
 
                     newUser.createNewUser(userFilePath, newUserContent);
 
+                    // start logging current session in userlog
                     Userlog userlog = new Userlog();
                     userlog.startUserlog(usernameTextField.getText());
 

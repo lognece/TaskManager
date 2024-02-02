@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class to handel all methods related to userlog entry.
+ */
 public class Userlog {
 
     private LocalDateTime startTime, endTime;
@@ -32,6 +35,12 @@ public class Userlog {
     private String userlogFilePath = FilePaths.USERLOG_FILE_PATH,
             userFilePath = FilePaths.USER_FILE_PATH;
 
+    /**
+     * Creates a entry in the userlog with the username and login-time.
+     *
+     * @param loggedInUser username of the user currently logged-in.
+     * @return success
+     */
     public boolean startUserlog(String loggedInUser) {
 
         startTime = LocalDateTime.now();
@@ -58,6 +67,11 @@ public class Userlog {
 
     }
 
+    /**
+     * Adds missing data to userlog (end time, duration, score).
+     *
+     * @throws IOException
+     */
     public void endUserlog() throws IOException {
 
         user = new User();

@@ -13,6 +13,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test for the testCSV() Method.
+ */
 public class testCSVWriter {
 	// Creates the temporary directory and deletes it after the tests
 	@TempDir
@@ -20,12 +23,18 @@ public class testCSVWriter {
 
 	private File outputFile;
 
+	/**
+	 * Creates a temporary outputTest.csv used for the test.
+	 */
 	@BeforeEach
 	void setUp() throws IOException {
 		// Set up an output CSV file
 		outputFile = tempDir.resolve("outputTest.csv").toFile();
 	}
 
+	/**
+	 * Tests if the method functions properly with a valid input content.
+	 */
 	@Test
 	void testWriteCSV_ValidContent() throws IOException{
 		List<List<String>> content = Arrays.asList(
@@ -46,6 +55,9 @@ public class testCSVWriter {
 		assertEquals("filia;1;60;2;2024-01-26;[b, a, r, k];filia@barklin.shop", secondLine);
 	}
 
+	/**
+	 * Tests if the method functions properly with a empty input content.
+	 */
 	@Test
 	void testWriteCSV_EmptyContent() throws IOException {
 		List<List<String>> content = Arrays.asList();
