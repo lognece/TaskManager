@@ -70,6 +70,15 @@ public class MainFrame extends JFrame {
 
         // adding a actionlistener for userlog entry when frame is closed
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        actionWhenClosed();
+
+    }
+
+    /**
+     * Adds window listener to save the loggedInUser data in the userlog.csv
+     * when manually closing the window.
+     */
+    private void actionWhenClosed() {
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
