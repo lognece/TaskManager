@@ -38,7 +38,8 @@ public class ToDoPanel extends ComponentSizePanel {
 
     // path to csv files
     private GetFilePath FilePaths;
-    private String taskFilePath = FilePaths.TASK_FILE_PATH;
+    private String taskFilePath = FilePaths.TASK_FILE_PATH,
+            userFilePath = FilePaths.USER_FILE_PATH;
 
     /**
      * Constructor for ToDoPanel.
@@ -337,7 +338,7 @@ public class ToDoPanel extends ComponentSizePanel {
 
             // Update the user's score
             Score scoreManager = new Score();
-            scoreManager.updateScore(loggedInUser, taskXP);
+            scoreManager.updateScore(loggedInUser, taskXP, userFilePath);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error updating score: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
