@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import task_gamification.entity.User;
+import task_gamification.task_manager.Score;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,18 +14,19 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class testGetUserHighscore {
-
+public class testUpdateScore {
     // Creates the temporary directory and deletes it after the tests
     @TempDir
     Path tempDir;
 
     private File validCSVFile;
     private File emptyCSVFile;
+    private Score score;
     private User testUser;
 
     @BeforeEach
     void setUp() throws IOException {
+        score = new Score();
         testUser = new User();
         // Set up a valid CSV file
         validCSVFile = tempDir.resolve("validTest.csv").toFile();
@@ -41,18 +43,22 @@ public class testGetUserHighscore {
         }
     }
 
-
     @Test
-    void test_noHighscore() {
-        assertEquals(0,
-                testUser.getUserHighscore("Mel", validCSVFile.getAbsolutePath()));
+    void test_updateScore_1() throws IOException {
+        assertEquals(true, score.updateScore("Tom", 15, validCSVFile.getAbsolutePath()));
+        assertEquals(125, testUser.getUserHighscore("Tom", validCSVFile.getAbsolutePath()));
     }
 
     @Test
-    void test_newHighscore() {
-        assertEquals(110, testUser.getUserHighscore("Tom", validCSVFile.getAbsolutePath()));
-        assertEquals(60, testUser.getUserHighscore("filia", validCSVFile.getAbsolutePath()));
+    void test_updateScore_2() throws IOException {
+        assertEquals(true, score.updateScore("filia", 32, validCSVFile.getAbsolutePath()));
+        assertEquals(92, testUser.getUserHighscore("filia", validCSVFile.getAbsolutePath()));
     }
 
+    @Test
+    void test_updateScore_3() throws IOException {
+        assertEquals(true, score.updateScore("Mel", 45, validCSVFile.getAbsolutePath()));
+        assertEquals(45, testUser.getUserHighscore("Mel", validCSVFile.getAbsolutePath()));
+    }
 
 }

@@ -46,12 +46,12 @@ public class Score {
      * @param newScore new score of the logged-in user.
      * @param loggedInUser The username of the currently logged-in user.
      */
-    public boolean updateScore(String loggedInUser, int additionalScore) throws IOException {
+    public boolean updateScore(String loggedInUser, int additionalScore, String filePath) throws IOException {
 
-        userIndex = newUserScore.getIndex(loggedInUser, userFilePath);
+        userIndex = newUserScore.getIndex(loggedInUser, filePath);
 
         csvReader = new CSVReader();
-        csvContent = csvReader.readCSV(userFilePath);
+        csvContent = csvReader.readCSV(filePath);
 
         currentScore = Integer.parseInt(csvContent.get(userIndex).get(2));
         currentScore += additionalScore;
@@ -59,7 +59,7 @@ public class Score {
         csvContent.get(userIndex).set(2, String.valueOf(currentScore));
 
         updateCSV = new CSVWriter();
-        updateCSV.writeCSV(userFilePath, csvContent);
+        updateCSV.writeCSV(filePath, csvContent);
 
         checkLevelChange(loggedInUser, currentScore);
 
