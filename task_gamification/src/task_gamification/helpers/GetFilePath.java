@@ -16,4 +16,5 @@ public class GetFilePath {
 	public static final String ABOUT_FILE_PATH = "src/csv_files/about.csv";
 	public static final String CHAR_1_FILE_PATH = "src/icon/tiefling.png";
 	public static final String CHAR_2_FILE_PATH = "src/icon/dragonborn.png";
+	public static final String USER_MANUAL = "src/PDF/User_Manual.pdf";
 }

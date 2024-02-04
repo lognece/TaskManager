@@ -37,6 +37,7 @@ public class MainFrame extends JFrame {
     private GeneralSettingsPanel generalSettingsPanel;
     private CreditsPanel creditsPanel;
     private Userlog userlog;
+    private UserManualPanel userManualPanel;
 
     // path to csv files
     private GetFilePath FilePaths;
@@ -54,6 +55,7 @@ public class MainFrame extends JFrame {
         showPanel = new ShowPanel(contentPanel);
         toDoPanel = new ToDoPanel(taskFilePath, loggedInUser);
         showPanel.getShowPanel(toDoPanel, "ToDo");
+        userManualPanel = new UserManualPanel();
 
         setVisible(true);
     }
@@ -169,6 +171,7 @@ public class MainFrame extends JFrame {
         highscoreOverview.addActionListener(e -> showHighscorePanel());
         generalSettings.addActionListener(e -> showGeneralSettingsPanel());
         credits.addActionListener(e -> showCreditsPanel());
+        userManual.addActionListener(e -> userManualPanel.openManual());
     }
 
     /**
