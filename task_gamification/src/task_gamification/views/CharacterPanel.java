@@ -40,6 +40,7 @@ public class CharacterPanel extends ComponentSizePanel {
      * Initializes the panel with the character information linked to the currently logged-in user.
      *
      * @param loggedInUser The username of the currently logged-in user.
+     * @throws InterruptedException exception for JTextArea
      */
     public CharacterPanel(String loggedInUser) throws InterruptedException {
         this.loggedInUser = loggedInUser;
@@ -55,6 +56,7 @@ public class CharacterPanel extends ComponentSizePanel {
     /**
      * Initializes the graphical user interface of the panel.
      * Sets up the layout, lables, progressbar and textfield.
+     * @throws exception to prevent interrupt
      */
     private void initializeGUI() throws InterruptedException {
         setLayout(null);

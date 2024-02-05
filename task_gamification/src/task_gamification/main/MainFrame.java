@@ -46,6 +46,7 @@ public class MainFrame extends JFrame {
     /**
      * Constructor for MainFrame frame.
      * Initializes the frame.
+     * @param loggedInUser The username of the currently logged-in user.
      */
     public MainFrame(String loggedInUser) {
         this.loggedInUser = loggedInUser;

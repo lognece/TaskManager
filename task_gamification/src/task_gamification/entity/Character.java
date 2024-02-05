@@ -29,6 +29,7 @@ public class Character {
      * Fetches the story of a users chosen character corresponding to its level.
      *
      * @param loggedInUser The username of the currently logged-in user.
+     * @return returns character specific story content
      * */
     public String getStory(String loggedInUser) {
 
@@ -51,6 +52,7 @@ public class Character {
      *
      * @param characterName the character name of the users chosen character when handeling the characters.csv.
      * @param filepath referes to the filepath from which the data is extracted from
+     * @return returns a character's content
      * */
     public List<List<String>> characterContent(String characterName, String filepath){
         characterContent = user.userContent(characterName, filepath);

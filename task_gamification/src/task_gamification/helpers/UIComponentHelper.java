@@ -56,6 +56,7 @@ public class UIComponentHelper {
 	/**
 	 * Creates a JComboBox with specified properties.
 	 *
+	 * @param items The items displayed in the combobox.
 	 * @param x The x-coordinate of the password field.
 	 * @param y The y-coordinate of the password field.
 	 * @param width The width of the password field.
@@ -71,6 +72,10 @@ public class UIComponentHelper {
 	/**
 	 * Creates a JSpinner with specified properties.
 	 *
+	 * @param minValue The minimum value of JSpinner.
+	 * @param maxValue The maximum value of JSpinner.
+	 * @param stepSize The stepsize for clicking through JSpinner.
+	 * @param initialValue The initial value set in JSpinner.
 	 * @param x The x-coordinate of the password field.
 	 * @param y The y-coordinate of the password field.
 	 * @param width The width of the password field.

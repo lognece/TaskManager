@@ -193,6 +193,11 @@ public class Task extends JDialog {
 
     /**
      * Sets the initial data for the task fields when in edit mode.
+     * @param taskId A specifik task ID to identify the task
+     * @param title The task titel the user has chosen.
+     * @param description The description the user has chosen.
+     * @param priority The priority the user has chosen.
+     * @param taskXP The task XP the user has chosen.
      */
     public void setTaskData(String taskId, String title, String description, String priority, int taskXP) {
         this.taskId = taskId;

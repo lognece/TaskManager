@@ -33,18 +33,16 @@ public class Score {
     public Score() {
         newUserScore = new User();
     }
-    /**
-     * Function to return the user score.
-     */
-    public int getScore(){
-        return currentScore;
-    }
 
     /**
      * Function to update the user score.
      *
-     * @param newScore new score of the logged-in user.
+     * @param additionalScore new score of the logged-in user.
      * @param loggedInUser The username of the currently logged-in user.
+     * @param filePath Filepath for user.csv whre user data is saved.
+     * @return boolean true if update successful
+     *
+     * @throws IOException exception
      */
     public boolean updateScore(String loggedInUser, int additionalScore, String filePath) throws IOException {
 
@@ -71,6 +69,7 @@ public class Score {
      *
      * @param newScore new score of the logged-in user.
      * @param loggedInUser The username of the currently logged-in user.
+     * @return boolean tru if level needs to be updated, false if not.
      */
     public boolean checkLevelChange(String loggedInUser, int newScore) {
 

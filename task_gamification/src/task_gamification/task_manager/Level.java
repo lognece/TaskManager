@@ -28,6 +28,7 @@ public class Level{
 	 * Fetches the level of a user by accessing the users.csv and the level.csv
 	 *
 	 * @param loggedInUser The username of the currently logged-in user.
+	 * @return loggedInUser's current level
 	 * */
 	public String getLevel(String loggedInUser) {
 
@@ -45,6 +46,7 @@ public class Level{
 	 * Fetches the XP corresponding to a level using the level.csv
 	 *
 	 * @param level The level of the currently logged-in user.
+	 * @return XP corresponding to the input level
 	 */
 	public int getLevelXP(String level) {
 
@@ -92,6 +94,7 @@ public class Level{
 	 *
 	 * @param currentLevel The users current level.
 	 * @param userXP The users current XP.
+	 * @return progress value in the users current level in percent
 	 */
 	public int getProgressValue(int currentLevel, int userXP) {
 		currentLevelXP = getLevelXP(String.valueOf(currentLevel));

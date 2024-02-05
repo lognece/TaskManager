@@ -262,6 +262,8 @@ public class CreateUser extends ComponentSizesSmallFrame {
 
     /**
      * Checks validity of the e-mail address using regular expression.
+     * @param emailAddress the e-mail-address entered by the user
+     * @return boolean true if email is valid, false if it isn't
      */
     public boolean validateEmail(String emailAddress) {
 
