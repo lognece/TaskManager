@@ -14,7 +14,7 @@ public class testStartTime {
 
 	/**
 	 * Tests if the application starts in an accaptable time frame.
-	 * Here < 10 seconds.
+	 * Here less than 10 seconds.
 	 */
 	@Test
 	public void testStartTimeWithin10Seconds() {

@@ -15,7 +15,7 @@ import java.util.List;
 public class User {
 
     private int index, userXP, userIndex, characterIndex, userHighscore;
-    private boolean containsUsername;
+    private boolean containsUsername, passwordValid;
     private String userName, usercharacter, characterNum, characterName, characterXP,
             characterLevel, characterStory, creationDate, eMailAddress;
     private List<List<String>> charactersContent, characterContent, levelContent,
@@ -40,6 +40,7 @@ public class User {
      * @param newUserContent The username and data of the currently logged-in user.
      *                       This includes the chosen character, XP, Level, creation date,
      *                       password and e-mail-address.
+     * @return true if successful.
      * */
     public boolean createNewUser(String filePath, List<String> newUserContent){
 
@@ -59,8 +60,8 @@ public class User {
     /**
      * Authenticates a username with the content in users.csv
      *
-     * @param filePath The file path where user data is stored.
      * @param userName The username of the currently logged-in user.
+     * @return boolean true if username already excists, false if not.
      * */
     public boolean authenticate(String userName){
 
@@ -83,22 +84,23 @@ public class User {
      *
      * @param userName The username of the currently logged-in user.
      * @param password a password chosen by the user for login.
+     * @return boolean true if password and username match, false if not.
      * */
     public boolean passwordAuthentification(String userName, String password) {
 
         csvReader = new CSVReader();
         csvContent = csvReader.readCSV(userFilePath);
 
-        containsUsername = false;
+        passwordValid = false;
 
         for ( int i = 0; i < csvContent.size(); i++) {
             // assuming that username is saved at index 0
             if (csvContent.get(i).get(0).equals(userName) &&
                     csvContent.get(i).get(5).equals(password)) {
-                containsUsername = true;
+                passwordValid = true;
             }
         }
-        return containsUsername;
+        return passwordValid;
 
     }
 
@@ -107,6 +109,7 @@ public class User {
      *
      * @param filePath The file path where user data is stored.
      * @param loggedInUser The username of the currently logged-in user.
+     * @return logged-in user's index in users.csv
      * */
     public int getIndex(String loggedInUser, String filePath){
 
@@ -125,8 +128,8 @@ public class User {
     /**
      * Fetches the experience points (XP) of a user from the users.csv
      *
-     * @param filePath The file path where user data is stored.
      * @param loggedInUser The username of the currently logged-in user.
+     * @return logged-in users XP.
      * */
     public int getXP(String loggedInUser){
 
@@ -146,6 +149,7 @@ public class User {
      * Fetches the character name of a user chosen character from the users.csv
      *
      * @param loggedInUser The username of the currently logged-in user.
+     * @return name of logged-in user's chosen character.
      * */
     public String getCharacter(String loggedInUser) {
 
@@ -166,6 +170,7 @@ public class User {
      * Fetches the creatin date of a users account from the users.csv
      *
      * @param loggedInUser The username of the currently logged-in user.
+     * @return logged-in user's account creation date.
      * */
     public String getCreationDate(String loggedInUser) {
 
@@ -182,6 +187,7 @@ public class User {
      * Fetches the creatin date of a users account from the users.csv
      *
      * @param loggedInUser The username of the currently logged-in user.
+     * @return logged-in user's e-mail-address
      * */
     public String getEMail(String loggedInUser) {
 
@@ -200,6 +206,7 @@ public class User {
      *
      * @param userName The username of the currently logged-in user when handeling the users.csv
      * @param filePath The path where user date is stored.
+     * @return logged-in user's content stored in user-csv.
      * */
     public List<List<String>> userContent(String userName, String filePath){
 
@@ -222,6 +229,7 @@ public class User {
      *
      * @param loggedInUser The username of the currently logged-in user when handeling the users.csv
      * @param filePath The path where user date is stored.
+     * @return logged-in user's current highscore
      * */
     public int getUserHighscore(String loggedInUser, String filePath) {
 
@@ -233,13 +241,6 @@ public class User {
 
         return userHighscore;
 
-    }
-
-    /**
-     * Fetches the username.
-     * */
-    public String getUserName(){
-        return userName;
     }
 
 }

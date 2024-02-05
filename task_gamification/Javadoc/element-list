@@ -1,0 +1,7 @@
+task_gamification.CSV
+task_gamification.entity
+task_gamification.helpers
+task_gamification.main
+task_gamification.task_manager
+task_gamification.views
+tests
