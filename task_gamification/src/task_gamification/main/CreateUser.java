@@ -93,6 +93,7 @@ public class CreateUser extends ComponentSizesSmallFrame {
         characterLabel = UIComponentHelper.createLabel("Select your character",
                 CENTER_X - LABEL_CHARACTER_WIDTH / 2, 30, LABEL_CHARACTER_WIDTH, LABEL_HEIGHT);
         userPane.add(characterLabel);
+        characterLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         usernameLabel = UIComponentHelper.createLabel("Username", CENTER_X - (LABEL_WIDTH + TEXT_FIELD_WIDTH) / 2,
                 characterLabel.getY() + (LABEL_HEIGHT /2) + CHAR_HEIGHT + 45, LABEL_WIDTH, LABEL_HEIGHT);
